@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Whack-A-Mole</title>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="./src/styles.css" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Amaranth&display=swap"
+      rel="stylesheet" />
+
+    <link rel="shortcut icon" href="#" />
+  </head>
+
+  <body>
+    <!-- ==========================
+         NAVIGATION
+    ========================== -->
+    <nav>
+      <div class="logo">
+        <img
+          src="assets/tmole.png"
+          alt="brown mole"
+          style="width: 30px; max-height: 30px" />
+        Final Capstone Project
+      </div>
+
+      <div class="navbar">
+        <ul class="nav-menu">
+          <li class="nav-item">
+            <a
+              href="https://github.com/gabrielsanchez/js-dev-final-capstone-starter/blob/main/README.md"
+              target="_blank"
+              class="nav-link">
+              About
+              <i class="fa-brands fa-github" style="color: #f9fafb"></i>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <!-- Sound Toggle -->
+            <a id="mixBut" class="nav-link" href="#">Sound ⏸️</a>
+          </li>
+
+          <li class="nav-item">
+            <a href="https://google.com" target="_blank" class="nav-link">
+              Exit
+              <i class="fa-solid fa-door-open" style="color: #fcfcfc"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="hamburger">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </div>
+    </nav>
+
+    <!-- ==========================
+         GAME WRAPPER
+    ========================== -->
+    <div class="wrapper">
+      <div class="header">
+        <h1 id="title">Whack-a-Mole</h1>
+      </div>
+
+      <div id="scoreBoard">
+        <div>
+          <h2>Score: <span id="score">0</span></h2>
+        </div>
+        <div>
+          <h2>Timer: <span id="timer">30</span></h2>
+        </div>
+      </div>
+
+      <div id="button">
+        <!-- Difficulty selector row -->
+        <div class="difficulty-row">
+          <select id="difficulty" class="difficulty-select">
+            <option value="easy">Easy</option>
+            <option value="normal" selected>Normal</option>
+            <option value="hard">Hard</option>
+          </select>
+        </div>
+
+        <!-- Game control buttons -->
+        <div class="controls-row">
+          <button id="start" class="btn">Start</button>
+          <button id="pause" class="btn">Pause</button>
+          <button id="stop" class="btn">Stop</button>
+        </div>
+      </div>
+
+      <!-- ==========================
+           GAME GRID
+      ========================== -->
+      <div class="grid">
+        <div id="hole0" class="hole"><div id="mole0" class="mole"></div></div>
+        <div id="hole1" class="hole"><div id="mole1" class="mole"></div></div>
+        <div id="hole2" class="hole"><div id="mole2" class="mole"></div></div>
+        <div id="hole3" class="hole"><div id="mole3" class="mole"></div></div>
+        <div id="hole4" class="hole"><div id="mole4" class="mole"></div></div>
+        <div id="hole5" class="hole"><div id="mole5" class="mole"></div></div>
+        <div id="hole6" class="hole"><div id="mole6" class="mole"></div></div>
+        <div id="hole7" class="hole"><div id="mole7" class="mole"></div></div>
+        <div id="hole8" class="hole"><div id="mole8" class="mole"></div></div>
+      </div>
+    </div>
+
+    <!-- ==========================
+         HAMMER OVERLAY (NEW)
+         This follows the mouse and animates on click
+    ========================== -->
+    <div id="hammer" aria-hidden="true"></div>
+    <!-- WIN/LOSE MODAL -->
+    <div id="resultModal" class="modal-overlay" aria-hidden="true">
+      <div
+        class="modal-card"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modalTitle">
+        <h2 id="modalTitle" class="modal-title">Game Over</h2>
+        <p id="modalMessage" class="modal-message"></p>
+
+        <div class="modal-stats">
+          <div class="modal-stat">
+            <span class="modal-stat-label">Score</span>
+            <span id="modalScore" class="modal-stat-value">0</span>
+          </div>
+          <div class="modal-stat">
+            <span class="modal-stat-label">Target</span>
+            <span id="modalTarget" class="modal-stat-value">0</span>
+          </div>
+        </div>
+
+        <!-- 💎 Diamond Hit Callout (hidden unless earned) -->
+        <p id="diamondCallout" class="diamond-callout" hidden>
+          💎 Diamond Hit!
+        </p>
+
+        <div class="modal-actions">
+          <button id="playAgainBtn" class="btn modal-btn">Play Again</button>
+          <button id="closeModalBtn" class="btn modal-btn">Close</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================
+         FOOTER
+    ========================== -->
+    <div class="footer">
+      <div class="footer-text">
+        <h5>© 2023 Sirene J. All Rights Reserved</h5>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script
+      src="https://kit.fontawesome.com/7d88952c69.js"
+      crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="./src/index.js"></script>
+  </body>
+</html>
