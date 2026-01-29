@@ -15,7 +15,8 @@
       href="https://fonts.googleapis.com/css2?family=Amaranth&display=swap"
       rel="stylesheet" />
 
-    <link rel="shortcut icon" href="#" />
+    <!-- Favicon -->
+    <link rel="icon" href="./assets/tmole.png" />
   </head>
 
   <body>
@@ -25,7 +26,7 @@
     <nav>
       <div class="logo">
         <img
-          src="assets/tmole.png"
+          src="./assets/tmole.png"
           alt="brown mole"
           style="width: 30px; max-height: 30px" />
         Final Capstone Project
@@ -116,11 +117,13 @@
     </div>
 
     <!-- ==========================
-         HAMMER OVERLAY (NEW)
-         This follows the mouse and animates on click
+         HAMMER OVERLAY
     ========================== -->
     <div id="hammer" aria-hidden="true"></div>
-    <!-- WIN/LOSE MODAL -->
+
+    <!-- ==========================
+         WIN/LOSE MODAL
+    ========================== -->
     <div id="resultModal" class="modal-overlay" aria-hidden="true">
       <div
         class="modal-card"
@@ -141,7 +144,6 @@
           </div>
         </div>
 
-        <!-- 💎 Diamond Hit Callout (hidden unless earned) -->
         <p id="diamondCallout" class="diamond-callout" hidden>
           💎 Diamond Hit!
         </p>
