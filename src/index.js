@@ -24,6 +24,11 @@ if (hamburger && navMenu) {
  **************************************************/
 
 /* ==========================
+   ASSET HELPER (Works locally + GitHub Pages)
+========================== */
+const asset = (file) => new URL(`./assets/${file}`, document.baseURI).href;
+
+/* ==========================
    DOM SELECTION
 ========================== */
 const holes = Array.from(document.querySelectorAll(".hole"));
@@ -40,7 +45,10 @@ const timerDisplay = document.querySelector("#timer");
 
 const grid = document.querySelector(".grid");
 const hammerEl = document.getElementById("hammer");
-// ===== RESULT MODAL =====
+
+/* ==========================
+   RESULT MODAL DOM
+========================== */
 const resultModal = document.getElementById("resultModal");
 const modalTitle = document.getElementById("modalTitle");
 const modalMessage = document.getElementById("modalMessage");
@@ -48,13 +56,16 @@ const modalScore = document.getElementById("modalScore");
 const modalTarget = document.getElementById("modalTarget");
 const playAgainBtn = document.getElementById("playAgainBtn");
 const closeModalBtn = document.getElementById("closeModalBtn");
+
+/* ==========================
+   COUNT-UP ANIMATION (Modal)
+========================== */
 function animateCountUp(el, toValue, duration = 900) {
   if (!el) return;
 
   const end = Number(toValue) || 0;
   const start = 0;
 
-  // Cancel any prior animation on this element
   if (el._countRaf) cancelAnimationFrame(el._countRaf);
 
   const startTime = performance.now();
@@ -66,16 +77,14 @@ function animateCountUp(el, toValue, duration = 900) {
     const current = Math.round(start + (end - start) * eased);
     el.textContent = current.toLocaleString();
 
-    if (t < 1) {
-      el._countRaf = requestAnimationFrame(tick);
-    }
+    if (t < 1) el._countRaf = requestAnimationFrame(tick);
   }
 
   el._countRaf = requestAnimationFrame(tick);
 }
 
 /* ==========================
-   OPEN RESULT MODAL
+   MODAL OPEN/CLOSE
 ========================== */
 function openResultModal({title, message, score, target}) {
   if (!resultModal) return;
@@ -83,11 +92,14 @@ function openResultModal({title, message, score, target}) {
   modalTitle.textContent = title;
   modalMessage.textContent = message;
 
-  modalTarget.textContent = target.toLocaleString();
-  modalScore.textContent = score.toLocaleString();
+  // Animate score + target
+  modalTarget.textContent = "0";
+  modalScore.textContent = "0";
+  animateCountUp(modalTarget, target, 500);
+  animateCountUp(modalScore, score, 900);
 
+  // Diamond callout
   const diamondCallout = document.getElementById("diamondCallout");
-
   if (diamondCallout) {
     if (diamondHits > 0) {
       diamondCallout.hidden = false;
@@ -99,11 +111,11 @@ function openResultModal({title, message, score, target}) {
 
   resultModal.classList.add("show");
   resultModal.setAttribute("aria-hidden", "false");
+
+  // Prevent last-second clicks from interacting with the grid
+  grid?.style.setProperty("pointer-events", "none");
 }
 
-/* ==========================
-   CLOSE RESULT MODAL
-========================== */
 function closeResultModal() {
   if (!resultModal) return;
 
@@ -114,19 +126,9 @@ function closeResultModal() {
   grid?.style.removeProperty("pointer-events");
 }
 
-/* ==========================
-   MODAL BUTTON HANDLERS
-   (ONLY buttons can close)
-========================== */
-playAgainBtn?.addEventListener("click", () => {
-  closeResultModal();
-  resetGameState();
-});
-
-closeModalBtn?.addEventListener("click", () => {
-  closeResultModal();
-  resetGameState();
-});
+// Modal buttons ONLY (no click-outside-to-close)
+playAgainBtn?.addEventListener("click", () => resetGameState());
+closeModalBtn?.addEventListener("click", () => resetGameState());
 
 /* ==========================
    HAMMER OVERLAY (visual only)
@@ -141,19 +143,19 @@ if (grid && hammerEl) {
 }
 
 /* ==========================
-   AUDIO (LOCAL ASSETS)
+   AUDIO (Using asset helper)
 ========================== */
-const SONG_SRC = "../assets/song.mp3";
-const HIT_SRC = "../assets/hit.mp3";
-const VICTORY_SRC = "../assets/victory.mp3";
-const APPLAUSE_SRC = "../assets/applause.mp3";
-const DEFEAT_SRC = "../assets/defeat.mp3";
+const SONG_SRC = asset("song.mp3");
+const HIT_SRC = asset("hit.mp3");
+const VICTORY_SRC = asset("victory.mp3");
+const APPLAUSE_SRC = asset("applause.mp3");
+const DEFEAT_SRC = asset("defeat.mp3");
 
 const audioSong = new Audio(SONG_SRC);
 audioSong.loop = true;
 
 /* ==========================
-   MASTER SOUND CONTROL + NAV TOGGLE
+   MASTER SOUND CONTROL
 ========================== */
 const mixBut = document.getElementById("mixBut");
 let soundOn = true;
@@ -163,16 +165,19 @@ function playMusic(volume = 0.3) {
   audioSong.volume = volume;
   audioSong.play().catch(() => {});
 }
+
 function stopMusic() {
   audioSong.pause();
   audioSong.currentTime = 0;
 }
+
 function playSfx(src, volume = 1) {
   if (!soundOn) return;
   const sfx = new Audio(src);
   sfx.volume = volume;
   sfx.play().catch(() => {});
 }
+
 function stopAllSounds() {
   stopMusic();
 }
@@ -207,7 +212,7 @@ function startConfetti(durationMs = 4000) {
 
   const endTime = Date.now() + durationMs;
 
-  // ✅ IMMEDIATE burst so you see it before any blocking UI (alerts)
+  // Big initial burst
   confettiFn({
     particleCount: 120,
     spread: 90,
@@ -227,6 +232,7 @@ function startConfetti(durationMs = 4000) {
       startVelocity: 45,
       origin: {x: 0.1, y: 0.2},
     });
+
     confettiFn({
       particleCount: 25,
       spread: 80,
@@ -249,17 +255,6 @@ function stopConfetti() {
   }
 }
 
-function stopConfetti() {
-  if (confettiIntervalId) {
-    clearInterval(confettiIntervalId);
-    confettiIntervalId = null;
-  }
-  if (confettiStopTimeoutId) {
-    clearTimeout(confettiStopTimeoutId);
-    confettiStopTimeoutId = null;
-  }
-}
-
 /* ==========================
    GAME SETTINGS
 ========================== */
@@ -267,7 +262,7 @@ const GAME_SECONDS = 30;
 const HIT_GRACE_MS = 350;
 
 let difficulty = "normal";
-let winScore = 250;
+let winScore = 450; // default for normal (updated below)
 
 function getPopDelayMs() {
   if (difficulty === "easy") return 1100;
@@ -278,13 +273,13 @@ function getPopDelayMs() {
 function applyDifficultySettings(level) {
   difficulty = level;
 
-  // Update dropdown theme class (optional styling)
+  // Dropdown theme class (optional styling)
   if (difficultySelect) {
     difficultySelect.classList.remove("easy", "normal", "hard");
     difficultySelect.classList.add(difficulty);
   }
 
-  // ✅ Updated win targets (balanced for golden/diamond bonuses)
+  // Win targets (balanced for golden/diamond)
   if (difficulty === "easy") winScore = 350;
   else if (difficulty === "normal") winScore = 450;
   else winScore = 500; // hard
@@ -321,6 +316,7 @@ function updateScore(value) {
   points = value;
   if (scoreEl) scoreEl.textContent = points;
 }
+
 function updateTimer(value) {
   time = value;
   if (timerDisplay) timerDisplay.textContent = time;
@@ -354,23 +350,29 @@ function clearTimers() {
 
 function resetMoleVisuals() {
   holes.forEach((hole) => hole.classList.remove("show"));
+
   moles.forEach((mole) => {
-    mole.style.backgroundImage = 'url("../assets/mole.png")';
+    mole.style.backgroundImage = `url("${asset("mole.png")}")`;
     mole.style.pointerEvents = "auto";
+    mole.classList.remove("golden", "diamond");
   });
+
+  moleAlreadyWhacked = false;
 }
 
+/* ==========================
+   RESET GAME
+========================== */
 function resetGameState() {
-  // Stop celebration + close modal immediately
   stopConfetti();
   closeResultModal();
-  grid?.style.removeProperty("pointer-events");
 
   clearTimers();
   resetMoleVisuals();
 
   gameRunning = false;
   gamePaused = false;
+
   diamondHits = 0;
   updateScore(0);
   updateTimer(GAME_SECONDS);
@@ -381,6 +383,7 @@ function resetGameState() {
   if (pauseButton) pauseButton.textContent = "Pause";
   if (difficultySelect) difficultySelect.disabled = false;
 }
+
 /* ==========================
    MOLE LOOP
 ========================== */
@@ -397,27 +400,19 @@ function showUp() {
   prevDownAt = currentDownAt;
 
   resetMoleVisuals();
-  moleAlreadyWhacked = false;
 
   const index = chooseHoleIndex();
   if (index === -1) return;
 
   currentHoleIndex = index;
-  holes[index].classList.add("show"); // Clear special classes first
+  holes[index].classList.add("show");
+
+  // Assign special mole (diamond rarer than golden)
   moles[index].classList.remove("golden", "diamond");
-
-  // Rarity: diamond is rarer than golden
   const roll = Math.random();
-  if (roll < 0.04) {
-    // 4% chance = Diamond
-    moles[index].classList.add("diamond");
-  } else if (roll < 0.14) {
-    // next 10% = Golden (0.04–0.14)
-    moles[index].classList.add("golden");
-  }
-
-  const isGolden = Math.random() < 0.12; // 12% chance
-  moles[index].classList.toggle("golden", isGolden);
+  if (roll < 0.04)
+    moles[index].classList.add("diamond"); // 4%
+  else if (roll < 0.14) moles[index].classList.add("golden"); // next 10%
 
   const delay = getPopDelayMs();
   currentDownAt = Date.now() + delay;
@@ -455,6 +450,10 @@ function isHoleHittable(index) {
 
   return false;
 }
+
+/* ==========================
+   BONUS FLOATING TEXT
+========================== */
 function showBonusText(holeEl, text, type) {
   if (!holeEl) return;
 
@@ -465,13 +464,9 @@ function showBonusText(holeEl, text, type) {
   if (type === "diamond") bonus.classList.add("bonus-diamond");
 
   bonus.textContent = text;
-
   holeEl.appendChild(bonus);
 
-  // Remove after animation completes
-  setTimeout(() => {
-    bonus.remove();
-  }, 900);
+  setTimeout(() => bonus.remove(), 900);
 }
 
 /* ==========================
@@ -491,33 +486,31 @@ function whack(index) {
   const isDiamond = moleEl.classList.contains("diamond");
 
   let earnedPoints = 10;
-
-  if (isDiamond) earnedPoints = 100;
   if (isDiamond) {
+    earnedPoints = 100;
     diamondHits += 1;
-  } else if (isGolden) earnedPoints = 50;
+  } else if (isGolden) {
+    earnedPoints = 50;
+  }
 
   updateScore(points + earnedPoints);
 
-  // 🔊 hit sound
+  // Sound
   playSfx(HIT_SRC, 1);
 
-  // 🔨 hammer animation
+  // Hammer animation
   if (hammerEl) {
     hammerEl.classList.remove("smack");
     void hammerEl.offsetWidth;
     hammerEl.classList.add("smack");
   }
 
-  // 🎯 BONUS FLOATING TEXT
-  if (isDiamond) {
-    showBonusText(holeEl, "+100", "diamond");
-  } else if (isGolden) {
-    showBonusText(holeEl, "+50", "gold");
-  }
+  // Floating bonus
+  if (isDiamond) showBonusText(holeEl, "+100", "diamond");
+  else if (isGolden) showBonusText(holeEl, "+50", "gold");
 
-  // Show whacked mole image
-  moleEl.style.backgroundImage = 'url("../assets/wmole.png")';
+  // Whacked mole image (use asset helper!)
+  moleEl.style.backgroundImage = `url("${asset("wmole.png")}")`;
 
   whackedUntil = Date.now() + 250;
 
@@ -544,16 +537,16 @@ function startGame() {
   gameRunning = true;
   gamePaused = false;
 
+  diamondHits = 0;
   updateScore(0);
   updateTimer(GAME_SECONDS);
 
-  moleAlreadyWhacked = false;
   currentHoleIndex = -1;
   whackedUntil = 0;
 
-  stopConfetti(); // ✅ just in case
-  if (difficultySelect) difficultySelect.disabled = true;
+  stopConfetti();
 
+  if (difficultySelect) difficultySelect.disabled = true;
   if (startButton) startButton.disabled = true;
   if (pauseButton) pauseButton.textContent = "Pause";
 
@@ -598,12 +591,8 @@ function endGame() {
   if (pauseButton) pauseButton.textContent = "Pause";
   if (difficultySelect) difficultySelect.disabled = false;
 
-  // Optional debug (remove later)
-  // console.log("END:", { points, winScore, difficulty });
-
   if (points >= winScore) {
     startConfetti(4000);
-
     playSfx(VICTORY_SRC, 1);
     setTimeout(() => playSfx(APPLAUSE_SRC, 1), 300);
 
@@ -624,21 +613,20 @@ function endGame() {
     });
   }
 }
-closeResultModal();
 
 /* ==========================
    INITIAL UI + LISTENERS
 ========================== */
+closeResultModal();
+
+applyDifficultySettings(difficultySelect?.value || "normal");
+
 updateTimer(GAME_SECONDS);
 updateScore(0);
 
-if (difficultySelect) {
-  applyDifficultySettings(difficultySelect.value);
-  difficultySelect.addEventListener("change", (e) => {
-    applyDifficultySettings(e.target.value);
-  });
-}
-setTimeout(() => startConfetti(2000), 1000);
+difficultySelect?.addEventListener("change", (e) => {
+  applyDifficultySettings(e.target.value);
+});
 
 startButton?.addEventListener("click", startGame);
 pauseButton?.addEventListener("click", pauseGame);
