@@ -770,6 +770,9 @@ h5 {
   z-index: 10000;
 }
 
+.modal-overlay {
+  display: none;
+}
 .modal-overlay.show {
   display: flex;
 }
