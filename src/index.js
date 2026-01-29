@@ -624,6 +624,7 @@ function endGame() {
     });
   }
 }
+closeResultModal();
 
 /* ==========================
    INITIAL UI + LISTENERS
