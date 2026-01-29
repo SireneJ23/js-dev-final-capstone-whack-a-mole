@@ -1,11 +1,13 @@
 @import url("https://fonts.googleapis.com/css?family=Righteous");
 @import url("https://fonts.googleapis.com/css2?family=Ephesis&family=Yaldevi&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Changa:wght@200&family=Fondamento&family=Yuji+Boku&display=swap");
+
 * {
   margin: 0;
   padding: 0;
   scroll-behavior: smooth;
 }
+
 body {
   box-sizing: border-box;
   overflow: hidden;
@@ -14,7 +16,13 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
+
+/* ==========================
+   NAV
+========================== */
 .logo {
   display: inline;
   color: #000;
@@ -32,19 +40,12 @@ body {
 nav {
   height: 50px;
   width: 100%;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
-  -webkit-box-pack: justify;
-  -ms-flex-pack: justify;
   justify-content: space-around;
   margin: 0;
   padding: 0 1rem;
   text-align: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
   align-items: center;
   box-shadow: 0 30px 40px rgb(0, 0, 0.1);
 }
@@ -53,10 +54,7 @@ ul {
 }
 .navbar {
   text-align: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
   align-items: center;
-  -webkit-transition: all 0.5s;
   transition: all 0.5s;
   display: block;
   padding: 14px 16px;
@@ -65,23 +63,18 @@ ul {
   list-style: none;
 }
 .nav-menu {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   margin: 0 auto;
   text-align: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
   align-items: center;
-  -ms-flex-pack: distribute;
   justify-content: space-around;
 }
+
 a.nav-link,
 #soundBtn {
   color: #000;
   text-decoration: none;
   font-size: 1rem;
-  -webkit-transition: 0.5s;
   transition: 0.5s;
   border: 2px solid transparent;
   border-radius: 5px;
@@ -94,6 +87,7 @@ a.nav-link:hover {
   border: 2px solid transparent;
   box-shadow: 0 30px 40px rgb(0, 0, 0.1);
 }
+
 .hamburger {
   display: none;
 }
@@ -105,7 +99,6 @@ a.nav-link:hover {
   color: #fff;
   padding: 0;
   margin: 6px;
-  -webkit-transition: 0.5s;
   transition: 0.5s;
   background-color: #fff;
 }
@@ -118,68 +111,10 @@ a.nav-link:hover {
 .bar:nth-child(3) {
   width: 300%;
 }
-@media (max-width: 992px) {
-  .hamburger {
-    display: block;
-  }
-  .active .bar:nth-child(2) {
-    opacity: 0;
-  }
-  .active .bar:nth-child(1) {
-    -webkit-transform: translateY(8px) rotate(-315deg);
-    transform: translateY(8px) rotate(-315deg);
-    width: 300%;
-  }
-  .active .bar:nth-child(3) {
-    -webkit-transform: translateY(-10px) rotate(-45deg);
-    transform: translateY(-10px) rotate(-45deg);
-    width: 300%;
-  }
-  .nav-menu {
-    width: 20%;
-    height: 30%;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -ms-flex-direction: column;
-    flex-direction: column;
-    -webkit-box-pack: justify;
-    -ms-flex-pack: justify;
-    justify-content: center;
-    align-items: center;
-    position: fixed;
-    background-image: linear-gradient(315deg, #ffffb5 0%, #247ba0 74%);
-    border: 1px solid #247ba0;
-    box-shadow: 0 30px 40px rgb(0, 0, 0.1);
-    border-radius: 5px;
-    top: 75px;
-    right: -100%;
-    -webkit-transition: 0.5s;
-    transition: 0.5s;
-    margin: 0 auto;
-  }
-  .nav-menu li {
-    padding: 1rem 0;
-  }
-  a.nav-link {
-    margin: 1rem 0;
-    color: #fff;
-    z-index: 1;
-    cursor: pointer;
-  }
-  .active {
-    right: 0;
-    z-index: 100;
-    transition: 0.2s ease;
-  }
-}
-@media screen and (max-width: 480px) {
-  a.nav-link {
-    padding: 0.75rem 0;
-  }
-}
+
+/* ==========================
+   LAYOUT
+========================== */
 .wrapper {
   max-width: 600px;
   margin: auto;
@@ -193,8 +128,11 @@ a.nav-link:hover {
   background-color: rgba(255, 255, 255, 0.05);
   height: 91vh;
 }
+
 .header {
   display: flex;
+  flex-direction: column;
+  gap: 8px;
   padding: 20px;
   text-align: center;
   justify-content: center;
@@ -204,17 +142,20 @@ a.nav-link:hover {
   backdrop-filter: blur(8px);
   background-color: rgba(255, 255, 255, 0.05);
 }
+
 #title {
   font-size: 4rem;
   text-shadow: 1px 1px 1px #fff;
   font-family: "Ephesis", "cursive";
   color: #000;
 }
+
 /* Create two unequal columns that floats next to each other */
 /* Left column */
 .leftcolumn {
   width: 100%;
 }
+
 .row {
   display: flex;
   flex-wrap: wrap;
@@ -228,24 +169,31 @@ a.nav-link:hover {
   display: table;
   clear: both;
 }
-/* Responsive layout - when the screen is less than 400px wide, make the navigation links stack on top of each other instead of next to each other */
+
+/* Responsive layout - when screen is < 400px wide */
 @media screen and (max-width: 400px) {
   #topnav a {
     float: none;
     width: 100%;
   }
 }
+
+/* ==========================
+   SCOREBOARD
+========================== */
 #scoreBoard {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
 }
+
 #score,
 #timer {
   font-size: 2.5rem;
   font-weight: 600;
 }
+
 h2,
 #score,
 #timer {
@@ -255,42 +203,116 @@ h2,
   margin: 20px 0;
   cursor: auto;
 }
+
 h2 {
   font-size: 2rem;
   font-weight: 600;
-  /* margin: 20px 10px 0 10px; */
   text-shadow: 1px 1px 1px #fff;
   color: #000;
   box-shadow: 30px 0 50px rgb(0, 0, 0.1);
   border-radius: 5px;
 }
+
 h5 {
   font-weight: 300;
   color: #000;
   background-color: transparent;
   cursor: auto;
 }
-.paused {
-  animation-play-state: paused;
-  overflow: hidden;
-}
-[data-animation] {
-  animation: var(--animn, none) var(--animdur, 0s) var(--animtf, ease)
-    var(--animdel, 0s) var(--animic, infinite) var(--animdir, alternate)
-    var(--animfm, none) var(--animps, running);
-}
+
+/* ==========================
+   CONTROLS (UPDATED LAYOUT)
+   Difficulty on top, buttons below
+========================== */
 #button {
+  display: flex;
+  flex-direction: column; /* stack rows */
+  align-items: center;
+  width: 100%;
+}
+
+/* Difficulty row on top */
+.difficulty-row {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0 30px 0;
+  position: relative;
+  width: fit-content;
+}
+
+.difficulty-row::after {
+  content: "▾";
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #000;
+}
+
+.difficulty-select {
+  font-family: "Yaldevi", sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  padding: 8px 44px 8px 18px; /* extra right padding for arrow space */
+  border-radius: 5px;
+  border: 1px solid #86b6a9;
+
+  /* IMPORTANT: remove blur layer that can cause artifacts */
+  backdrop-filter: blur(8px);
+  background-color: rgba(255, 255, 255, 0.05);
+  color: #000;
+  text-shadow: 1px 1px 1px #fff;
+  box-shadow: 0 30px 40px rgb(0, 0, 0.1);
+  cursor: pointer;
+
+  /* IMPORTANT: remove native select styling */
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  transition: 0.3s ease;
+}
+
+.difficulty-select:hover {
+  box-shadow: 15px 30px 32px rgba(0, 0, 0, 0.25);
+  transform: translateY(-4px);
+}
+
+/* Difficulty color themes (applied by JS) */
+.difficulty-select.easy {
+  background: rgba(60, 255, 120, 0.22);
+}
+
+.difficulty-select.normal {
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.difficulty-select.hard {
+  background: rgba(240, 237, 237, 0.22);
+}
+
+/* Buttons row below */
+.controls-row {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
   width: 100%;
 }
+
 #start,
 #pause,
 #stop {
   font-size: 1.5rem;
 }
+
+/* ==========================
+   BUTTONS
+========================== */
 .btn {
   display: inline-block;
   justify-content: center;
@@ -334,15 +356,50 @@ h5 {
   transform: translateY(-10px);
 }
 
+/* ==========================
+   GRID
+========================== */
 .grid {
   width: 600px;
   height: 400px;
   display: flex;
   flex-wrap: wrap;
   margin: 0 auto;
-  cursor: url("../assets/mallet.png"), pointer;
+  cursor: pointer;
 }
 
+/* ==========================
+   HAMMER OVERLAY
+========================== */
+#hammer {
+  position: fixed;
+  width: 90px;
+  height: 90px;
+  background: url("../assets/mallet.png") center/contain no-repeat;
+  pointer-events: none;
+  transform: translate(-50%, -50%) rotate(-20deg);
+  transform-origin: 70% 80%;
+  z-index: 9999;
+  display: none;
+}
+#hammer.smack {
+  animation: smack 120ms ease-in-out;
+}
+@keyframes smack {
+  0% {
+    transform: translate(-50%, -50%) rotate(-20deg) scale(1);
+  }
+  50% {
+    transform: translate(-50%, -50%) rotate(25deg) scale(0.95);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(-20deg) scale(1);
+  }
+}
+
+/* ==========================
+   HOLES + MOLES
+========================== */
 .hole {
   flex: 1 0 33.33%;
   overflow: hidden;
@@ -375,8 +432,9 @@ h5 {
   width: 100%;
   height: 100%;
   transition: all 0.4s ease-in-out;
-  pointer-events: auto;
+  pointer-events: none;
 }
+
 .wmole {
   background: url("../assets/wmole.png") bottom center no-repeat;
   background-size: 50%;
@@ -385,12 +443,106 @@ h5 {
   width: 100%;
   height: 100%;
   transition: all 0.4s ease-in-out;
-  pointer-events: auto;
+  pointer-events: none;
+}
+/* ==========================
+   GOLDEN MOLE (VERY VISIBLE)
+========================== */
+/* ==========================
+   SPECIAL MOLES (COLOR ONLY)
+========================== */
+
+/* GOLDEN MOLE */
+.mole.golden {
+  background-image: url("../assets/mole.png");
+  filter: hue-rotate(35deg) saturate(2.4) brightness(1.25);
+  box-shadow:
+    0 0 18px rgba(255, 200, 0, 0.9),
+    0 0 36px rgba(255, 170, 0, 0.6);
+  animation: goldenPulse 0.8s infinite alternate;
+}
+
+/* DIAMOND MOLE */
+.mole.diamond {
+  background-image: url("../assets/mole.png");
+  filter: hue-rotate(190deg) saturate(2.8) brightness(1.35);
+  box-shadow:
+    0 0 18px rgba(0, 180, 255, 0.9),
+    0 0 36px rgba(0, 120, 255, 0.6);
+  animation: diamondPulse 0.7s infinite alternate;
+}
+/* ==========================
+   BONUS FLOATING TEXT
+========================== */
+.bonus-text {
+  position: absolute;
+  left: 50%;
+  top: 20%;
+  transform: translateX(-50%);
+  font-size: 1.8rem;
+  font-weight: 800;
+  pointer-events: none;
+  animation: floatUp 900ms ease-out forwards;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.35);
+}
+.diamond-callout {
+  margin-top: 12px;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #4dd0ff;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.35);
+}
+
+.bonus-gold {
+  color: gold;
+}
+
+.bonus-diamond {
+  color: #4dd0ff;
+}
+
+@keyframes floatUp {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 10px) scale(0.9);
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -40px) scale(1.1);
+  }
+}
+
+/* ==========================
+   PULSE ANIMATIONS
+========================== */
+@keyframes goldenPulse {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.06);
+  }
+}
+
+@keyframes diamondPulse {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.08);
+  }
 }
 
 .hole.show .mole {
   top: 0;
 }
+
+/* ==========================
+   FOOTER
+========================== */
 .footer {
   position: fixed;
   overflow: hidden;
@@ -404,6 +556,9 @@ h5 {
   text-align: center;
 }
 
+/* ==========================
+   MISC (unchanged)
+========================== */
 .container {
   display: inline-flex;
   height: 600px;
@@ -418,11 +573,73 @@ h5 {
 .item1 {
   width: 250px;
 }
+
+/* ==========================
+   RESPONSIVE NAV
+========================== */
+@media (max-width: 992px) {
+  .hamburger {
+    display: block;
+  }
+  .active .bar:nth-child(2) {
+    opacity: 0;
+  }
+  .active .bar:nth-child(1) {
+    transform: translateY(8px) rotate(-315deg);
+    width: 300%;
+  }
+  .active .bar:nth-child(3) {
+    transform: translateY(-10px) rotate(-45deg);
+    width: 300%;
+  }
+  .nav-menu {
+    width: 20%;
+    height: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    background-image: linear-gradient(315deg, #ffffb5 0%, #247ba0 74%);
+    border: 1px solid #247ba0;
+    box-shadow: 0 30px 40px rgb(0, 0, 0.1);
+    border-radius: 5px;
+    top: 75px;
+    right: -100%;
+    transition: 0.5s;
+    margin: 0 auto;
+  }
+  .nav-menu li {
+    padding: 1rem 0;
+  }
+  a.nav-link {
+    margin: 1rem 0;
+    color: #fff;
+    z-index: 1;
+    cursor: pointer;
+  }
+  .active {
+    right: 0;
+    z-index: 100;
+    transition: 0.2s ease;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  a.nav-link {
+    padding: 0.75rem 0;
+  }
+}
+
+/* ==========================
+   RESPONSIVE GAME AREA
+========================== */
 @media screen and (min-width: 1100px) {
   .wrapper {
     justify-content: center;
   }
 }
+
 @media (max-width: 850px) {
   .hole {
     width: 140px;
@@ -446,6 +663,13 @@ h5 {
   .hole {
     width: 140px;
     height: 140px;
+  }
+
+  /* Buttons become less tall on smaller screens */
+  .btn {
+    margin: 10px 10px 10px 10px;
+    padding: 6px 15px;
+    display: inline-block;
   }
 }
 
@@ -474,7 +698,6 @@ h5 {
   }
   .btn {
     margin: 10px 10px 10px 10px;
-    /* font-size: 1.5rem; */
     padding: 6px 15px;
     display: inline-block;
   }
@@ -517,7 +740,6 @@ h5 {
   }
   .btn {
     margin: 30px 10px 30px 10px;
-    /* font-size: 1.5rem; */
     padding: 6px 15px;
     display: inline-block;
   }
@@ -533,4 +755,88 @@ h5 {
     width: 80px;
     height: 80px;
   }
+}
+/* ==========================
+   RESULT MODAL
+========================== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  display: none; /* hidden by default */
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 10000;
+}
+
+.modal-overlay.show {
+  display: flex;
+}
+
+.modal-card {
+  width: min(520px, 92vw);
+  border-radius: 14px;
+  padding: 20px 18px;
+  text-align: center;
+
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(134, 182, 169, 0.6);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.35);
+}
+
+.modal-title {
+  font-size: 2.2rem;
+  margin-bottom: 8px;
+  text-shadow: 1px 1px 1px #fff;
+}
+
+.modal-message {
+  font-size: 1.2rem;
+  margin: 6px 0 16px 0;
+  text-shadow: 1px 1px 1px #fff;
+}
+
+.modal-stats {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin: 12px 0 18px 0;
+}
+
+.modal-stat {
+  flex: 1;
+  max-width: 200px;
+  border-radius: 12px;
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.22);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+}
+
+.modal-stat-label {
+  display: block;
+  font-weight: 700;
+  font-size: 0.95rem;
+  opacity: 0.9;
+}
+
+.modal-stat-value {
+  display: block;
+  font-weight: 800;
+  font-size: 1.8rem;
+  margin-top: 4px;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Make modal buttons not huge like main buttons */
+.modal-btn {
+  margin: 0 !important;
+  transform: none !important;
 }
