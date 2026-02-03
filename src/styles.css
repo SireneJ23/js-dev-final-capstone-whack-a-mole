@@ -180,10 +180,11 @@ a.nav-link:hover {
 #scoreBoard {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center; /* centers them instead of forcing edge-to-edge */
+  justify-content: center;
   align-items: center;
-  gap: 14px; /* ✅ adds space between the two boxes */
-  width: 100%;
+
+  gap: 14px; /* ✅ THIS fixes the overlap */
+  margin-bottom: 10px;
 }
 
 #score,
@@ -751,5 +752,10 @@ h5 {
   .hole {
     width: 80px;
     height: 80px;
+  }
+}
+@media (max-width: 390px) {
+  #scoreBoard {
+    gap: 10px;
   }
 }
