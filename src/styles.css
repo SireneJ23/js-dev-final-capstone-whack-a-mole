@@ -126,9 +126,6 @@ a.nav-link:hover {
    LAYOUT
 ========================== */
 .wrapper {
-  --nav-h: 50px;
-  --footer-h: 56px;
-
   max-width: 600px;
   margin: 0 auto;
 
@@ -136,18 +133,17 @@ a.nav-link:hover {
   flex-direction: column;
   align-items: center;
 
-  padding: 0 1rem;
+  padding: 0 1rem 1rem;
   text-align: center;
 
   box-shadow: 15px 30px 40px rgba(0, 0, 0, 0.25);
   backdrop-filter: blur(30px);
   background-color: rgba(255, 255, 255, 0.05);
 
-  /* ✅ KEY FIX: use small viewport height (stable on iOS) */
-  height: calc(100svh - var(--nav-h) - var(--footer-h));
-  max-height: calc(100svh - var(--nav-h) - var(--footer-h));
-
+  /* CRITICAL FIX */
+  min-height: calc(100vh - 50px);
   box-sizing: border-box;
+
   overflow: hidden;
 }
 
@@ -181,7 +177,7 @@ a.nav-link:hover {
   justify-content: center;
   align-items: center;
 
-  gap: 14px; /* ✅ THIS fixes the overlap */
+  gap: 12px; /* ✅ THIS fixes the overlap */
   margin-bottom: 10px;
 }
 
@@ -353,11 +349,9 @@ h5 {
 .grid {
   width: min(600px, 92vw);
   aspect-ratio: 3 / 2;
-  height: auto;
 
-  /* ✅ KEY: allow grid to take remaining wrapper space safely */
-  flex: 1;
-  max-height: 100%;
+  max-height: 420px; /* 👈 prevents overscaling */
+  height: auto;
 
   display: flex;
   flex-wrap: wrap;
@@ -365,9 +359,7 @@ h5 {
 
   cursor: pointer;
 
-  /* ✅ Mobile “don’t move screen while tapping” */
   touch-action: none;
-  -webkit-user-select: none;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
 }
@@ -536,23 +528,20 @@ h5 {
    FOOTER
 ========================== */
 .footer {
-  position: fixed;
-  left: 0;
-  bottom: 0;
   width: 100%;
-
-  /* ✅ Give the footer a real, predictable height */
-  height: 56px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  padding: 0 16px; /* no vertical padding since height is fixed */
+  padding: 14px 16px;
+  text-align: center;
   background: #14a604;
-  box-shadow: 0 30px 40px rgb(0, 0, 0.1);
+  box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.2);
+}
 
-  /* ✅ keep it above everything */
-  z-index: 20000;
+/* Desktop only: fixed footer */
+@media (min-width: 900px) {
+  .footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+  }
 }
 
 /* ==========================
