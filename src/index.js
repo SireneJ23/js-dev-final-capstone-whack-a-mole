@@ -57,6 +57,17 @@ const modalTarget = document.getElementById("modalTarget");
 const playAgainBtn = document.getElementById("playAgainBtn");
 const closeModalBtn = document.getElementById("closeModalBtn");
 
+// Prevent iOS from scrolling the page while interacting with the grid
+if (grid) {
+  grid.addEventListener(
+    "touchmove",
+    (e) => {
+      e.preventDefault();
+    },
+    {passive: false},
+  );
+}
+
 /* ==========================
    COUNT-UP ANIMATION (Modal)
 ========================== */
