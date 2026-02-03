@@ -642,3 +642,9 @@ difficultySelect?.addEventListener("change", (e) => {
 startButton?.addEventListener("click", startGame);
 pauseButton?.addEventListener("click", pauseGame);
 stopButton?.addEventListener("click", stopGame);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./service-worker.js").catch(() => {});
+  });
+}
