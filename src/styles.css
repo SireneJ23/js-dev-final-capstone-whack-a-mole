@@ -126,7 +126,9 @@ a.nav-link:hover {
    LAYOUT
 ========================== */
 .wrapper {
-  --footer-space: 90px; /* reserve room for your fixed footer */
+  --nav-h: 50px;
+  --footer-h: 56px;
+
   max-width: 600px;
   margin: 0 auto;
 
@@ -141,15 +143,11 @@ a.nav-link:hover {
   backdrop-filter: blur(30px);
   background-color: rgba(255, 255, 255, 0.05);
 
-  /* ✅ iOS-friendly sizing:
-     - 100vh fallback for older browsers
-     - 100dvh for modern mobile browsers */
-  min-height: calc(100vh - 50px);
-  height: calc(100dvh - 50px);
+  /* ✅ KEY FIX: use small viewport height (stable on iOS) */
+  height: calc(100svh - var(--nav-h) - var(--footer-h));
+  max-height: calc(100svh - var(--nav-h) - var(--footer-h));
 
-  /* ✅ Reserve space for fixed footer + iPhone safe area */
-  padding-bottom: calc(var(--footer-space) + env(safe-area-inset-bottom));
-
+  box-sizing: border-box;
   overflow: hidden;
 }
 
@@ -357,13 +355,17 @@ h5 {
   aspect-ratio: 3 / 2;
   height: auto;
 
+  /* ✅ KEY: allow grid to take remaining wrapper space safely */
+  flex: 1;
+  max-height: 100%;
+
   display: flex;
   flex-wrap: wrap;
   margin: 0 auto;
 
   cursor: pointer;
 
-  /* ✅ Mobile “don’t move the screen while tapping” */
+  /* ✅ Mobile “don’t move screen while tapping” */
   touch-action: none;
   -webkit-user-select: none;
   user-select: none;
@@ -535,14 +537,22 @@ h5 {
 ========================== */
 .footer {
   position: fixed;
-  overflow: hidden;
-  padding: 14px 16px;
-  text-align: center;
   left: 0;
   bottom: 0;
   width: 100%;
+
+  /* ✅ Give the footer a real, predictable height */
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0 16px; /* no vertical padding since height is fixed */
   background: #14a604;
   box-shadow: 0 30px 40px rgb(0, 0, 0.1);
+
+  /* ✅ keep it above everything */
+  z-index: 20000;
 }
 
 /* ==========================
