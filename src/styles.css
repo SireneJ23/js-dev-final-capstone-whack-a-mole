@@ -2,22 +2,32 @@
 @import url("https://fonts.googleapis.com/css2?family=Ephesis&family=Yaldevi&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Changa:wght@200&family=Fondamento&family=Yuji+Boku&display=swap");
 
-* {
+/* ✅ Consistent sizing across the whole app */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
   scroll-behavior: smooth;
 }
 
+/* ✅ Mobile/iPhone stability: prevent page scroll/bounce while playing */
 body {
-  box-sizing: border-box;
+  margin: 0;
   overflow: hidden;
+
   font-family: "Yaldevi", "sans-serif";
   background: url("../assets/park.png");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
+
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /* ✅ helps prevent iOS “rubber band” scroll behavior */
+  overscroll-behavior: none;
 }
 
 /* ==========================
@@ -71,7 +81,7 @@ ul {
 }
 
 a.nav-link,
-#soundBtn {
+#mixBut {
   color: #000;
   text-decoration: none;
   font-size: 1rem;
@@ -81,7 +91,7 @@ a.nav-link,
   padding: 0.5rem 0.5rem;
   cursor: pointer;
 }
-#soundBtn:hover,
+#mixBut:hover,
 a.nav-link:hover {
   color: #fff;
   border: 2px solid transparent;
@@ -116,17 +126,31 @@ a.nav-link:hover {
    LAYOUT
 ========================== */
 .wrapper {
+  --footer-space: 90px; /* reserve room for your fixed footer */
   max-width: 600px;
-  margin: auto;
+  margin: 0 auto;
+
+  display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+
   padding: 0 1rem;
   text-align: center;
+
   box-shadow: 15px 30px 40px rgba(0, 0, 0, 0.25);
   backdrop-filter: blur(30px);
   background-color: rgba(255, 255, 255, 0.05);
-  height: 91vh;
+
+  /* ✅ iOS-friendly sizing:
+     - 100vh fallback for older browsers
+     - 100dvh for modern mobile browsers */
+  min-height: calc(100vh - 50px);
+  height: calc(100dvh - 50px);
+
+  /* ✅ Reserve space for fixed footer + iPhone safe area */
+  padding-bottom: calc(var(--footer-space) + env(safe-area-inset-bottom));
+
+  overflow: hidden;
 }
 
 .header {
@@ -151,13 +175,15 @@ a.nav-link:hover {
 }
 
 /* ==========================
-   SCOREBOARD
+   SCOREBOARD (mobile spacing fix)
 ========================== */
 #scoreBoard {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: center; /* centers them instead of forcing edge-to-edge */
   align-items: center;
+  gap: 14px; /* ✅ adds space between the two boxes */
+  width: 100%;
 }
 
 #score,
@@ -250,12 +276,9 @@ h5 {
 .difficulty-select.easy {
   background: rgba(60, 255, 120, 0.22);
 }
-
 .difficulty-select.normal {
   background: rgba(255, 255, 255, 0.35);
 }
-
-/* Slightly more distinct "hard" */
 .difficulty-select.hard {
   background: rgba(255, 90, 90, 0.18);
 }
@@ -278,7 +301,7 @@ h5 {
    BUTTONS
 ========================== */
 .btn {
-  position: relative; /* ✅ needed for .btn:after */
+  position: relative;
   display: inline-block;
   justify-content: center;
   margin: 50px 10px 50px 10px;
@@ -329,12 +352,21 @@ h5 {
    GRID
 ========================== */
 .grid {
-  width: 600px;
-  height: 400px;
+  width: min(600px, 92vw);
+  aspect-ratio: 3 / 2;
+  height: auto;
+
   display: flex;
   flex-wrap: wrap;
   margin: 0 auto;
+
   cursor: pointer;
+
+  /* ✅ Mobile “don’t move the screen while tapping” */
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* ==========================
@@ -401,7 +433,7 @@ h5 {
   width: 100%;
   height: 100%;
   transition: all 0.4s ease-in-out;
-  pointer-events: none; /* clicking the HOLE handles hits */
+  pointer-events: none;
 }
 
 .hole.show .mole {
@@ -447,7 +479,6 @@ h5 {
 .bonus-gold {
   color: gold;
 }
-
 .bonus-diamond {
   color: #4dd0ff;
 }
@@ -511,7 +542,6 @@ h5 {
   width: 100%;
   background: #14a604;
   box-shadow: 0 30px 40px rgb(0, 0, 0.1);
-  text-align: center;
 }
 
 /* ==========================
@@ -615,34 +645,42 @@ h5 {
     transform: translateY(-10px) rotate(-45deg);
     width: 300%;
   }
+
+  /* ✅ Better mobile menu sizing */
   .nav-menu {
-    width: 20%;
-    height: 30%;
+    min-width: 220px;
+    width: 70vw;
+    max-width: 320px;
+    height: auto;
+
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
     position: fixed;
     background-image: linear-gradient(315deg, #ffffb5 0%, #247ba0 74%);
     border: 1px solid #247ba0;
     box-shadow: 0 30px 40px rgb(0, 0, 0.1);
     border-radius: 5px;
+
     top: 75px;
-    right: -100%;
+    right: -120%;
     transition: 0.5s;
-    margin: 0 auto;
+    padding: 12px 10px;
   }
+
   .nav-menu li {
-    padding: 1rem 0;
+    padding: 0.75rem 0;
   }
   a.nav-link {
-    margin: 1rem 0;
+    margin: 0.5rem 0;
     color: #fff;
     z-index: 1;
     cursor: pointer;
   }
   .active {
-    right: 0;
+    right: 10px;
     z-index: 100;
     transition: 0.2s ease;
   }
@@ -657,122 +695,59 @@ h5 {
 /* ==========================
    RESPONSIVE GAME AREA
 ========================== */
-@media screen and (min-width: 1100px) {
-  .wrapper {
-    justify-content: center;
-  }
-}
-
-@media (max-width: 850px) {
-  .hole {
-    width: 140px;
-    height: 140px;
-  }
-}
-
 @media (max-width: 675px) {
-  .wrapper {
-    flex-direction: column;
-  }
   .header {
     margin: 20px 0;
   }
   #title {
     font-size: 2.5rem;
   }
-  .grid {
-    width: 90%;
+
+  /* More usable on phones */
+  .btn {
+    margin: 10px 10px;
+    padding: 6px 15px;
   }
+
   .hole {
     width: 140px;
     height: 140px;
   }
-
-  .btn {
-    margin: 10px 10px 10px 10px;
-    padding: 6px 15px;
-    display: inline-block;
-  }
 }
 
+/* ✅ Smaller screens: tighten footer reserve so grid has room */
 @media (max-width: 540px) {
   .wrapper {
-    flex-direction: column;
+    --footer-space: 75px;
   }
-  .header {
-    margin: 20px 0;
-  }
+
   #title {
     font-size: 3rem;
   }
-  #scoreBoard {
-    display: flex;
-    align-items: center;
-  }
-  h2 {
-    font-size: 2rem;
-    font-weight: 600;
-  }
+
   #score,
   #timer {
     font-size: 2rem;
-    font-weight: 600;
   }
-  .btn {
-    margin: 10px 10px 10px 10px;
-    padding: 6px 15px;
-    display: inline-block;
-  }
-  #start,
-  #pause,
-  #stop {
-    font-size: 1.5rem;
-  }
-  .grid {
-    width: 75%;
-  }
+
   .hole {
     width: 100px;
     height: 100px;
   }
 }
 
+@media (max-width: 540px) {
+  #scoreBoard h2 {
+    margin: 10px 0; /* less vertical space */
+    padding: 0 8px; /* slightly smaller padding */
+  }
+}
+
 @media (max-width: 480px) {
   .wrapper {
-    flex-direction: column;
+    --footer-space: 70px;
   }
-  .header {
-    margin: 20px 0;
-  }
-  #title {
-    font-size: 3rem;
-  }
-  #scoreBoard {
-    display: flex;
-    align-items: center;
-  }
-  h2 {
-    font-size: 2rem;
-    font-weight: 600;
-  }
-  #score,
-  #timer {
-    font-size: 2rem;
-    font-weight: 600;
-  }
-  .btn {
-    margin: 30px 10px 30px 10px;
-    padding: 6px 15px;
-    display: inline-block;
-  }
-  #start,
-  #pause,
-  #stop {
-    font-size: 1.5rem;
-  }
-  .grid {
-    width: 100%;
-  }
+
   .hole {
     width: 80px;
     height: 80px;
