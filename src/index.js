@@ -521,13 +521,21 @@ function whack(index) {
   else if (isGolden) showBonusText(holeEl, "+50", "gold");
 
   // Whacked mole image (use asset helper!)
+  // swap to whacked image
   moleEl.style.backgroundImage = `url("${asset("wmole.png")}")`;
 
   whackedUntil = Date.now() + 250;
 
   setTimeout(() => {
     holeEl.classList.remove("show");
+
+    // remove bonus styles
     moleEl.classList.remove("golden", "diamond");
+
+    // IMPORTANT: reset back to normal mole for next popup
+    moleEl.style.backgroundImage = `url("${asset("mole.png")}")`;
+
+    moleAlreadyWhacked = false; // let the next mole be hittable
   }, 250);
 }
 
