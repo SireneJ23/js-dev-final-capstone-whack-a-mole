@@ -451,13 +451,14 @@ function startTimer() {
    HIT DETECTION (FAIR)
 ========================== */
 function isHoleHittable(index) {
+  // If the hole has the 'show' class, it is definitely hittable
   if (holes[index].classList.contains("show")) return true;
 
-  if (index === currentHoleIndex && Date.now() <= currentDownAt + HIT_GRACE_MS)
+  // Grace window: Allow a hit even if it just started hiding (prevents 'frustration' misses)
+  const now = Date.now();
+  if (index === currentHoleIndex && now <= currentDownAt + HIT_GRACE_MS)
     return true;
-
-  if (index === prevHoleIndex && Date.now() <= prevDownAt + HIT_GRACE_MS)
-    return true;
+  if (index === prevHoleIndex && now <= prevDownAt + HIT_GRACE_MS) return true;
 
   return false;
 }
@@ -505,38 +506,35 @@ function whack(index) {
   }
 
   updateScore(points + earnedPoints);
-
-  // Sound
   playSfx(HIT_SRC, 1);
 
-  // Hammer animation
+  // Restart Hammer Animation
   if (hammerEl) {
     hammerEl.classList.remove("smack");
-    void hammerEl.offsetWidth;
+    void hammerEl.offsetWidth; // Trigger reflow to restart animation
     hammerEl.classList.add("smack");
   }
 
-  // Floating bonus
+  // Floating bonus text
   if (isDiamond) showBonusText(holeEl, "+100", "diamond");
   else if (isGolden) showBonusText(holeEl, "+50", "gold");
 
-  // Whacked mole image (use asset helper!)
-  // swap to whacked image
+  // Visual feedback: Swap to whacked mole image
   moleEl.style.backgroundImage = `url("${asset("wmole.png")}")`;
 
-  whackedUntil = Date.now() + 250;
+  // Prevent another mole from popping up for a split second
+  whackedUntil = Date.now() + 300;
 
   setTimeout(() => {
     holeEl.classList.remove("show");
 
-    // remove bonus styles
-    moleEl.classList.remove("golden", "diamond");
-
-    // IMPORTANT: reset back to normal mole for next popup
-    moleEl.style.backgroundImage = `url("${asset("mole.png")}")`;
-
-    moleAlreadyWhacked = false; // let the next mole be hittable
-  }, 250);
+    // Reset for next appearance
+    setTimeout(() => {
+      moleEl.classList.remove("golden", "diamond");
+      moleEl.style.backgroundImage = `url("${asset("mole.png")}")`;
+      moleAlreadyWhacked = false;
+    }, 100); // Small delay to let the 'hiding' animation finish
+  }, 200);
 }
 
 /* ==========================
