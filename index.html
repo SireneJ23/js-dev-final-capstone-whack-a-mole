@@ -11,21 +11,8 @@
     <!-- Styles -->
     <link rel="stylesheet" href="./src/styles.css" />
     <link rel="manifest" href="./manifest.webmanifest" />
-    <!-- iOS Splash Screens -->
-    <link
-      rel="apple-touch-startup-image"
-      href="assets/splash-1024.png"
-      media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)" />
 
-    <link
-      rel="apple-touch-startup-image"
-      href="assets/splash-1024.png"
-      media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3)" />
-
-    <link
-      rel="apple-touch-startup-image"
-      href="assets/splash-1024.png"
-      media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3)" />
+    <!-- Theme -->
     <meta name="theme-color" content="#14a604" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta
@@ -34,108 +21,111 @@
     <meta name="apple-mobile-web-app-title" content="Whack-a-Mole" />
     <link rel="apple-touch-icon" href="./assets/icon-192.png" />
 
+    <!-- Favicon -->
+    <link rel="icon" href="./assets/tmole.png" />
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Amaranth&display=swap"
-      rel="stylesheet" />
-
-    <!-- Favicon -->
-    <link rel="icon" href="./assets/tmole.png" />
   </head>
 
   <body>
     <!-- ==========================
-         NAVIGATION
-    ========================== -->
-    <nav>
+     NAVIGATION
+========================== -->
+    <nav class="wood-nav">
+      <!-- Left: Capstone Logo -->
       <div class="logo">
-        <img
-          src="./assets/tmole.png"
-          alt="brown mole"
-          style="width: 70px; max-height: 90px" />
-        Final Capstone Project
+        <img src="./assets/capstone.png" alt="Final Capstone Project" />
       </div>
 
+      <!-- Right: Icon Menu -->
       <div class="navbar">
         <ul class="nav-menu">
-          <li class="nav-item">
+          <li>
             <a
               href="https://github.com/gabrielsanchez/js-dev-final-capstone-starter/blob/main/README.md"
               target="_blank"
-              class="nav-link">
-              About
-              <i class="fa-brands fa-github" style="color: #0e0e0e"></i>
+              class="nav-icon">
+              <img src="./assets/about.png" alt="About" />
             </a>
           </li>
 
-          <li class="nav-item">
-            <!-- Sound Toggle -->
-            <a id="mixBut" class="nav-link" href="#">Sound ⏸️</a>
+          <li>
+            <a id="mixBut" class="nav-icon" href="#">
+              <img src="./assets/sound.png" alt="Sound Toggle" />
+            </a>
           </li>
 
-          <li class="nav-item">
-            <a href="https://google.com" target="_blank" class="nav-link">
-              Exit
-              <i class="fa-solid fa-door-open" style="color: #0e0e0e"></i>
+          <li>
+            <a href="https://google.com" target="_blank" class="nav-icon">
+              <img src="./assets/exit.png" alt="Exit" />
             </a>
           </li>
         </ul>
       </div>
-
-      <div class="hamburger">
-        <span class="bar"></span>
-        <span class="bar"></span>
-        <span class="bar"></span>
-      </div>
     </nav>
 
     <!-- ==========================
-         GAME WRAPPER
-    ========================== -->
-    <div class="wrapper">
-      <div class="header">
-        <h1 id="title">Whack-a-Mole</h1>
-      </div>
+     GAME WRAPPER
+========================== -->
+ <div class="wrapper">
+  <div class="header">
+    <h1 id="title">Whack-a-Mole</h1>
+  </div>
 
-      <div id="scoreBoard">
-        <div>
-          <h2>Score: <span id="score">0</span></h2>
-        </div>
-        <div>
-          <h2>Timer: <span id="timer">30</span></h2>
-        </div>
-      </div>
+  <div id="scoreBoard">
+    <div class="score-plate">
+      <img src="./assets/plate.png" alt="Score Plate" />
+      <div class="plate-text">Score:&nbsp; <span id="score">0</span></div>
+    </div>
 
-      <div id="button">
-        <!-- Difficulty selector row -->
-        <div class="difficulty-row">
-          <select id="difficulty" class="difficulty-select">
-            <option value="easy">Easy</option>
-            <option value="normal" selected>Normal</option>
-            <option value="hard">Hard</option>
-          </select>
-        </div>
+    <div class="score-plate">
+      <img src="./assets/plate.png" alt="Timer Plate" />
+      <div class="plate-text">Timer:&nbsp; <span id="timer">30</span></div>
+    </div>
+  </div>
 
-        <!-- Game control buttons -->
-        <div class="controls-row">
-          <button id="start" class="btn">Start</button>
-          <button id="pause" class="btn">Pause</button>
-          <button id="stop" class="btn">Stop</button>
-        </div>
-      </div>
+  <div id="button">
+    <div class="difficulty-row select-wrapper">
+      <img
+        src="./assets/plate.png"
+        alt="Difficulty Plate"
+        class="plate-bg" />
+
+      <select id="difficulty" class="difficulty-select">
+        <option value="easy">Easy</option>
+        <option value="normal" selected>Normal</option>
+        <option value="hard">Hard</option>
+      </select>
+    </div>
+
+    <div class="controls-row">
+      <button id="start" class="img-btn">
+        <img src="./assets/start.png" alt="Start" />
+      </button>
+      <button id="pause" class="img-btn">
+        <img src="./assets/pause.png" alt="Pause" />
+      </button>
+      <button id="stop" class="img-btn">
+        <img src="./assets/stop.png" alt="Stop" />
+      </button>
+    </div>
+  </div>
+</div>
 
       <!-- ==========================
-           GAME GRID
-      ========================== -->
+       GAME GRID
+  ========================== -->
       <div class="grid">
         <div id="hole0" class="hole"><div id="mole0" class="mole"></div></div>
         <div id="hole1" class="hole"><div id="mole1" class="mole"></div></div>
         <div id="hole2" class="hole"><div id="mole2" class="mole"></div></div>
+
         <div id="hole3" class="hole"><div id="mole3" class="mole"></div></div>
         <div id="hole4" class="hole"><div id="mole4" class="mole"></div></div>
         <div id="hole5" class="hole"><div id="mole5" class="mole"></div></div>
+
         <div id="hole6" class="hole"><div id="mole6" class="mole"></div></div>
         <div id="hole7" class="hole"><div id="mole7" class="mole"></div></div>
         <div id="hole8" class="hole"><div id="mole8" class="mole"></div></div>
@@ -143,13 +133,13 @@
     </div>
 
     <!-- ==========================
-         HAMMER OVERLAY
-    ========================== -->
+     HAMMER
+========================== -->
     <div id="hammer" aria-hidden="true"></div>
 
     <!-- ==========================
-         WIN/LOSE MODAL
-    ========================== -->
+     RESULT MODAL
+========================== -->
     <div id="resultModal" class="modal-overlay" aria-hidden="true">
       <div
         class="modal-card"
@@ -157,6 +147,7 @@
         aria-modal="true"
         aria-labelledby="modalTitle">
         <h2 id="modalTitle" class="modal-title">Game Over</h2>
+
         <p id="modalMessage" class="modal-message"></p>
 
         <div class="modal-stats">
@@ -164,6 +155,7 @@
             <span class="modal-stat-label">Score</span>
             <span id="modalScore" class="modal-stat-value">0</span>
           </div>
+
           <div class="modal-stat">
             <span class="modal-stat-label">Target</span>
             <span id="modalTarget" class="modal-stat-value">0</span>
@@ -175,25 +167,28 @@
         </p>
 
         <div class="modal-actions">
-          <button id="playAgainBtn" class="btn modal-btn">Play Again</button>
-          <button id="closeModalBtn" class="btn modal-btn">Close</button>
+          <button id="playAgainBtn" class="img-btn modal-img-btn" type="button">
+            <img src="./assets/play-again.png" alt="Play Again" />
+          </button>
+
+          <button
+            id="closeModalBtn"
+            class="img-btn modal-img-btn"
+            type="button">
+            <img src="./assets/close.png" alt="Close" />
+          </button>
         </div>
       </div>
     </div>
 
     <!-- ==========================
-         FOOTER
-    ========================== -->
+     FOOTER
+========================== -->
     <div class="footer">
-      <div class="footer-text">
-        <h5>© 2023 Sirene J. All Rights Reserved</h5>
-      </div>
+      <h5>© 2023 Sirene J. All Rights Reserved</h5>
     </div>
 
     <!-- Scripts -->
-    <script
-      src="https://kit.fontawesome.com/7d88952c69.js"
-      crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script src="./src/index.js"></script>
   </body>

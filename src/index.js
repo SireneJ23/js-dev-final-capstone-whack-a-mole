@@ -168,8 +168,34 @@ audioSong.loop = true;
 /* ==========================
    MASTER SOUND CONTROL
 ========================== */
+/* ==========================
+   MASTER SOUND CONTROL
+========================== */
+/* ==========================
+   MASTER SOUND CONTROL
+========================== */
 const mixBut = document.getElementById("mixBut");
 let soundOn = true;
+
+if (mixBut) {
+  // Initial State: Sound is ON, so show the 'Pause' bars icon (sound.png)
+  mixBut.innerHTML = `<img src="./assets/sound.png" alt="Sound On" class="nav-icon">`;
+
+  mixBut.addEventListener("click", (e) => {
+    e.preventDefault();
+    soundOn = !soundOn;
+
+    if (!soundOn) {
+      stopAllSounds();
+      // Change to the "Play" icon because sound is now OFF
+      mixBut.innerHTML = `<img src="./assets/sound-on.png" alt="Sound Off" class="nav-icon">`;
+    } else {
+      // Change back to the "Pause" icon because sound is now ON
+      mixBut.innerHTML = `<img src="./assets/sound.png" alt="Sound On" class="nav-icon">`;
+      playMusic(0.3);
+    }
+  });
+}
 
 function playMusic(volume = 0.3) {
   if (!soundOn) return;
@@ -191,22 +217,6 @@ function playSfx(src, volume = 1) {
 
 function stopAllSounds() {
   stopMusic();
-}
-
-if (mixBut) {
-  mixBut.textContent = "Sound ⏸️";
-  mixBut.addEventListener("click", (e) => {
-    e.preventDefault();
-    soundOn = !soundOn;
-
-    if (!soundOn) {
-      stopAllSounds();
-      mixBut.textContent = "Sound ▶️";
-    } else {
-      mixBut.textContent = "Sound ⏸️";
-      playMusic(0.3);
-    }
-  });
 }
 
 /* ==========================
@@ -374,6 +384,9 @@ function resetMoleVisuals() {
 /* ==========================
    RESET GAME
 ========================== */
+/* ==========================
+   RESET GAME
+========================== */
 function resetGameState() {
   stopConfetti();
   closeResultModal();
@@ -391,7 +404,12 @@ function resetGameState() {
   stopAllSounds();
 
   if (startButton) startButton.disabled = false;
-  if (pauseButton) pauseButton.textContent = "Pause";
+
+  // FIX THIS LINE HERE:
+  if (pauseButton) {
+    pauseButton.innerHTML = `<img src="./assets/pause.png" alt="Pause">`;
+  }
+
   if (difficultySelect) difficultySelect.disabled = false;
 }
 
@@ -565,7 +583,11 @@ function startGame() {
 
   if (difficultySelect) difficultySelect.disabled = true;
   if (startButton) startButton.disabled = true;
-  if (pauseButton) pauseButton.textContent = "Pause";
+
+  // FIX: Use innerHTML to keep the wooden button image instead of plain text
+  if (pauseButton) {
+    pauseButton.innerHTML = `<img src="./assets/pause.png" alt="Pause">`;
+  }
 
   playMusic(0.3);
 
@@ -575,17 +597,22 @@ function startGame() {
 
 function pauseGame() {
   if (!gameRunning) return;
+  if (!pauseButton) return;
 
   if (!gamePaused) {
     gamePaused = true;
-    if (pauseButton) pauseButton.textContent = "Resume";
-    audioSong.pause();
+    // Switch to your new Resume Image
+    pauseButton.innerHTML = `<img src="./assets/resume.png" alt="Resume">`;
+
+    if (audioSong) audioSong.pause();
     resetMoleVisuals();
   } else {
     gamePaused = false;
-    if (pauseButton) pauseButton.textContent = "Pause";
-    playMusic(0.3);
-    showUp();
+    // Switch back to the Pause Image
+    pauseButton.innerHTML = `<img src="./assets/pause.png" alt="Pause">`;
+
+    if (typeof playMusic === "function") playMusic(0.3);
+    if (typeof showUp === "function") showUp();
   }
 }
 
@@ -605,7 +632,12 @@ function endGame() {
   audioSong.pause();
 
   if (startButton) startButton.disabled = false;
-  if (pauseButton) pauseButton.textContent = "Pause";
+
+  // FIX: Restore the wooden Pause image instead of plain text
+  if (pauseButton) {
+    pauseButton.innerHTML = `<img src="./assets/pause.png" alt="Pause">`;
+  }
+
   if (difficultySelect) difficultySelect.disabled = false;
 
   if (points >= winScore) {
