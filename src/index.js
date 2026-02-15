@@ -251,11 +251,16 @@ function startGame() {
 
   gameRunning = true;
   gamePaused = false;
+  document.body.classList.add("hide-cursor");
   difficultySelect.disabled = true;
   startButton.disabled = true;
   pauseButton.innerHTML = `<img src="./assets/pause.png" alt="Pause">`;
 
   if (soundOn) audioSong.play().catch(() => {});
+
+  // Clear any existing timers before starting
+  clearInterval(timerId);
+  clearTimeout(moleTimeoutId);
 
   timerId = setInterval(() => {
     if (!gamePaused) {
@@ -270,48 +275,87 @@ function startGame() {
 
 function pauseGame() {
   if (!gameRunning) return;
+
   gamePaused = !gamePaused;
-  pauseButton.innerHTML = `<img src="./assets/${gamePaused ? "resume.png" : "pause.png"}" alt="Control">`;
+
+  // Toggle button image
+  pauseButton.innerHTML = `<img src="./assets/${gamePaused ? "resume.png" : "pause.png"}" alt="${gamePaused ? "Resume" : "Pause"}">`;
+
   if (gamePaused) {
     audioSong.pause();
-    resetMoleVisuals();
+
+    // STOP mole loop while paused
+    clearTimeout(moleTimeoutId);
   } else {
     if (soundOn) audioSong.play().catch(() => {});
-    showUp();
+    showUp(); // restart mole loop
   }
 }
 
 function endGame() {
+  document.body.classList.remove("hide-cursor");
+
   gameRunning = false;
+  gamePaused = false;
+
   clearInterval(timerId);
   clearTimeout(moleTimeoutId);
+
   audioSong.pause();
   difficultySelect.disabled = false;
   startButton.disabled = false;
+
   pauseButton.innerHTML = `<img src="./assets/pause.png" alt="Pause">`;
 
-  const win = points >= (difficultySelect.value === "easy" ? 350 : 450);
+  const targetScore = difficultySelect.value === "easy" ? 350 : 450;
+
+  const win = points >= targetScore;
+
   playSfx(win ? VICTORY_SRC : DEFEAT_SRC);
+
+  // 🔥 LIGHTEN SCREEN IF WIN
+  const overlay = document.querySelector(".modal-overlay");
+
+  if (win) {
+    overlay?.classList.add("win");
+
+    // Slight screen brightness boost
+    document.body.style.filter = "brightness(1.08)";
+
+    // 🔥 BIG DRAMATIC CONFETTI
+    startConfetti(3000);
+  } else {
+    overlay?.classList.remove("win");
+    document.body.style.filter = "brightness(1)";
+  }
 
   openResultModal({
     title: win ? "🎉 You Win!" : "😞 You Lose",
     message: win ? "You're a Pro!" : "Keep Practicing!",
     score: points,
-    target: difficultySelect.value === "easy" ? 350 : 450,
+    target: targetScore,
   });
 }
 
 function resetGameState() {
+  document.body.classList.remove("hide-cursor");
   gameRunning = false;
   gamePaused = false;
+  document.body.style.filter = "brightness(1)";
+  document.querySelector(".modal-overlay")?.classList.remove("win");
+
   clearInterval(timerId);
   clearTimeout(moleTimeoutId);
+
   updateScore(0);
   updateTimer(30);
   resetMoleVisuals();
+
   difficultySelect.disabled = false;
   startButton.disabled = false;
+
   pauseButton.innerHTML = `<img src="./assets/pause.png" alt="Pause">`;
+
   audioSong.pause();
   audioSong.currentTime = 0;
 }
@@ -332,6 +376,7 @@ function openResultModal({title, message, score, target}) {
   }
 
   resultModal.classList.add("show");
+  grid.style.setProperty("pointer-events", "none");
 }
 
 playAgainBtn.onclick = () => {
@@ -343,6 +388,78 @@ closeModalBtn.onclick = () => {
   resetGameState();
 };
 
-startButton.onclick = startGame;
-pauseButton.onclick = pauseGame;
-stopButton.onclick = resetGameState;
+/* EVENT LISTENERS */
+startButton?.addEventListener("click", startGame);
+pauseButton?.addEventListener("click", pauseGame);
+stopButton?.addEventListener("click", resetGameState);
+playAgainBtn?.addEventListener("click", resetGameState);
+closeModalBtn?.addEventListener("click", resetGameState);
+difficultySelect?.addEventListener("change", (e) =>
+  applyDifficultySettings(e.target.value),
+);
+
+if (grid && hammerEl) {
+  grid.addEventListener("mouseenter", () => (hammerEl.style.display = "block"));
+  grid.addEventListener("mouseleave", () => (hammerEl.style.display = "none"));
+  grid.addEventListener("mousemove", (e) => {
+    hammerEl.style.left = `${e.clientX}px`;
+    hammerEl.style.top = `${e.clientY}px`;
+  });
+}
+
+/* CONFETTI (Unchanged from original) */
+function startConfetti(durationMs) {
+  const confettiFn = window.confetti;
+  if (typeof confettiFn !== "function") return;
+
+  const endTime = Date.now() + durationMs;
+
+  // 💥 MASSIVE CENTER EXPLOSION
+  confettiFn({
+    particleCount: 500,
+    spread: 180,
+    startVelocity: 70,
+    decay: 0.9,
+    gravity: 0.7,
+    drift: 0,
+    scalar: 2.2,
+    ticks: 500,
+    origin: {x: 0.5, y: 0.45},
+    colors: ["#FFD700", "#FF3366", "#00CCFF", "#FFFFFF", "#FF8800"],
+    zIndex: 20000,
+  });
+
+  // 🔥 SIDE CANNONS
+  confettiIntervalId = setInterval(() => {
+    if (Date.now() >= endTime) return stopConfetti();
+
+    confettiFn({
+      particleCount: 60,
+      angle: 60,
+      spread: 80,
+      startVelocity: 65,
+      scalar: 1.8,
+      gravity: 0.8,
+      origin: {x: 0, y: 0.7},
+      zIndex: 20000,
+    });
+
+    confettiFn({
+      particleCount: 60,
+      angle: 120,
+      spread: 80,
+      startVelocity: 65,
+      scalar: 1.8,
+      gravity: 0.8,
+      origin: {x: 1, y: 0.7},
+      zIndex: 20000,
+    });
+  }, 180);
+}
+
+function stopConfetti() {
+  clearInterval(confettiIntervalId);
+}
+
+// Initial Call
+applyDifficultySettings(difficultySelect?.value || "normal");

@@ -1,39 +1,20 @@
-/* ============================================================
-   1. IMPORTS & VARIABLES (:root)
-   ============================================================ */
-@import url("https://fonts.googleapis.com/css2?family=Yaldevi:wght@400;700;900&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Righteous");
+@import url("https://fonts.googleapis.com/css2?family=Ephesis&family=Yaldevi&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Changa:wght@200&family=Fondamento&family=Yuji+Boku&display=swap");
 
+/* ==========================
+   ROOT
+========================== */
 :root {
-  /* Text Colors */
+  --nav-h: 80px;
+  --shadow-deep: 0 20px 50px rgba(0, 0, 0, 0.3);
   --ink: #2b1407;
-  --ink-soft: #3b1f0f;
-  --ink-muted: rgba(43, 20, 7, 0.75);
-
-  /* Panel glass */
-  --panel: rgba(255, 247, 233, 0.14);
-  --panel-strong: rgba(255, 247, 233, 0.2);
-  --panel-border: rgba(110, 70, 35, 0.35);
-
-  /* Shadows */
-  --shadow-soft: 0 18px 40px rgba(0, 0, 0, 0.18);
-  --shadow-deep: 0 28px 60px rgba(0, 0, 0, 0.32);
-
-  /* Accents */
-  --gold: #f6c65b;
-  --sky: rgba(175, 220, 245, 0.18);
-  --grass: rgba(35, 120, 50, 0.2);
-
-  /* Wood-ish tint */
-  --wood-1: rgba(210, 145, 80, 0.22);
-  --wood-2: rgba(155, 95, 45, 0.22);
-
-  /* Layout heights */
-  --nav-h: 90px;
+  --ink-soft: #4a2612;
 }
 
-/* ============================================================
-   2. GLOBAL RESET & FULL-SCREEN LOCK
-   ============================================================ */
+/* ==========================
+   RESET
+========================== */
 *,
 *::before,
 *::after {
@@ -45,116 +26,209 @@
 html,
 body {
   width: 100%;
-  height: 100vh;
-  margin: 0;
-  padding: 0;
-  overflow: hidden; /* Critical: Removes all scrollbars */
-  font-family: "Yaldevi", sans-serif;
-  background: url("../assets/park.png") center / cover no-repeat fixed;
-  position: fixed; /* Prevents mobile "bounce" and scrolling */
+  min-height: 100vh;
+  /* Removed position: fixed from here as it can sometimes conflict with background-attachment: fixed */
+}
+
+html,
+body {
+  overflow-x: clip;
 }
 
 body {
-  display: flex;
-  flex-direction: column;
+  /* This prevents the "rubber-banding" bounce on iOS specifically */
+  width: 100%;
+  min-height: 100vh; /* This ensures the body takes up at least 100% of the viewport height %;
+
+  overscroll-behavior: none;
+  font-family: "Yaldevi", sans-serif;
+  background: url("../assets/park.png") center / cover no-repeat;
+  /* Note: Removed 'fixed' from background shorthand; 'cover' on a fixed-position body is enough */
+  background: url("../assets/park.png") center / cover no-repeat fixed;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
-/* ============================================================
-   3. NAVBAR
-   ============================================================ */
+body.hide-cursor {
+  cursor: none;
+}
+
+/* ==========================
+   NAVBAR
+========================== */
 nav.wood-nav {
   height: var(--nav-h);
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 40px;
+  padding: 0 20px;
   background: url("../assets/navbar.png") center/cover no-repeat;
-  box-shadow: var(--shadow-soft);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
+  position: relative;
   z-index: 1000;
 }
 
+.logo {
+  display: flex;
+  align-items: center;
+}
+
 .logo img {
-  height: 70px !important;
+  height: 44px;
   width: auto;
 }
 
 .nav-menu {
   display: flex;
   list-style: none;
-  gap: 30px;
+  gap: 15px;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+}
+
+/* ==========================
+   NAV ICONS
+========================== */
+.nav-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
 }
 
 .nav-icon img {
-  height: 55px !important;
+  height: 38px;
   width: auto;
-  transition: transform 0.18s ease;
-  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3));
+  transition:
+    transform 0.18s ease,
+    filter 0.18s ease;
 }
 
 .nav-icon img:hover {
-  transform: scale(1.1);
+  transform: translateY(-3px) scale(1.05);
+  filter: drop-shadow(0 10px 14px rgba(0, 0, 0, 0.25));
 }
 
-/* ============================================================
-   4. WRAPPER (The Glass Panel - Width Fixed)
-   ============================================================ */
+#mixBut {
+  line-height: 0;
+}
+
+/* ==========================
+   WRAPPER (🔥 UPDATED)
+========================== */
+
+/* ==========================
+   MAIN WRAPPER
+========================== */
+
 .wrapper {
-  width: 100%;
-  max-width: 1200px; /* Expands for desktop screens */
+  width: min(1100px, 90vw);
   margin: 0 auto;
-  flex: 1; /* Stretches to fill vertical space */
+
+  height: calc(100vh - var(--nav-h)); /* 🔥 Use height, not min-height */
+
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
   align-items: center;
-  position: relative;
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  background: var(--panel);
-  border-left: 1px solid var(--panel-border);
-  border-right: 1px solid var(--panel-border);
+
+  padding: 20px 40px 0;
+  box-sizing: border-box;
+
+  overflow: hidden; /* prevents scroll */
 }
 
+/* Subtle warm tint remains the same */
 .wrapper::before {
   content: "";
   position: absolute;
   inset: 0;
+  pointer-events: none;
   background: radial-gradient(
     circle at 50% 14%,
-    var(--panel-strong),
-    var(--wood-2)
+    rgba(255, 240, 210, 0.16),
+    rgba(120, 70, 30, 0.1) 55%,
+    rgba(50, 25, 10, 0.08) 100%
   );
   mix-blend-mode: multiply;
-  pointer-events: none;
 }
 
-/* ============================================================
-   5. HEADER & SCOREBOARD
-   ============================================================ */
+.wrapper > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* 1. Group the top elements to control their height */
+.game-header {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px; /* Tightens the vertical space between wood plates */
+}
+
+/* ==========================
+   HEADER / TITLE
+========================== */
 .header {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: -15px;
+  margin-bottom: -45px;
   z-index: 10;
-  margin-top: -10px;
+}
+/* Let the header area take only as much space as it needs */
+.header-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px; /* Small, controlled gaps */
 }
 
 #title-img {
-  height: 12vh;
-  max-width: 400px;
-  filter: drop-shadow(var(--shadow-deep));
+  width: clamp(420px, 28vw, 700px);
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.35));
 }
 
+/* ==========================
+   SCOREBOARD
+========================== */
 #scoreBoard {
   display: flex;
-  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  width: 100%;
+  margin-bottom: -20px;
 }
+
+/* ==========================
+   SCORE PLATE
+========================== */
 
 .score-plate {
   position: relative;
-  width: 220px;
+  width: clamp(260px, 20vw, 420px);
+  margin-top: 6px;
+  max-width: 100%;
 }
 
 .score-plate img {
   width: 100%;
+  height: auto;
+  display: block;
+  /* Added a slight shadow to make the plates "pop" like the buttons */
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
 }
 
 .plate-text {
@@ -163,30 +237,70 @@ nav.wood-nav {
   display: flex;
   align-items: center;
   justify-content: center;
+
+  /* This creates even space between "Score:" and "0" */
+  /* Adjust this px value until the spacing looks perfect to you */
+  gap: 12px;
+
+  font-family: "Yaldevi", sans-serif;
+  font-size: clamp(1.6rem, 1.5vw, 2.2rem);
   font-weight: 900;
-  color: var(--ink);
-  font-size: 1.4rem;
+  color: #2b1407;
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.3);
+  white-space: nowrap;
+  pointer-events: none;
 }
 
-/* ============================================================
-   6. CONTROLS & DIFFICULTY
-   ============================================================ */
+/* Clear out the old margin/padding rules that were causing issues */
+#score,
+#timer {
+  margin: 0;
+  padding: 0;
+  display: inline-block;
+  /* Reserves space for 2 digits so the "Score:" label doesn't wiggle */
+  min-width: 1.2ch;
+  text-align: center;
+}
+
+/* ==========================
+   CONTROLS
+========================== */
+/* BUTTONS & SELECT */
 #button {
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 15px;
+  gap: 12px;
+  margin-top: 0;
 }
 
-.difficulty-row .select-wrapper {
+/* 1. Controlling the wooden header and buttons if they are too big */
+h1 img,
+.score-timer-container img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* 2. ONLY pull the Difficulty Plate up toward the Scoreboard */
+.difficulty-row {
+  margin-top: 0; /* This pulls only the plate, not the whole game */
+  margin-bottom: 10px; /* Keeps space between it and the Start/Pause buttons */
   position: relative;
-  width: 210px;
+  z-index: 5; /* Ensures it stays on top of any overlapping backgrounds */
 }
 
-.plate-bg {
+.select-wrapper {
+  width: clamp(260px, 18vw, 340px);
+  position: relative;
+  cursor: pointer;
+}
+
+.select-wrapper img {
   width: 100%;
+  height: auto;
   display: block;
+  transform: scale(1.05);
 }
 
 .difficulty-select {
@@ -197,228 +311,417 @@ nav.wood-nav {
   height: 100%;
   background: transparent;
   border: none;
-  appearance: none;
-  color: transparent;
-  cursor: pointer;
   outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  /* Make the text on top of the plate invisible */
+  /* This prevents the "Double Normal" look */
+  color: transparent;
+
+  /* Keep these for the dropdown menu logic */
+  font-family: "Yaldevi", sans-serif;
+  font-size: 1.3rem;
+  font-weight: 900;
+  cursor: pointer;
 }
 
+/* REMOVED: .select-wrapper::after block is gone */
+/* We don't need the "▼" anymore because it's in your image! */
+
 .difficulty-select option {
+  /* This ensures that when you click, the menu words are still visible */
   background-color: #f3e5ab;
-  color: var(--ink);
+  color: #2b1407;
+  font-family: sans-serif;
   font-weight: bold;
 }
 
 .controls-row {
   display: flex;
-  gap: 15px;
+  justify-content: center; /* Centers buttons horizontally */
+  align-items: center; /* Centers buttons vertically within the row */
+  flex-wrap: wrap; /* The "secret ingredient" that lets buttons stack on small screens */
+  gap: 15px; /* Space between buttons */
+  width: 100%; /* Ensures the row uses the full width of the wrapper */
+  padding: 0 10px; /* Buffer so buttons don't touch the very edge of the screen */
 }
-
-/* FIX: Removes white background boxes from all image buttons */
-.img-btn,
-.modal-img-btn {
-  background: transparent !important;
-  border: none !important;
+.img-btn {
+  background: none;
+  border: none;
   padding: 0;
   cursor: pointer;
-  outline: none;
-  line-height: 0;
+  display: inline-block;
 }
 
 .img-btn img {
-  width: 130px;
+  width: clamp(170px, 12vw, 260px);
   height: auto;
-  transition: transform 0.1s;
+  display: block;
+
+  transition:
+    transform 0.18s ease,
+    filter 0.18s ease;
 }
 
-.img-btn img:active {
-  transform: scale(0.95);
+.img-btn img:hover {
+  transform: scale(1.08);
 }
 
-/* ============================================================
-   7. GRID & MOLES (Special Variants Included)
-   ============================================================ */
+/* ==========================
+   GRID (🔥 UPDATED)
+========================== */
+/* Ensure the grid scales down on shorter screens */
+/* 3. The Grid Fix */
 .grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 15px;
-  width: 90%;
-  max-width: 500px;
+  width: min(900px, 85vw);
+  gap: 25px;
+  padding-bottom: 20px;
 }
 
+.grid.playing,
+.grid.playing * {
+  cursor: none !important;
+}
+
+/* ==========================
+   HOLE & MOLE (UNCHANGED)
+========================== */
 .hole {
   position: relative;
+  width: 100%;
   aspect-ratio: 1 / 1;
-  background: url("../assets/hole.png") center/contain no-repeat;
   overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  isolation: isolate;
+  max-width: 220px;
+}
+
+.hole::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("../assets/hole.png") center bottom/contain no-repeat;
+  z-index: 1;
+  pointer-events: none;
+  filter: brightness(0.85);
+}
+
+.hole::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("../assets/hole.png") center bottom/contain no-repeat;
+  z-index: 10;
+  pointer-events: none;
+  /* This creates the 'behind the grass' effect */
+  clip-path: inset(65% 0 0 0);
 }
 
 .mole {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  width: 80%;
-  height: 80%;
+  width: 150%;
+  height: 160%;
   background: url("../assets/mole.png") center bottom/contain no-repeat;
-  bottom: -100%;
-  transition: bottom 0.2s ease-out;
+
+  /* 1. Keep this at the 'show' position or just below the clip-path */
+  bottom: -30%;
+
+  /* 2. Start invisible */
+  opacity: 0;
+  z-index: 5;
+
+  /* 3. REMOVED the transition property entirely */
 }
 
 .hole.show .mole {
-  bottom: 10%;
+  /* 4. When 'show' is added, it becomes visible instantly */
+  opacity: 1;
 }
 
-/* Special Mole Types */
 .mole.golden {
-  filter: sepia(1) saturate(8) brightness(1.1);
-  box-shadow: 0 0 20px var(--gold);
+  filter: sepia(1) saturate(7) hue-rotate(8deg) brightness(1.15) contrast(1.05);
+  box-shadow:
+    0 0 18px rgba(255, 200, 0, 0.85),
+    0 0 34px rgba(255, 170, 0, 0.55);
 }
 
 .mole.diamond {
-  filter: hue-rotate(180deg) saturate(4) brightness(1.2);
+  filter: hue-rotate(190deg) saturate(3.2) brightness(1.25) contrast(1.05);
+  box-shadow:
+    0 0 18px rgba(0, 180, 255, 0.85),
+    0 0 34px rgba(0, 120, 255, 0.55);
 }
 
-/* ============================================================
-   8. MODAL (Game Over Overlay)
-   ============================================================ */
+/* ==========================
+   MODAL, HAMMER, BONUS, FOOTER, RESPONSIVE
+   (ALL ORIGINAL — UNCHANGED)
+========================== */
+
+/* Keep everything you pasted below exactly as it was —
+   no removal necessary — it will work with the new scaling */
+
+/* ========================== HAMMER OVERLAY ========================== */
+#hammer {
+  position: fixed;
+  display: none;
+  /* Increased size: adjust these to your liking (e.g., 150px to 200px) */
+  width: 180px;
+  height: 180px;
+  z-index: 10000;
+  pointer-events: none;
+  background: url("../assets/mallet.png") no-repeat center/contain;
+  /* Ensures the center of the larger image stays on the cursor */
+  transform: translate(-50%, -50%);
+}
+
+#hammer[style*="display: block"] {
+  opacity: 1;
+}
+
+#hammer.smack {
+  /* Slightly longer animation can feel "heavier" for a larger mallet */
+  animation: smack 150ms ease-in-out;
+}
+
+@keyframes smack {
+  0% {
+    /* Start slightly tilted back */
+    transform: translate(-50%, -50%) rotate(-20deg) scale(1);
+  }
+  50% {
+    /* The impact: tilted forward and slightly smaller to simulate depth */
+    transform: translate(-50%, -50%) rotate(25deg) scale(0.85);
+  }
+  100% {
+    /* Return to original position */
+    transform: translate(-50%, -50%) rotate(-20deg) scale(1);
+  }
+}
+
+/* ========================== BONUS FLOATING TEXT ========================== */
+.bonus-text {
+  position: absolute;
+  left: 50%;
+  top: 20%;
+  transform: translateX(-50%);
+  font-size: 1.8rem;
+  font-weight: 900;
+  pointer-events: none;
+  animation: floatUp 900ms ease-out forwards;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.35);
+}
+
+.bonus-gold {
+  color: gold;
+}
+
+.bonus-diamond {
+  color: #4dd0ff;
+}
+
+@keyframes floatUp {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 0);
+  }
+  15% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -40px);
+  }
+}
+
+/* ========================== MODAL ========================== */
 .modal-overlay {
   position: fixed;
   inset: 0;
-  display: none; /* Controlled by JS .show class */
-  background: rgba(0, 0, 0, 0.85);
-  z-index: 9999;
+  display: none;
   align-items: center;
   justify-content: center;
+  padding: 20px;
+
+  /* 🔥 LIGHTER */
+  background: rgba(0, 0, 0, 0.35);
+
+  backdrop-filter: blur(4px); /* subtle frost */
+  z-index: 10000;
 }
 
 .modal-overlay.show {
   display: flex;
 }
 
+.modal-overlay.win {
+  background: rgba(0, 0, 0, 0.15); /* was 0.35+ */
+  backdrop-filter: blur(2px); /* softer frost */
+}
+
 .modal-card {
-  background: #fff7e9;
-  padding: 40px;
-  border-radius: 20px;
-  border: 5px solid var(--ink-soft);
+  width: min(520px, 92vw);
+  border-radius: 18px;
+  padding: 22px 20px;
   text-align: center;
-  max-width: 450px;
-  box-shadow: var(--shadow-deep);
+
+  /* 🔥 brighter glass */
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 247, 233, 0.85),
+    rgba(255, 230, 180, 0.65)
+  );
+
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 215, 150, 0.6);
+
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
+  color: var(--ink);
 }
 
 .modal-title {
-  font-size: 2.8rem;
-  color: var(--ink);
-  margin-bottom: 10px;
+  font-size: 2.2rem;
+  margin-bottom: 8px;
+  color: var(--ink-soft);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.25);
 }
 
 .modal-message {
   font-size: 1.2rem;
-  color: var(--ink-soft);
-  margin-bottom: 20px;
+  margin: 6px 0 16px 0;
+  color: var(--ink);
 }
 
 .modal-stats {
   display: flex;
+  gap: 12px;
   justify-content: center;
-  margin-bottom: 30px;
+  margin: 12px 0 18px 0;
 }
 
 .modal-stat {
-  background: rgba(140, 85, 40, 0.1);
-  padding: 15px;
-  border-radius: 12px;
-  border: 2px solid var(--panel-border);
+  flex: 1;
+  max-width: 200px;
+  border-radius: 14px;
+  padding: 10px 12px;
+  background: rgba(255, 247, 233, 0.2);
+  border: 1px solid rgba(110, 70, 35, 0.3);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.modal-stat-label {
+  display: block;
+  font-weight: 800;
+  font-size: 0.95rem;
+  opacity: 0.9;
 }
 
 .modal-stat-value {
   display: block;
-  font-size: 2.5rem;
   font-weight: 900;
-  color: var(--ink);
+  font-size: 1.8rem;
+  margin-top: 4px;
 }
 
 .modal-actions {
   display: flex;
-  gap: 15px;
+  gap: 12px;
   justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.modal-img-btn {
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  outline: none;
+  line-height: 0;
+  display: block;
 }
 
 .modal-img-btn img {
-  width: 160px;
+  width: 170px;
+  height: auto;
+  transition:
+    transform 0.18s ease,
+    filter 0.18s ease;
+  filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.3));
 }
 
-/* ============================================================
-   9. FOOTER & HAMMER
-   ============================================================ */
+.modal-img-btn img:hover {
+  transform: translateY(-5px) scale(1.02);
+  filter: drop-shadow(0 14px 22px rgba(0, 0, 0, 0.45));
+}
+
+.diamond-callout {
+  margin-top: 12px;
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #4dd0ff;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.35);
+}
+
+canvas {
+  max-width: 100%;
+}
+
+/* Desktop: ensure footer remains at bottom without being fixed over the game */
+/* ========================== FOOTER ========================== */
 .footer {
-  height: 5vh;
   width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0, 0, 0, 0.05);
-  color: var(--ink-muted);
-  font-size: 0.8rem;
+  padding: 20px 16px;
+  text-align: center;
+  background: linear-gradient(
+    to top,
+    rgba(255, 247, 233, 0.85),
+    rgba(140, 85, 40, 0.55)
+  );
+  color: var(--ink);
+  border-top: 1px solid rgba(110, 70, 35, 0.35);
+  box-shadow: 0 -10px 25px rgba(0, 0, 0, 0.2);
+  margin-top: auto;
+  font-size: 1rem;
 }
 
-#hammer {
-  position: fixed !important;
-  display: none;
-  background: url("../assets/mallet.png") no-repeat center/contain;
-  width: 110px;
-  height: 110px;
-  z-index: 100000;
-  pointer-events: none;
-  transform: translate(-50%, -50%);
-}
-
-/* Floating Bonus Text Animation */
-.bonus-text {
-  position: absolute;
-  font-weight: 900;
-  font-size: 1.8rem;
-  pointer-events: none;
-  animation: floatUp 0.8s ease-out forwards;
-}
-
-@keyframes floatUp {
-  0% {
-    opacity: 0;
-    transform: translateY(0);
-  }
-  20% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(-60px);
+/* ========================== RESPONSIVE ========================== */
+@media (min-width: 900px) {
+  .footer {
+    position: relative; /* Changed from fixed to allow it to stay inside the flex flow */
   }
 }
 
-/* ============================================================
-   10. RESPONSIVE TWEAKS
-   ============================================================ */
-@media (max-width: 600px) {
-  nav.wood-nav {
-    height: 70px;
-    padding: 0 20px;
-  }
-  .logo img {
-    height: 50px !important;
-  }
-  .nav-icon img {
-    height: 40px !important;
-  }
+@media (max-width: 675px) {
   .score-plate {
-    width: 140px;
-  }
-  .plate-text {
-    font-size: 1.1rem;
+    width: 240px;
   }
   .img-btn img {
-    width: 100px;
+    width: 140px;
   }
-  .modal-title {
-    font-size: 2rem;
+  .grid {
+    gap: 16px;
+  }
+}
+
+@media (max-width: 540px) {
+  .wrapper {
+    padding: 10px 14px 0;
+  }
+  .score-plate {
+    width: min(260px, 85vw);
+  }
+  .plate-text {
+    font-size: 1.25rem;
+  }
+  .img-btn img {
+    width: 130px;
   }
 }
