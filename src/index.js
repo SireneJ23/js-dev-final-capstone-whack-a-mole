@@ -1,6 +1,8 @@
 /**************************************************
- * NAV MENU (Hamburger)
+ * NAVIGATION & ASSET HELPERS
  **************************************************/
+const asset = (file) => new URL(`./assets/${file}`, document.baseURI).href;
+
 const hamburger = document.querySelector(".hamburger");
 const navMenu = document.querySelector(".nav-menu");
 
@@ -20,35 +22,20 @@ if (hamburger && navMenu) {
 }
 
 /**************************************************
- * WHACK-A-MOLE GAME LOGIC
+ * DOM SELECTION
  **************************************************/
-
-/* ==========================
-   ASSET HELPER (Works locally + GitHub Pages)
-========================== */
-const asset = (file) => new URL(`./assets/${file}`, document.baseURI).href;
-
-/* ==========================
-   DOM SELECTION
-========================== */
 const holes = Array.from(document.querySelectorAll(".hole"));
 const moles = Array.from(document.querySelectorAll(".mole"));
-
 const difficultySelect = document.querySelector("#difficulty");
-
 const startButton = document.querySelector("#start");
 const pauseButton = document.querySelector("#pause");
 const stopButton = document.querySelector("#stop");
-
 const scoreEl = document.querySelector("#score");
 const timerDisplay = document.querySelector("#timer");
-
 const grid = document.querySelector(".grid");
 const hammerEl = document.getElementById("hammer");
 
-/* ==========================
-   RESULT MODAL DOM
-========================== */
+/* RESULT MODAL DOM */
 const resultModal = document.getElementById("resultModal");
 const modalTitle = document.getElementById("modalTitle");
 const modalMessage = document.getElementById("modalMessage");
@@ -57,365 +44,119 @@ const modalTarget = document.getElementById("modalTarget");
 const playAgainBtn = document.getElementById("playAgainBtn");
 const closeModalBtn = document.getElementById("closeModalBtn");
 
-// Prevent iOS from scrolling the page while interacting with the grid
+// Prevent iOS scrolling
 if (grid) {
-  grid.addEventListener(
-    "touchmove",
-    (e) => {
-      e.preventDefault();
-    },
-    {passive: false},
-  );
+  grid.addEventListener("touchmove", (e) => e.preventDefault(), {
+    passive: false,
+  });
 }
 
-/* ==========================
-   COUNT-UP ANIMATION (Modal)
-========================== */
-function animateCountUp(el, toValue, duration = 900) {
-  if (!el) return;
+/**************************************************
+ * HAMMER LOGIC (VISIBILITY & MOVEMENT)
+ **************************************************/
+if (hammerEl && grid) {
+  // Ensure the hammer is correctly styled for movement
+  hammerEl.style.position = "fixed";
+  hammerEl.style.pointerEvents = "none";
+  hammerEl.style.zIndex = "10000"; // Keep it above everything
 
-  const end = Number(toValue) || 0;
-  const start = 0;
+  grid.addEventListener("mouseenter", () => {
+    hammerEl.style.display = "block";
+  });
+  grid.addEventListener("mouseleave", () => {
+    hammerEl.style.display = "none";
+  });
 
-  if (el._countRaf) cancelAnimationFrame(el._countRaf);
-
-  const startTime = performance.now();
-
-  function tick(now) {
-    const t = Math.min((now - startTime) / duration, 1);
-    const eased = 1 - Math.pow(1 - t, 3); // easeOutCubic
-
-    const current = Math.round(start + (end - start) * eased);
-    el.textContent = current.toLocaleString();
-
-    if (t < 1) el._countRaf = requestAnimationFrame(tick);
-  }
-
-  el._countRaf = requestAnimationFrame(tick);
-}
-
-/* ==========================
-   MODAL OPEN/CLOSE
-========================== */
-function openResultModal({title, message, score, target}) {
-  if (!resultModal) return;
-
-  modalTitle.textContent = title;
-  modalMessage.textContent = message;
-
-  // Animate score + target
-  modalTarget.textContent = "0";
-  modalScore.textContent = "0";
-  animateCountUp(modalTarget, target, 500);
-  animateCountUp(modalScore, score, 900);
-
-  // Diamond callout
-  const diamondCallout = document.getElementById("diamondCallout");
-  if (diamondCallout) {
-    if (diamondHits > 0) {
-      diamondCallout.hidden = false;
-      diamondCallout.textContent = `💎 Diamond Hit! (${diamondHits})`;
-    } else {
-      diamondCallout.hidden = true;
-    }
-  }
-
-  resultModal.classList.add("show");
-  resultModal.setAttribute("aria-hidden", "false");
-
-  // Prevent last-second clicks from interacting with the grid
-  grid?.style.setProperty("pointer-events", "none");
-}
-
-function closeResultModal() {
-  if (!resultModal) return;
-
-  resultModal.classList.remove("show");
-  resultModal.setAttribute("aria-hidden", "true");
-
-  // Re-enable game interaction
-  grid?.style.removeProperty("pointer-events");
-}
-
-// Modal buttons ONLY (no click-outside-to-close)
-playAgainBtn?.addEventListener("click", () => resetGameState());
-closeModalBtn?.addEventListener("click", () => resetGameState());
-
-/* ==========================
-   HAMMER OVERLAY (visual only)
-========================== */
-if (grid && hammerEl) {
-  grid.addEventListener("mouseenter", () => (hammerEl.style.display = "block"));
-  grid.addEventListener("mouseleave", () => (hammerEl.style.display = "none"));
-  grid.addEventListener("mousemove", (e) => {
+  window.addEventListener("mousemove", (e) => {
     hammerEl.style.left = `${e.clientX}px`;
     hammerEl.style.top = `${e.clientY}px`;
   });
 }
 
-/* ==========================
-   AUDIO (Using asset helper)
-========================== */
-const SONG_SRC = asset("song.mp3");
+/**************************************************
+ * AUDIO SYSTEM
+ **************************************************/
+const audioSong = new Audio(asset("song.mp3"));
+audioSong.loop = true;
 const HIT_SRC = asset("hit.mp3");
 const VICTORY_SRC = asset("victory.mp3");
 const APPLAUSE_SRC = asset("applause.mp3");
 const DEFEAT_SRC = asset("defeat.mp3");
 
-const audioSong = new Audio(SONG_SRC);
-audioSong.loop = true;
-
-/* ==========================
-   MASTER SOUND CONTROL
-========================== */
-/* ==========================
-   MASTER SOUND CONTROL
-========================== */
-/* ==========================
-   MASTER SOUND CONTROL
-========================== */
 const mixBut = document.getElementById("mixBut");
 let soundOn = true;
 
 if (mixBut) {
-  // Initial State: Sound is ON, so show the 'Pause' bars icon (sound.png)
   mixBut.innerHTML = `<img src="./assets/sound.png" alt="Sound On" class="nav-icon">`;
-
   mixBut.addEventListener("click", (e) => {
     e.preventDefault();
     soundOn = !soundOn;
-
     if (!soundOn) {
-      stopAllSounds();
-      // Change to the "Play" icon because sound is now OFF
+      audioSong.pause();
       mixBut.innerHTML = `<img src="./assets/sound-on.png" alt="Sound Off" class="nav-icon">`;
     } else {
-      // Change back to the "Pause" icon because sound is now ON
       mixBut.innerHTML = `<img src="./assets/sound.png" alt="Sound On" class="nav-icon">`;
-      playMusic(0.3);
+      if (gameRunning && !gamePaused) audioSong.play().catch(() => {});
     }
   });
 }
 
-function playMusic(volume = 0.3) {
-  if (!soundOn) return;
-  audioSong.volume = volume;
-  audioSong.play().catch(() => {});
-}
-
-function stopMusic() {
-  audioSong.pause();
-  audioSong.currentTime = 0;
-}
-
-function playSfx(src, volume = 1) {
+function playSfx(src) {
   if (!soundOn) return;
   const sfx = new Audio(src);
-  sfx.volume = volume;
   sfx.play().catch(() => {});
 }
 
-function stopAllSounds() {
-  stopMusic();
-}
-
-/* ==========================
-   CONFETTI (WIN ONLY)
-========================== */
-let confettiIntervalId = null;
-let confettiStopTimeoutId = null;
-
-function startConfetti(durationMs = 4000) {
-  const confettiFn = window.confetti;
-  if (typeof confettiFn !== "function") return;
-
-  stopConfetti();
-
-  const endTime = Date.now() + durationMs;
-
-  // Big initial burst
-  confettiFn({
-    particleCount: 120,
-    spread: 90,
-    startVelocity: 55,
-    origin: {x: 0.5, y: 0.25},
-  });
-
-  confettiIntervalId = setInterval(() => {
-    if (Date.now() >= endTime) {
-      stopConfetti();
-      return;
-    }
-
-    confettiFn({
-      particleCount: 25,
-      spread: 80,
-      startVelocity: 45,
-      origin: {x: 0.1, y: 0.2},
-    });
-
-    confettiFn({
-      particleCount: 25,
-      spread: 80,
-      startVelocity: 45,
-      origin: {x: 0.9, y: 0.2},
-    });
-  }, 250);
-
-  confettiStopTimeoutId = setTimeout(stopConfetti, durationMs + 500);
-}
-
-function stopConfetti() {
-  if (confettiIntervalId) {
-    clearInterval(confettiIntervalId);
-    confettiIntervalId = null;
-  }
-  if (confettiStopTimeoutId) {
-    clearTimeout(confettiStopTimeoutId);
-    confettiStopTimeoutId = null;
-  }
-}
-
-/* ==========================
-   GAME SETTINGS
-========================== */
-const GAME_SECONDS = 30;
-const HIT_GRACE_MS = 350;
-
-let difficulty = "normal";
-let winScore = 450; // default for normal (updated below)
-
-function getPopDelayMs() {
-  if (difficulty === "easy") return 1100;
-  if (difficulty === "normal") return 900;
-  return Math.floor(Math.random() * (850 - 650 + 1)) + 650; // hard
-}
-
-function applyDifficultySettings(level) {
-  difficulty = level;
-
-  // Dropdown theme class (optional styling)
-  if (difficultySelect) {
-    difficultySelect.classList.remove("easy", "normal", "hard");
-    difficultySelect.classList.add(difficulty);
-  }
-
-  // Win targets (balanced for golden/diamond)
-  if (difficulty === "easy") winScore = 350;
-  else if (difficulty === "normal") winScore = 450;
-  else winScore = 500; // hard
-}
-
-/* ==========================
-   GAME STATE
-========================== */
-let time = GAME_SECONDS;
+/**************************************************
+ * GAME STATE & SETTINGS
+ **************************************************/
+let time = 30;
 let points = 0;
-
 let gameRunning = false;
 let gamePaused = false;
-
 let timerId = null;
 let moleTimeoutId = null;
-
 let lastHoleIndex = -1;
 let currentHoleIndex = -1;
+let diamondHits = 0;
+let whackedUntil = 0;
 let moleAlreadyWhacked = false;
 
-let whackedUntil = 0;
-let diamondHits = 0;
-
-// timing windows for fair hit detection
 let currentDownAt = 0;
 let prevHoleIndex = -1;
 let prevDownAt = 0;
+const HIT_GRACE_MS = 350;
 
-/* ==========================
-   UI HELPERS
-========================== */
-function updateScore(value) {
-  points = value;
+function updateScore(val) {
+  points = val;
   if (scoreEl) scoreEl.textContent = points;
 }
-
-function updateTimer(value) {
-  time = value;
+function updateTimer(val) {
+  time = val;
   if (timerDisplay) timerDisplay.textContent = time;
 }
 
-/* ==========================
-   HELPERS
-========================== */
+/**************************************************
+ * MOLE LOOP & VISUALS
+ **************************************************/
 function chooseHoleIndex() {
-  if (holes.length === 0) return -1;
-
   let index;
   do {
     index = Math.floor(Math.random() * holes.length);
   } while (holes.length > 1 && index === lastHoleIndex);
-
   lastHoleIndex = index;
   return index;
 }
 
-function clearTimers() {
-  if (timerId) {
-    clearInterval(timerId);
-    timerId = null;
-  }
-  if (moleTimeoutId) {
-    clearTimeout(moleTimeoutId);
-    moleTimeoutId = null;
-  }
-}
-
 function resetMoleVisuals() {
-  holes.forEach((hole) => hole.classList.remove("show"));
-
-  moles.forEach((mole) => {
-    mole.style.backgroundImage = `url("${asset("mole.png")}")`;
-    mole.style.pointerEvents = "auto";
-    mole.classList.remove("golden", "diamond");
+  holes.forEach((h) => h.classList.remove("show"));
+  moles.forEach((m) => {
+    m.style.backgroundImage = `url("${asset("mole.png")}")`;
+    m.classList.remove("golden", "diamond");
   });
-
   moleAlreadyWhacked = false;
 }
 
-/* ==========================
-   RESET GAME
-========================== */
-/* ==========================
-   RESET GAME
-========================== */
-function resetGameState() {
-  stopConfetti();
-  closeResultModal();
-
-  clearTimers();
-  resetMoleVisuals();
-
-  gameRunning = false;
-  gamePaused = false;
-
-  diamondHits = 0;
-  updateScore(0);
-  updateTimer(GAME_SECONDS);
-
-  stopAllSounds();
-
-  if (startButton) startButton.disabled = false;
-
-  // FIX THIS LINE HERE:
-  if (pauseButton) {
-    pauseButton.innerHTML = `<img src="./assets/pause.png" alt="Pause">`;
-  }
-
-  if (difficultySelect) difficultySelect.disabled = false;
-}
-
-/* ==========================
-   MOLE LOOP
-========================== */
 function showUp() {
   if (!gameRunning || gamePaused) return;
 
@@ -424,265 +165,184 @@ function showUp() {
     return;
   }
 
-  // Save previous timing window BEFORE switching
   prevHoleIndex = currentHoleIndex;
   prevDownAt = currentDownAt;
-
   resetMoleVisuals();
 
   const index = chooseHoleIndex();
-  if (index === -1) return;
-
   currentHoleIndex = index;
   holes[index].classList.add("show");
 
-  // Assign special mole (diamond rarer than golden)
-  moles[index].classList.remove("golden", "diamond");
   const roll = Math.random();
-  if (roll < 0.04)
-    moles[index].classList.add("diamond"); // 4%
-  else if (roll < 0.14) moles[index].classList.add("golden"); // next 10%
+  if (roll < 0.04) moles[index].classList.add("diamond");
+  else if (roll < 0.14) moles[index].classList.add("golden");
 
-  const delay = getPopDelayMs();
+  const delay =
+    difficultySelect.value === "easy"
+      ? 1100
+      : difficultySelect.value === "normal"
+        ? 900
+        : 700;
   currentDownAt = Date.now() + delay;
-
   moleTimeoutId = setTimeout(showUp, delay);
 }
 
-/* ==========================
-   TIMER LOOP
-========================== */
-function startTimer() {
-  timerId = setInterval(() => {
-    if (!gameRunning || gamePaused) return;
-
-    if (time > 0) updateTimer(time - 1);
-
-    if (time === 0) {
-      clearTimeout(moleTimeoutId);
-      endGame();
-    }
-  }, 1000);
-}
-
-/* ==========================
-   HIT DETECTION (FAIR)
-========================== */
-function isHoleHittable(index) {
-  // If the hole has the 'show' class, it is definitely hittable
-  if (holes[index].classList.contains("show")) return true;
-
-  // Grace window: Allow a hit even if it just started hiding (prevents 'frustration' misses)
-  const now = Date.now();
-  if (index === currentHoleIndex && now <= currentDownAt + HIT_GRACE_MS)
-    return true;
-  if (index === prevHoleIndex && now <= prevDownAt + HIT_GRACE_MS) return true;
-
-  return false;
-}
-
-/* ==========================
-   BONUS FLOATING TEXT
-========================== */
-function showBonusText(holeEl, text, type) {
-  if (!holeEl) return;
-
-  const bonus = document.createElement("div");
-  bonus.classList.add("bonus-text");
-
-  if (type === "gold") bonus.classList.add("bonus-gold");
-  if (type === "diamond") bonus.classList.add("bonus-diamond");
-
-  bonus.textContent = text;
-  holeEl.appendChild(bonus);
-
-  setTimeout(() => bonus.remove(), 900);
-}
-
-/* ==========================
-   WHACK
-========================== */
+/**************************************************
+ * WHACKING LOGIC
+ **************************************************/
 function whack(index) {
-  if (!gameRunning || gamePaused) return;
-  if (!isHoleHittable(index)) return;
-  if (moleAlreadyWhacked) return;
+  if (!gameRunning || gamePaused || moleAlreadyWhacked) return;
+
+  // Hit detection logic
+  const now = Date.now();
+  const isHittable =
+    holes[index].classList.contains("show") ||
+    (index === currentHoleIndex && now <= currentDownAt + HIT_GRACE_MS) ||
+    (index === prevHoleIndex && now <= prevDownAt + HIT_GRACE_MS);
+
+  if (!isHittable) return;
 
   moleAlreadyWhacked = true;
-
   const moleEl = moles[index];
-  const holeEl = holes[index];
-
-  const isGolden = moleEl.classList.contains("golden");
   const isDiamond = moleEl.classList.contains("diamond");
+  const isGolden = moleEl.classList.contains("golden");
 
-  let earnedPoints = 10;
-  if (isDiamond) {
-    earnedPoints = 100;
-    diamondHits += 1;
-  } else if (isGolden) {
-    earnedPoints = 50;
-  }
+  let earned = isDiamond ? 100 : isGolden ? 50 : 10;
+  if (isDiamond) diamondHits++;
 
-  updateScore(points + earnedPoints);
-  playSfx(HIT_SRC, 1);
+  updateScore(points + earned);
+  playSfx(HIT_SRC);
 
-  // Restart Hammer Animation
+  // Trigger Hammer Animation
   if (hammerEl) {
     hammerEl.classList.remove("smack");
-    void hammerEl.offsetWidth; // Trigger reflow to restart animation
+    void hammerEl.offsetWidth; // Force reflow
     hammerEl.classList.add("smack");
   }
 
-  // Floating bonus text
-  if (isDiamond) showBonusText(holeEl, "+100", "diamond");
-  else if (isGolden) showBonusText(holeEl, "+50", "gold");
-
-  // Visual feedback: Swap to whacked mole image
   moleEl.style.backgroundImage = `url("${asset("wmole.png")}")`;
-
-  // Prevent another mole from popping up for a split second
   whackedUntil = Date.now() + 300;
 
   setTimeout(() => {
-    holeEl.classList.remove("show");
-
-    // Reset for next appearance
+    holes[index].classList.remove("show");
     setTimeout(() => {
       moleEl.classList.remove("golden", "diamond");
       moleEl.style.backgroundImage = `url("${asset("mole.png")}")`;
       moleAlreadyWhacked = false;
-    }, 100); // Small delay to let the 'hiding' animation finish
+    }, 100);
   }, 200);
 }
 
-/* ==========================
-   HITBOX LISTENERS
-========================== */
-holes.forEach((hole, index) => {
-  hole.addEventListener("pointerdown", () => whack(index));
-});
+holes.forEach((hole, i) =>
+  hole.addEventListener("pointerdown", () => whack(i)),
+);
 
-/* ==========================
-   START / PAUSE / STOP / END
-========================== */
+/**************************************************
+ * GAME CONTROLS
+ **************************************************/
 function startGame() {
-  clearTimers();
-  resetMoleVisuals();
+  if (gameRunning && !gamePaused) return;
+
+  if (!gamePaused) {
+    updateScore(0);
+    updateTimer(30);
+    diamondHits = 0;
+  }
 
   gameRunning = true;
   gamePaused = false;
+  difficultySelect.disabled = true;
+  startButton.disabled = true;
+  pauseButton.innerHTML = `<img src="./assets/pause.png" alt="Pause">`;
 
-  diamondHits = 0;
-  updateScore(0);
-  updateTimer(GAME_SECONDS);
+  if (soundOn) audioSong.play().catch(() => {});
 
-  currentHoleIndex = -1;
-  whackedUntil = 0;
-
-  stopConfetti();
-
-  if (difficultySelect) difficultySelect.disabled = true;
-  if (startButton) startButton.disabled = true;
-
-  // FIX: Use innerHTML to keep the wooden button image instead of plain text
-  if (pauseButton) {
-    pauseButton.innerHTML = `<img src="./assets/pause.png" alt="Pause">`;
-  }
-
-  playMusic(0.3);
+  timerId = setInterval(() => {
+    if (!gamePaused) {
+      time--;
+      updateTimer(time);
+      if (time <= 0) endGame();
+    }
+  }, 1000);
 
   showUp();
-  startTimer();
 }
 
 function pauseGame() {
   if (!gameRunning) return;
-  if (!pauseButton) return;
-
-  if (!gamePaused) {
-    gamePaused = true;
-    // Switch to your new Resume Image
-    pauseButton.innerHTML = `<img src="./assets/resume.png" alt="Resume">`;
-
-    if (audioSong) audioSong.pause();
+  gamePaused = !gamePaused;
+  pauseButton.innerHTML = `<img src="./assets/${gamePaused ? "resume.png" : "pause.png"}" alt="Control">`;
+  if (gamePaused) {
+    audioSong.pause();
     resetMoleVisuals();
   } else {
-    gamePaused = false;
-    // Switch back to the Pause Image
-    pauseButton.innerHTML = `<img src="./assets/pause.png" alt="Pause">`;
-
-    if (typeof playMusic === "function") playMusic(0.3);
-    if (typeof showUp === "function") showUp();
+    if (soundOn) audioSong.play().catch(() => {});
+    showUp();
   }
-}
-
-function stopGame() {
-  resetGameState();
 }
 
 function endGame() {
-  if (!gameRunning) return;
-
-  clearTimers();
-  resetMoleVisuals();
-
   gameRunning = false;
-  gamePaused = false;
-
+  clearInterval(timerId);
+  clearTimeout(moleTimeoutId);
   audioSong.pause();
+  difficultySelect.disabled = false;
+  startButton.disabled = false;
+  pauseButton.innerHTML = `<img src="./assets/pause.png" alt="Pause">`;
 
-  if (startButton) startButton.disabled = false;
+  const win = points >= (difficultySelect.value === "easy" ? 350 : 450);
+  playSfx(win ? VICTORY_SRC : DEFEAT_SRC);
 
-  // FIX: Restore the wooden Pause image instead of plain text
-  if (pauseButton) {
-    pauseButton.innerHTML = `<img src="./assets/pause.png" alt="Pause">`;
-  }
-
-  if (difficultySelect) difficultySelect.disabled = false;
-
-  if (points >= winScore) {
-    startConfetti(4000);
-    playSfx(VICTORY_SRC, 1);
-    setTimeout(() => playSfx(APPLAUSE_SRC, 1), 300);
-
-    openResultModal({
-      title: "🎉 You Win!",
-      message: "Congratulations! You crushed it.",
-      score: points,
-      target: winScore,
-    });
-  } else {
-    playSfx(DEFEAT_SRC, 1);
-
-    openResultModal({
-      title: "😞 You Lose",
-      message: "So close — try again!",
-      score: points,
-      target: winScore,
-    });
-  }
-}
-
-/* ==========================
-   INITIAL UI + LISTENERS
-========================== */
-closeResultModal();
-
-applyDifficultySettings(difficultySelect?.value || "normal");
-
-updateTimer(GAME_SECONDS);
-updateScore(0);
-
-difficultySelect?.addEventListener("change", (e) => {
-  applyDifficultySettings(e.target.value);
-});
-
-startButton?.addEventListener("click", startGame);
-pauseButton?.addEventListener("click", pauseGame);
-stopButton?.addEventListener("click", stopGame);
-
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./service-worker.js").catch(() => {});
+  openResultModal({
+    title: win ? "🎉 You Win!" : "😞 You Lose",
+    message: win ? "You're a Pro!" : "Keep Practicing!",
+    score: points,
+    target: difficultySelect.value === "easy" ? 350 : 450,
   });
 }
+
+function resetGameState() {
+  gameRunning = false;
+  gamePaused = false;
+  clearInterval(timerId);
+  clearTimeout(moleTimeoutId);
+  updateScore(0);
+  updateTimer(30);
+  resetMoleVisuals();
+  difficultySelect.disabled = false;
+  startButton.disabled = false;
+  pauseButton.innerHTML = `<img src="./assets/pause.png" alt="Pause">`;
+  audioSong.pause();
+  audioSong.currentTime = 0;
+}
+
+/**************************************************
+ * MODAL LOGIC
+ **************************************************/
+function openResultModal({title, message, score, target}) {
+  modalTitle.textContent = title;
+  modalMessage.textContent = message;
+  modalScore.textContent = score;
+  modalTarget.textContent = target;
+
+  const diamondCallout = document.getElementById("diamondCallout");
+  if (diamondCallout) {
+    diamondCallout.hidden = diamondHits === 0;
+    diamondCallout.textContent = `💎 Diamond Hit! (${diamondHits})`;
+  }
+
+  resultModal.classList.add("show");
+}
+
+playAgainBtn.onclick = () => {
+  resultModal.classList.remove("show");
+  startGame();
+};
+closeModalBtn.onclick = () => {
+  resultModal.classList.remove("show");
+  resetGameState();
+};
+
+startButton.onclick = startGame;
+pauseButton.onclick = pauseGame;
+stopButton.onclick = resetGameState;
