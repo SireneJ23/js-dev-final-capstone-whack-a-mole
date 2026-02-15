@@ -6,7 +6,7 @@
    ROOT
 ========================== */
 :root {
-  --nav-h: 80px;
+  --nav-h: 120px;
   --shadow-deep: 0 20px 50px rgba(0, 0, 0, 0.3);
   --ink: #2b1407;
   --ink-soft: #4a2612;
@@ -63,69 +63,81 @@ nav.wood-nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 20px;
-  background: url("../assets/navbar.png") center/cover no-repeat;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
-  position: relative;
-  z-index: 1000;
-}
+  padding: 0 40px;
+  box-sizing: border-box;
 
+  background: url("../assets/navbar.png") center / cover no-repeat;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  /* Allows the giant images to spill out of the bar without being cut off */
+  overflow: visible;
+}
+/* LEFT SIDE (Capstone) */
 .logo {
   display: flex;
   align-items: center;
+  height: 100%;
+  /* Restored to your original preferred spacing */
+  margin-left: 40px;
 }
 
 .logo img {
-  height: 44px;
+  height: 400px;
   width: auto;
+  transform: translateY(10px);
+  z-index: 1001;
 }
 
+/* RIGHT SIDE ICON GROUP */
 .nav-menu {
   display: flex;
+  justify-content: flex-end;
+  align-items: center;
   list-style: none;
-  gap: 15px;
   margin: 0;
+  /* Keep this at your preferred distance from the right edge */
+  margin-right: 320px;
   padding: 0;
+}
+.nav-menu li {
+  display: flex;
   align-items: center;
 }
 
-/* ==========================
-   NAV ICONS
-========================== */
 .nav-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
   background: none;
   border: none;
   padding: 0;
   cursor: pointer;
 }
 
+/* INDIVIDUAL BUTTON SPACING */
 .nav-icon img {
-  height: 38px;
+  height: 160px;
   width: auto;
-  transition:
-    transform 0.18s ease,
-    filter 0.18s ease;
+  transform: translateY(5px);
+  /* This pulls About and Sound to the right to touch Exit */
+  /* If they still aren't touching, increase this (e.g., -110px) */
+  margin-right: -100px;
 }
 
 .nav-icon img:hover {
-  transform: translateY(-3px) scale(1.05);
-  filter: drop-shadow(0 10px 14px rgba(0, 0, 0, 0.25));
+  transform: translateY(-4px) scale(1.08);
+  filter: drop-shadow(0 10px 14px rgba(0, 0, 0, 0.3));
 }
-
+/* This is the anchor: The Exit button will NOT move */
+.nav-menu li:last-child .nav-icon img {
+  margin-right: 0;
+}
 #mixBut {
   line-height: 0;
 }
 
 /* ==========================
    WRAPPER (🔥 UPDATED)
-========================== */
-
-/* ==========================
-   MAIN WRAPPER
 ========================== */
 
 .wrapper {
@@ -282,18 +294,58 @@ h1 img,
   height: auto;
 }
 
+/* Ensure the trigger button takes up the full space of the plate */
+#difficulty-trigger {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  width: 100%;
+}
+
+.plate-bg {
+  /* This ensures the image itself doesn't block the click event */
+  pointer-events: none;
+}
 /* 2. ONLY pull the Difficulty Plate up toward the Scoreboard */
 .difficulty-row {
   margin-top: 0; /* This pulls only the plate, not the whole game */
   margin-bottom: 10px; /* Keeps space between it and the Start/Pause buttons */
   position: relative;
   z-index: 5; /* Ensures it stays on top of any overlapping backgrounds */
+  min-height: 80px;
+}
+/* Center the difficulty system */
+.difficulty-row.select-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: clamp(260px, 18vw, 340px);
+  margin: 0 auto 10px auto;
 }
 
+/* Ensure the main button is a full-width trigger */
+#difficulty-trigger {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  width: 100%;
+}
+
+#difficulty-trigger img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transform: scale(1.05); /* Match the dropdown scaling */
+}
+
+/* Container remains the same to keep your layout intact */
 .select-wrapper {
   width: clamp(260px, 18vw, 340px);
   position: relative;
-  cursor: pointer;
+  z-index: 1000; /* Ensure dropdown sits above the game board */
 }
 
 .select-wrapper img {
@@ -303,39 +355,41 @@ h1 img,
   transform: scale(1.05);
 }
 
-.difficulty-select {
+/* The Wooden Dropdown */
+.custom-dropdown {
+  display: none;
+  flex-direction: column;
+  align-items: center;
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 85%;
   width: 100%;
-  height: 100%;
-  background: transparent;
-  border: none;
-  outline: none;
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-
-  /* Make the text on top of the plate invisible */
-  /* This prevents the "Double Normal" look */
-  color: transparent;
-
-  /* Keep these for the dropdown menu logic */
-  font-family: "Yaldevi", sans-serif;
-  font-size: 1.3rem;
-  font-weight: 900;
-  cursor: pointer;
+  z-index: 10000; /* Higher than moles/holes */
+  pointer-events: auto !important; /* Captures clicks so they don't hit moles */
 }
 
-/* REMOVED: .select-wrapper::after block is gone */
-/* We don't need the "▼" anymore because it's in your image! */
+.custom-dropdown.show {
+  display: flex;
+}
 
-.difficulty-select option {
-  /* This ensures that when you click, the menu words are still visible */
-  background-color: #f3e5ab;
-  color: #2b1407;
-  font-family: sans-serif;
-  font-weight: bold;
+.custom-dropdown .img-btn {
+  margin-top: -15px;
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.custom-dropdown .img-btn img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transform: scale(1.05);
+}
+
+/* Optional: Slight pop-out effect when hovering over options */
+.custom-dropdown .img-btn img:hover {
+  transform: scale(1.1);
+  z-index: 2001;
 }
 
 .controls-row {
@@ -468,40 +522,48 @@ h1 img,
 /* Keep everything you pasted below exactly as it was —
    no removal necessary — it will work with the new scaling */
 
-/* ========================== HAMMER OVERLAY ========================== */
+/* ========================== HAMMER & CURSOR SYSTEM ========================== */
+
+/* 1. Force the default browser cursor to vanish everywhere when the game is on */
+html.hide-cursor,
+html.hide-cursor body,
+html.hide-cursor * {
+  cursor: none !important;
+}
+
+/* 2. Unified Hammer Styling */
 #hammer {
   position: fixed;
-  display: none;
-  /* Increased size: adjust these to your liking (e.g., 150px to 200px) */
+  display: none; /* Controlled by JS mouseenter/mouseleave */
   width: 180px;
   height: 180px;
-  z-index: 10000;
-  pointer-events: none;
+
+  /* Extremely high z-index ensures it's above the wooden menu (9999) */
+  z-index: 99999 !important;
+
+  /* pointer-events: none ensures you click THROUGH the hammer to hit buttons/moles */
+  pointer-events: none !important;
+
   background: url("../assets/mallet.png") no-repeat center/contain;
-  /* Ensures the center of the larger image stays on the cursor */
-  transform: translate(-50%, -50%);
+
+  /* Keeps the mallet centered on your invisible mouse tip */
+  transform: translate(-50%, -50%) rotate(-20deg);
 }
 
-#hammer[style*="display: block"] {
-  opacity: 1;
-}
-
+/* 3. Smack Animation */
 #hammer.smack {
-  /* Slightly longer animation can feel "heavier" for a larger mallet */
   animation: smack 150ms ease-in-out;
 }
 
 @keyframes smack {
   0% {
-    /* Start slightly tilted back */
     transform: translate(-50%, -50%) rotate(-20deg) scale(1);
   }
   50% {
-    /* The impact: tilted forward and slightly smaller to simulate depth */
+    /* Impact: Tilted forward and slightly smaller for depth */
     transform: translate(-50%, -50%) rotate(25deg) scale(0.85);
   }
   100% {
-    /* Return to original position */
     transform: translate(-50%, -50%) rotate(-20deg) scale(1);
   }
 }
@@ -689,7 +751,7 @@ canvas {
   border-top: 1px solid rgba(110, 70, 35, 0.35);
   box-shadow: 0 -10px 25px rgba(0, 0, 0, 0.2);
   margin-top: auto;
-  font-size: 1rem;
+  font-size: 2rem;
 }
 
 /* ========================== RESPONSIVE ========================== */

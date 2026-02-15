@@ -26,27 +26,28 @@
   <body>
     <nav class="wood-nav">
       <div class="logo">
-        <img src="./assets/capstone.png" alt="Final Capstone Project" />
+        <img src="./assets/capstone.png" alt="Capstone" />
       </div>
-      <div class="navbar">
-        <ul class="nav-menu">
-          <li>
-            <a href="https://github.com/..." target="_blank" class="nav-icon"
-              ><img src="./assets/about.png" alt="About"
-            /></a>
-          </li>
-          <li>
-            <a id="mixBut" class="nav-icon" href="#"
-              ><img src="./assets/sound.png" alt="Sound Toggle"
-            /></a>
-          </li>
-          <li>
-            <a href="https://google.com" target="_blank" class="nav-icon"
-              ><img src="./assets/exit.png" alt="Exit"
-            /></a>
-          </li>
-        </ul>
-      </div>
+
+      <ul class="nav-menu">
+        <li>
+          <button class="nav-icon">
+            <img src="./assets/about.png" alt="GitHub" />
+          </button>
+        </li>
+
+        <li>
+          <button class="nav-icon" id="mixBut">
+            <img src="./assets/sound.png" alt="Sound" />
+          </button>
+        </li>
+
+        <li>
+          <button class="nav-icon">
+            <img src="./assets/exit.png" alt="Exit" />
+          </button>
+        </li>
+      </ul>
     </nav>
 
     <div class="wrapper">
@@ -74,11 +75,35 @@
 
       <div id="button">
         <div class="difficulty-row select-wrapper">
-          <img
-            src="./assets/selector.png"
-            alt="Difficulty Plate"
-            class="plate-bg" />
-          <select id="difficulty" class="difficulty-select">
+          <button type="button" id="difficulty-trigger" class="img-btn">
+            <img
+              src="./assets/selector.png"
+              alt="Difficulty Plate"
+              class="plate-bg" />
+          </button>
+
+          <div id="difficulty-list" class="custom-dropdown">
+            <button
+              type="button"
+              class="img-btn"
+              onclick="setDifficulty('easy', event)">
+              <img src="./assets/easy.png" alt="Easy" />
+            </button>
+            <button
+              type="button"
+              class="img-btn"
+              onclick="setDifficulty('normal', event)">
+              <img src="./assets/normal.png" alt="Normal" />
+            </button>
+            <button
+              type="button"
+              class="img-btn"
+              onclick="setDifficulty('hard', event)">
+              <img src="./assets/hard.png" alt="Hard" />
+            </button>
+          </div>
+
+          <select id="difficulty" style="display: none">
             <option value="easy">Easy</option>
             <option value="normal" selected>Normal</option>
             <option value="hard">Hard</option>

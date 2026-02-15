@@ -191,6 +191,11 @@ function showUp() {
  * WHACKING LOGIC
  **************************************************/
 function whack(index) {
+  // ADD THIS LINE AT THE VERY TOP OF THE WHACK FUNCTION
+  if (dList && dList.classList.contains("show")) return;
+
+  if (!gameRunning) return;
+  // ... the rest of your whack logic (score++, playSfx, etc.)
   if (!gameRunning || gamePaused || moleAlreadyWhacked) return;
 
   // Hit detection logic
@@ -251,7 +256,7 @@ function startGame() {
 
   gameRunning = true;
   gamePaused = false;
-  document.body.classList.add("hide-cursor");
+  document.documentElement.classList.add("hide-cursor");
   difficultySelect.disabled = true;
   startButton.disabled = true;
   pauseButton.innerHTML = `<img src="./assets/pause.png" alt="Pause">`;
@@ -293,7 +298,7 @@ function pauseGame() {
 }
 
 function endGame() {
-  document.body.classList.remove("hide-cursor");
+  document.documentElement.classList.remove("hide-cursor");
 
   gameRunning = false;
   gamePaused = false;
@@ -461,5 +466,78 @@ function stopConfetti() {
   clearInterval(confettiIntervalId);
 }
 
-// Initial Call
+/**************************************************
+ * CUSTOM WOODEN DROPDOWN LOGIC (FINAL VERSION)
+ **************************************************/
+const dTrigger = document.getElementById("difficulty-trigger");
+const dList = document.getElementById("difficulty-list");
+
+// 1. MAP the levels to their images
+const difficultyImages = {
+  easy: "./assets/easy.png",
+  normal: "./assets/selector.png",
+  hard: "./assets/hard.png",
+};
+
+// 2. SAFETY: Update your existing whack function to ignore clicks when menu is open
+const originalWhack = window.whack; // Save original if needed
+window.whack = function (i) {
+  // If the wooden menu is open, STOP the whack (no sound, no score)
+  if (dList && dList.classList.contains("show")) return;
+
+  // Otherwise, proceed with the normal game whack logic
+  if (typeof originalWhack === "function") originalWhack(i);
+};
+
+function applyDifficultySettings(level) {
+  console.log("Game settings updated to:", level);
+
+  // SWAP THE IMAGE: Change the main plate to show the selection
+  const triggerImg = document.querySelector("#difficulty-trigger img");
+  if (triggerImg && difficultyImages[level]) {
+    triggerImg.src = difficultyImages[level];
+  }
+
+  // Update target score for game logic
+  const targetScore = level === "easy" ? 350 : 450;
+}
+
+window.setDifficulty = function (level, event) {
+  // 3. STOP PROPAGATION: This prevents the 'whack' sound from bleeding through
+  if (event) {
+    event.stopPropagation();
+    event.preventDefault();
+  }
+
+  if (difficultySelect) {
+    difficultySelect.value = level;
+    difficultySelect.dispatchEvent(new Event("change"));
+
+    applyDifficultySettings(level);
+
+    // Close the wooden menu
+    if (dList) dList.classList.remove("show");
+
+    // We do NOT call playSfx(HIT_SRC) here to keep it silent
+    console.log("Confirmed: Difficulty is now " + level);
+  }
+};
+
+// Toggle menu logic
+if (dTrigger && dList) {
+  dTrigger.addEventListener("click", function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!gameRunning) {
+      dList.classList.toggle("show");
+    }
+  });
+}
+
+// Close if clicking outside
+window.addEventListener("click", function () {
+  if (dList) dList.classList.remove("show");
+});
+
+// Initial Setup
 applyDifficultySettings(difficultySelect?.value || "normal");
