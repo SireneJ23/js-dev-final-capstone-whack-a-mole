@@ -47,6 +47,23 @@
         </li>
       </ul>
     </nav>
+    <!-- ==========================
+     SPLASH SCREEN
+========================== -->
+    <div id="splashScreen" class="splash-screen">
+      <div class="splash-overlay"></div>
+
+      <div class="splash-content">
+        <img
+          src="./assets/splash.png"
+          alt="Whack-a-Mole Splash"
+          class="splash-image" />
+
+        <button id="enterGame" class="splash-start-btn">
+          <img src="./assets/start.png" alt="Start Game" />
+        </button>
+      </div>
+    </div>
     <div class="wrapper">
       <div class="header">
         <img src="./assets/title-plate.png" alt="Whack-a-Mole" id="title-img" />
@@ -163,6 +180,7 @@
         </div>
       </div>
     </div>
+    <audio id="introSound" src="./assets/thud-sound.wav" preload="auto"></audio>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script src="./src/index.js"></script>
   </body>

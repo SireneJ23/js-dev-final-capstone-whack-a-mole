@@ -43,11 +43,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 /* 3. Cursor Logic */
-html.hide-cursor,
-html.hide-cursor body,
-html.hide-cursor * {
+.grid.playing,
+.grid.playing * {
   cursor: none !important;
 }
+
 /* ==========================
    NAVBAR
 ========================== */
@@ -486,13 +486,7 @@ h1 img,
 ========================== */
 /* Keep everything you pasted below exactly as it was —
    no removal necessary — it will work with the new scaling */
-/* ========================== HAMMER & CURSOR SYSTEM ========================== */
-/* 1. Force the default browser cursor to vanish everywhere when the game is on */
-html.hide-cursor,
-html.hide-cursor body,
-html.hide-cursor * {
-  cursor: none !important;
-}
+
 /* 2. Unified Hammer Styling */
 #hammer {
   position: fixed;
@@ -704,5 +698,95 @@ canvas {
   }
   .img-btn img {
     width: 130px;
+  }
+}
+/* ==========================
+   CINEMATIC SPLASH
+========================== */
+
+.splash-screen {
+  position: fixed;
+  inset: 0;
+  background: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+  overflow: hidden;
+}
+
+.splash-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at center,
+    rgba(0, 0, 0, 0.2) 0%,
+    rgba(0, 0, 0, 0.6) 70%
+  );
+  backdrop-filter: blur(3px);
+  animation: glowPulse 3s ease-in-out infinite alternate;
+}
+
+.splash-content {
+  position: relative;
+  z-index: 2;
+  animation: splashZoom 6s ease forwards;
+}
+
+.splash-image {
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+}
+
+/* Slow cinematic zoom */
+@keyframes splashZoom {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.05);
+  }
+}
+
+/* Subtle dramatic glow */
+@keyframes glowPulse {
+  from {
+    opacity: 0.9;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.splash-start-btn {
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.splash-start-btn img {
+  width: clamp(220px, 28vw, 340px);
+  transition:
+    transform 0.3s ease,
+    filter 0.3s ease;
+}
+
+.splash-start-btn img:hover {
+  transform: scale(1.08);
+  filter: drop-shadow(0 15px 35px rgba(0, 0, 0, 0.6));
+}
+
+/* Fade out animation */
+@keyframes splashFadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
   }
 }
