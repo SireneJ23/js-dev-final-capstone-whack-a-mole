@@ -26,24 +26,24 @@
   <body>
     <nav class="wood-nav">
       <div class="logo">
-        <img src="./assets/capstone.png" alt="Capstone" />
+        <img src="./assets/capstone.png" alt="Capstone Logo" />
       </div>
 
       <ul class="nav-menu">
         <li>
-          <button class="nav-icon">
-            <img src="./assets/about.png" alt="GitHub" />
+          <button class="nav-icon" id="aboutBut" title="About">
+            <img src="./assets/about.png" alt="About" />
           </button>
         </li>
 
         <li>
-          <button class="nav-icon" id="mixBut">
+          <button class="nav-icon" id="mixBut" title="Toggle Sound">
             <img src="./assets/sound.png" alt="Sound" />
           </button>
         </li>
 
         <li>
-          <button class="nav-icon">
+          <button class="nav-icon" id="exitBut" title="Exit Game">
             <img src="./assets/exit.png" alt="Exit" />
           </button>
         </li>
@@ -136,6 +136,10 @@
       </div>
     </div>
 
+    <div class="footer">
+      <h5>© 2026 Sirene J. All Rights Reserved</h5>
+    </div>
+
     <div id="hammer" aria-hidden="true"></div>
 
     <div id="resultModal" class="modal-overlay" aria-hidden="true">
@@ -171,10 +175,6 @@
           </button>
         </div>
       </div>
-    </div>
-
-    <div class="footer">
-      <h5>© 2026 Sirene J. All Rights Reserved</h5>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>

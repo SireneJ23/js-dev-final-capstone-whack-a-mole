@@ -15,6 +15,7 @@
 /* ==========================
    RESET
 ========================== */
+/* 1. Global Reset */
 *,
 *::before,
 *::after {
@@ -23,37 +24,35 @@
   padding: 0;
 }
 
+/* 2. Unified HTML & Body Logic */
 html,
 body {
   width: 100%;
+  /* Use min-height to ensure it covers the screen even if content is short */
   min-height: 100vh;
-  /* Removed position: fixed from here as it can sometimes conflict with background-attachment: fixed */
-}
-
-html,
-body {
-  overflow-x: clip;
-}
-
-body {
-  /* This prevents the "rubber-banding" bounce on iOS specifically */
-  width: 100%;
-  min-height: 100vh; /* This ensures the body takes up at least 100% of the viewport height %;
-
+  margin: 0;
+  padding: 0;
+  /* Prevent horizontal scrolling and white gaps */
+  overflow-x: hidden;
   overscroll-behavior: none;
+  display: flex;
+  flex-direction: column;
+}
+
+body {
   font-family: "Yaldevi", sans-serif;
-  background: url("../assets/park.png") center / cover no-repeat;
-  /* Note: Removed 'fixed' from background shorthand; 'cover' on a fixed-position body is enough */
+  /* Fixed background covers everything, including behind the footer */
   background: url("../assets/park.png") center / cover no-repeat fixed;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
 }
 
-body.hide-cursor {
-  cursor: none;
+/* 3. Cursor Logic */
+html.hide-cursor,
+html.hide-cursor body,
+html.hide-cursor * {
+  cursor: none !important;
 }
-
 /* ==========================
    NAVBAR
 ========================== */
@@ -132,31 +131,37 @@ nav.wood-nav {
 .nav-menu li:last-child .nav-icon img {
   margin-right: 0;
 }
+
 #mixBut {
   line-height: 0;
 }
 
 /* ==========================
-   WRAPPER (🔥 UPDATED)
-========================== */
-
+   WRAPPER (STABLE & CENTERED)
+   ========================== */
 .wrapper {
-  width: min(1100px, 90vw);
-  margin: 0 auto;
+  /* 1. This allows the wrapper to grow and push the footer down */
+  flex: 1;
 
-  height: calc(100vh - var(--nav-h)); /* 🔥 Use height, not min-height */
-
+  /* 2. Centering Logic */
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: flex-start; /* Keeps content starting from the top */
 
-  padding: 20px 40px 0;
+  /* 3. Sizing & Stability */
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 20px 40px;
   box-sizing: border-box;
 
-  overflow: hidden; /* prevents scroll */
+  /* 4. REMOVE fixed height and hidden overflow to allow the footer to stay at bottom */
+  position: relative;
+  z-index: 2;
 }
 
-/* Subtle warm tint remains the same */
+/* Background tint (Radial Glow) */
 .wrapper::before {
   content: "";
   position: absolute;
@@ -169,11 +174,7 @@ nav.wood-nav {
     rgba(50, 25, 10, 0.08) 100%
   );
   mix-blend-mode: multiply;
-}
-
-.wrapper > * {
-  position: relative;
-  z-index: 2;
+  z-index: -1; /* Keeps tint behind the game elements */
 }
 
 /* 1. Group the top elements to control their height */
@@ -740,7 +741,7 @@ canvas {
 /* ========================== FOOTER ========================== */
 .footer {
   width: 100%;
-  padding: 20px 16px;
+  padding: 15px 0;
   text-align: center;
   background: linear-gradient(
     to top,

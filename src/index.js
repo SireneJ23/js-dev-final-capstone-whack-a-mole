@@ -541,3 +541,24 @@ window.addEventListener("click", function () {
 
 // Initial Setup
 applyDifficultySettings(difficultySelect?.value || "normal");
+
+// 1. Target the exit button specifically
+// (Make sure your HTML has id="exitBut" on that button)
+const exitButton = document.getElementById("exitBut");
+
+if (exitButton) {
+  exitButton.addEventListener("click", function (event) {
+    // Prevent any weird browser behavior
+    event.preventDefault();
+
+    console.log("Exit button clicked. Redirecting...");
+
+    // 2. Safety: Stop the game loop if it's running
+    if (typeof gameRunning !== "undefined") gameRunning = false;
+    if (typeof timerId !== "undefined") clearInterval(timerId);
+
+    // 3. THE REDIRECT: Change this filename to your landing page
+    // (e.g., "index.html", "home.html", or "https://google.com")
+    window.location.href = "index.html";
+  });
+}
