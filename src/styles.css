@@ -263,26 +263,31 @@ h1 img,
   max-width: 100%;
   height: auto;
 }
-/* Ensure the trigger button takes up the full space of the plate */
-#difficulty-trigger {
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  width: 100%;
-}
+
 .plate-bg {
   /* This ensures the image itself doesn't block the click event */
   pointer-events: none;
 }
+
+/*DIFFICULTY SELECTOR SYSTEM
+   ========================== */
+
+/* The text inside the individual options (Easy, Normal, Hard) */
+/* NOTE: Removed font-size here because your buttons use images */
+.difficulty-option {
+  font-family: "Yaldevi", sans-serif;
+  padding: 10px;
+}
+
 /* 2. ONLY pull the Difficulty Plate up toward the Scoreboard */
 .difficulty-row {
-  margin-top: 0; /* This pulls only the plate, not the whole game */
-  margin-bottom: 10px; /* Keeps space between it and the Start/Pause buttons */
+  margin-top: 0;
+  margin-bottom: 10px;
   position: relative;
-  z-index: 5; /* Ensures it stays on top of any overlapping backgrounds */
+  z-index: 5;
   min-height: 80px;
 }
+
 /* Center the difficulty system */
 .difficulty-row.select-wrapper {
   position: relative;
@@ -292,6 +297,7 @@ h1 img,
   width: clamp(260px, 18vw, 340px);
   margin: 0 auto 10px auto;
 }
+
 /* Ensure the main button is a full-width trigger */
 #difficulty-trigger {
   background: none;
@@ -299,66 +305,81 @@ h1 img,
   padding: 0;
   cursor: pointer;
   width: 100%;
+  font-family: "Yaldevi", sans-serif;
+  font-weight: 800;
 }
+
 #difficulty-trigger img {
   width: 100%;
   height: auto;
   display: block;
-  transform: scale(1.05); /* Match the dropdown scaling */
+  /* 🔥 INCREASED SCALE: This makes the 'NORMAL' text on the main button larger */
+  transform: scale(1.15);
 }
+
 /* Container remains the same to keep your layout intact */
 .select-wrapper {
   width: clamp(260px, 18vw, 340px);
   position: relative;
-  z-index: 1000; /* Ensure dropdown sits above the game board */
+  z-index: 1000;
 }
+
 .select-wrapper img {
   width: 100%;
   height: auto;
   display: block;
-  transform: scale(1.05);
 }
+
 /* The Wooden Dropdown */
 .custom-dropdown {
   display: none;
   flex-direction: column;
   align-items: center;
   position: absolute;
-  top: 85%;
+  /* 🔥 MOVED UP: This brings the list closer to the selector button */
+  top: 70%;
   width: 100%;
-  z-index: 10000; /* Higher than moles/holes */
-  pointer-events: auto !important; /* Captures clicks so they don't hit moles */
+  z-index: 10000;
+  pointer-events: auto !important;
 }
+
 .custom-dropdown.show {
   display: flex;
 }
+
 .custom-dropdown .img-btn {
-  margin-top: -15px;
+  /* 🔥 TIGHTER STACKING: This removes the gap between the wooden plates */
+  margin-top: -20px;
   width: 100%;
   background: none;
   border: none;
   padding: 0;
 }
+
 .custom-dropdown .img-btn img {
   width: 100%;
   height: auto;
   display: block;
-  transform: scale(1.05);
+  /* 🔥 MATCHED SCALE: Ensures dropdown text matches the trigger button */
+  transform: scale(1.15);
 }
+
 /* Optional: Slight pop-out effect when hovering over options */
 .custom-dropdown .img-btn img:hover {
-  transform: scale(1.1);
+  transform: scale(1.2);
   z-index: 2001;
 }
+
 .controls-row {
   display: flex;
-  justify-content: center; /* Centers buttons horizontally */
-  align-items: center; /* Centers buttons vertically within the row */
-  flex-wrap: wrap; /* The "secret ingredient" that lets buttons stack on small screens */
-  gap: 15px; /* Space between buttons */
-  width: 100%; /* Ensures the row uses the full width of the wrapper */
-  padding: 0 10px; /* Buffer so buttons don't touch the very edge of the screen */
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  width: 100%;
+  padding: 0 10px;
 }
+
 .img-btn {
   background: none;
   border: none;
@@ -366,6 +387,7 @@ h1 img,
   cursor: pointer;
   display: inline-block;
 }
+
 .img-btn img {
   width: clamp(170px, 12vw, 260px);
   height: auto;
@@ -374,9 +396,11 @@ h1 img,
     transform 0.18s ease,
     filter 0.18s ease;
 }
+
 .img-btn img:hover {
   transform: scale(1.08);
 }
+
 /* ==========================
    GRID (🔥 UPDATED)
 ========================== */
@@ -551,7 +575,6 @@ html.hide-cursor * {
   backdrop-filter: blur(2px); /* softer frost */
 }
 /* ========================== UPDATED BIGGER MODAL ========================== */
-
 .modal-card {
   /* Increased from 520px to 700px for a more "Epic" feel */
   width: min(700px, 92vw);
@@ -568,14 +591,12 @@ html.hide-cursor * {
   box-shadow: 0 35px 80px rgba(0, 0, 0, 0.45);
   color: var(--ink);
 }
-
 .modal-title {
   font-size: 3.5rem; /* Substantially larger title */
   margin-bottom: 12px;
   color: var(--ink-soft);
   text-shadow: 0 2px 0 rgba(255, 255, 255, 0.4);
 }
-
 .modal-message {
   font-size: 1.8rem; /* Larger message text */
   margin: 10px 0 25px 0;
@@ -595,13 +616,11 @@ html.hide-cursor * {
   background: rgba(255, 247, 233, 0.4);
   border: 2px solid rgba(110, 70, 35, 0.2);
 }
-
 .modal-stat-label {
   font-size: 1.2rem; /* Larger labels */
   text-transform: uppercase;
   letter-spacing: 1px;
 }
-
 .modal-stat-value {
   font-size: 2.5rem; /* Big, readable numbers */
   margin-top: 8px;

@@ -1,3 +1,14 @@
+window.addEventListener("load", () => {
+  console.log("All images and styles loaded.");
+
+  // This forces the browser to recalculate the layout
+  // and prevents the "squashed" appearance.
+  window.dispatchEvent(new Event("resize"));
+
+  // If you have a function that draws your mole holes, call it here
+  // updateMoleHoles();
+});
+
 /**************************************************
  * NAVIGATION & ASSET HELPERS
  **************************************************/
