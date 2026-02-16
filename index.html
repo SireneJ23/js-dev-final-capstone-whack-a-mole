@@ -6,10 +6,8 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>Whack-A-Mole</title>
-
     <link rel="stylesheet" href="./src/styles.css" />
     <link rel="manifest" href="./manifest.webmanifest" />
-
     <meta name="theme-color" content="#14a604" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta
@@ -18,30 +16,25 @@
     <meta name="apple-mobile-web-app-title" content="Whack-a-Mole" />
     <link rel="apple-touch-icon" href="./assets/icon-192.png" />
     <link rel="icon" href="./assets/tmole.png" />
-
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   </head>
-
   <body>
     <nav class="wood-nav">
       <div class="logo">
         <img src="./assets/capstone.png" alt="Capstone Logo" />
       </div>
-
       <ul class="nav-menu">
         <li>
           <button class="nav-icon" id="aboutBut" title="About">
             <img src="./assets/about.png" alt="About" />
           </button>
         </li>
-
         <li>
           <button class="nav-icon" id="mixBut" title="Toggle Sound">
             <img src="./assets/sound.png" alt="Sound" />
           </button>
         </li>
-
         <li>
           <button class="nav-icon" id="exitBut" title="Exit Game">
             <img src="./assets/exit.png" alt="Exit" />
@@ -49,12 +42,10 @@
         </li>
       </ul>
     </nav>
-
     <div class="wrapper">
       <div class="header">
         <img src="./assets/title-plate.png" alt="Whack-a-Mole" id="title-img" />
       </div>
-
       <div id="scoreBoard">
         <div class="score-plate">
           <img src="./assets/plate.png" alt="Score Plate" />
@@ -63,7 +54,6 @@
             <span id="score">0</span>
           </div>
         </div>
-
         <div class="score-plate">
           <img src="./assets/plate.png" alt="Timer Plate" />
           <div class="plate-text">
@@ -72,7 +62,6 @@
           </div>
         </div>
       </div>
-
       <div id="button">
         <div class="difficulty-row select-wrapper">
           <button type="button" id="difficulty-trigger" class="img-btn">
@@ -81,7 +70,6 @@
               alt="Difficulty Plate"
               class="plate-bg" />
           </button>
-
           <div id="difficulty-list" class="custom-dropdown">
             <button
               type="button"
@@ -102,14 +90,12 @@
               <img src="./assets/hard.png" alt="Hard" />
             </button>
           </div>
-
           <select id="difficulty" style="display: none">
             <option value="easy">Easy</option>
             <option value="normal" selected>Normal</option>
             <option value="hard">Hard</option>
           </select>
         </div>
-
         <div class="controls-row">
           <button id="start" class="img-btn">
             <img src="./assets/start.png" alt="Start" />
@@ -122,7 +108,6 @@
           </button>
         </div>
       </div>
-
       <div class="grid">
         <div id="hole0" class="hole"><div id="mole0" class="mole"></div></div>
         <div id="hole1" class="hole"><div id="mole1" class="mole"></div></div>
@@ -135,13 +120,10 @@
         <div id="hole8" class="hole"><div id="mole8" class="mole"></div></div>
       </div>
     </div>
-
     <div class="footer">
       <h5>© 2026 Sirene J. All Rights Reserved</h5>
     </div>
-
     <div id="hammer" aria-hidden="true"></div>
-
     <div id="resultModal" class="modal-overlay" aria-hidden="true">
       <div
         class="modal-card"
@@ -176,7 +158,6 @@
         </div>
       </div>
     </div>
-
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script src="./src/index.js"></script>
   </body>
