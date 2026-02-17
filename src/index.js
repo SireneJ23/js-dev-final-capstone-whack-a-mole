@@ -212,9 +212,7 @@ function whack(index) {
   }, 200);
 }
 
-holes.forEach((hole, i) =>
-  hole.addEventListener("pointerdown", () => whack(i)),
-);
+holes.forEach((hole, i) => hole.addEventListener("click", () => whack(i)));
 
 function addWhackEffects(index) {
   const hole = holes[index];
@@ -455,6 +453,9 @@ if (hammerEl && grid) {
   hammerEl.style.pointerEvents = "none";
   hammerEl.style.zIndex = "99999";
 
+  /* ======================
+     DESKTOP (Mouse)
+  ====================== */
   grid.addEventListener("mouseenter", () => {
     hammerEl.style.display = "block";
   });
@@ -467,6 +468,30 @@ if (hammerEl && grid) {
     hammerEl.style.left = `${e.clientX}px`;
     hammerEl.style.top = `${e.clientY}px`;
   });
+
+  /* ======================
+     MOBILE (Touch)
+  ====================== */
+  grid.addEventListener("touchstart", (e) => {
+    hammerEl.style.display = "block";
+    moveHammer(e);
+  });
+
+  grid.addEventListener("touchmove", (e) => {
+    moveHammer(e);
+  });
+
+  grid.addEventListener("touchend", () => {
+    hammerEl.style.display = "none";
+  });
+
+  function moveHammer(e) {
+    const touch = e.touches[0];
+    if (!touch) return;
+
+    hammerEl.style.left = `${touch.clientX}px`;
+    hammerEl.style.top = `${touch.clientY}px`;
+  }
 }
 
 /**************************************************
