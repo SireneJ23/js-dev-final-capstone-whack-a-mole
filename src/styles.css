@@ -818,10 +818,11 @@ h1 img,
 
 .modal-actions {
   display: flex;
+  flex-direction: column; /* Stack vertically */
+  align-items: center; /* Center horizontally */
   justify-content: center;
-  align-items: center;
-  gap: 28px;
-  flex-wrap: wrap; /* allows wrapping when needed */
+  gap: 28px; /* Even spacing */
+  width: 100%;
   margin-top: 30px;
 }
 
@@ -837,10 +838,12 @@ h1 img,
 
 /* Desktop sizing (side-by-side) */
 .modal-img-btn img {
-  width: 45%;
-  max-width: 360px;
-  min-width: 220px;
+  width: 320px; /* Fixed width for perfect centering */
+  max-width: 80%; /* Responsive safety */
   height: auto;
+
+  display: block; /* Removes inline image spacing issues */
+  margin: 0 auto; /* Ensures perfect centering */
 
   transition:
     transform 0.2s ease,
@@ -907,8 +910,15 @@ body.game-active {
   align-items: center;
   z-index: 99999;
   overflow: hidden;
+  opacity: 0;
+  animation: splashFadeIn 0.8s ease forwards;
 }
 
+@keyframes splashFadeIn {
+  to {
+    opacity: 1;
+  }
+}
 /* Dark overlay glow */
 .splash-overlay {
   position: absolute;
@@ -938,6 +948,7 @@ body.game-active {
   object-fit: contain; /* 👈 this stops the aggressive zoom crop */
   object-position: center;
   background: black; /* fills side bars cleanly */
+  animation: splashZoom 6s ease-in-out infinite alternate;
 }
 
 /* Zoom animation */
@@ -964,15 +975,45 @@ body.game-active {
 .splash-start-btn {
   position: absolute;
   left: 50%;
-  bottom: 8%;
+  bottom: 10%;
   transform: translateX(-50%);
   background: none;
   border: none;
   cursor: pointer;
+  animation: buttonFloat 1.6s ease-in-out infinite alternate;
+}
+
+@keyframes buttonFloat {
+  from {
+    transform: translateX(-50%) translateY(0);
+  }
+  to {
+    transform: translateX(-50%) translateY(-6px);
+  }
+}
+
+.splash-start-btn::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 50%;
+  transform: translate(-50%, 50%);
+  width: 140%;
+  height: 140%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 210, 100, 0.45) 0%,
+    rgba(255, 210, 100, 0.25) 35%,
+    rgba(255, 210, 100, 0.1) 55%,
+    transparent 70%
+  );
+  border-radius: 50%;
+  z-index: -1;
+  pointer-events: none;
 }
 
 .splash-start-btn img {
-  width: clamp(200px, 18vw, 320px);
+  width: clamp(280px, 24vw, 420px);
   transition:
     transform 0.3s ease,
     filter 0.3s ease;
@@ -985,6 +1026,7 @@ body.game-active {
 
 /* Fade out animation */
 @keyframes splashFadeOut {
+  animation: splashFadeOut 0.8s ease forwards;
   from {
     opacity: 1;
   }
@@ -1094,8 +1136,8 @@ body.game-active {
   }
 
   .modal-img-btn img {
-    width: 80%;
-    max-width: 420px;
+    width: 360px;
+    max-width: 90%;
   }
 }
 /* ==========================

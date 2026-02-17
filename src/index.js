@@ -585,36 +585,43 @@ function startConfetti(durationMs) {
 }
 
 /**************************************************
- * SPLASH SCREEN LOGIC
+ * SPLASH SCREEN LOGIC (ENTER GAME ONLY)
  **************************************************/
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", function () {
   const splash = document.getElementById("splashScreen");
   const enterBtn = document.getElementById("enterGame");
   const introSound = document.getElementById("introSound");
 
   if (!splash || !enterBtn) return;
 
-  enterBtn.addEventListener("click", () => {
-    // Play intro sound
+  let clicked = false;
+
+  enterBtn.addEventListener("click", function () {
+    if (clicked) return; // prevent double click
+    clicked = true;
+
+    // Play intro sting
     if (introSound) {
       introSound.currentTime = 0;
-      introSound.play().catch(() => {});
+      introSound.play().catch(function () {});
     }
 
     // Small screen shake
-    document.body.style.transition = "transform 0.1s";
+    document.body.style.transition = "transform 0.1s ease";
     document.body.style.transform = "translateX(-5px)";
-    setTimeout(() => {
+    setTimeout(function () {
       document.body.style.transform = "translateX(5px)";
     }, 50);
-    setTimeout(() => {
+    setTimeout(function () {
       document.body.style.transform = "translateX(0)";
     }, 100);
 
-    // Fade out splash
-    splash.style.animation = "splashFadeOut 0.8s ease forwards";
+    // Fade splash out
+    splash.style.transition = "opacity 0.8s ease";
+    splash.style.opacity = "0";
 
-    setTimeout(() => {
+    // Remove splash after fade
+    setTimeout(function () {
       splash.style.display = "none";
     }, 800);
   });
