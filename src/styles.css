@@ -977,54 +977,63 @@ body.game-active {
 /* =====================================================
    RESPONSIVE SYSTEM (OPTIMIZED FOR MOBILE)
 ===================================================== */
-/* =====================================================
-   IPHONE 16 PRO MAX & MOBILE OPTIMIZATION
-===================================================== */
+/* ==========================
+   PHONE (OPTIMIZED FOR HEIGHT)
+========================== */
 @media (max-width: 768px) {
-  html,
-  body {
-    /* Allow scrolling ONLY on mobile if the game is too tall */
-    overflow-y: auto;
-    height: auto;
-  }
-
   .wrapper {
-    /* Reduce padding to save vertical space */
-    padding: 10px 5px;
-    justify-content: flex-start;
-    height: auto;
-    min-height: 100vh;
+    padding: 5px 10px;
+    justify-content: flex-start; /* Group everything at the top */
+    gap: 0; /* Remove generic gaps */
   }
 
-  /* Shrink the title image so it doesn't push everything down */
+  /* 1. Shrink Title and pull it up */
   #title-img {
-    width: 60vw;
-    margin-top: 5px;
-    margin-bottom: 5px;
+    width: 50vw;
+    margin-top: -10px;
+    margin-bottom: 0;
   }
 
-  /* Pull the Score/Timer and Difficulty closer together */
-  .difficulty-row,
+  /* 2. Tighten Scoreboard (Score & Timer) */
+  .difficulty-row {
+    margin-top: -5px;
+    margin-bottom: 0;
+    min-height: auto;
+  }
+
+  /* 3. Pull the Selector and Control Buttons closer */
+  .difficulty-row.select-wrapper {
+    margin-bottom: -10px; /* Pulls the START/STOP buttons UP */
+    transform: scale(0.85); /* Scales the whole selector down slightly */
+  }
+
   .controls-row {
+    gap: 8px; /* Tighten space between buttons */
     margin-bottom: 5px;
   }
 
-  /* Make Holes visible and appropriately sized for a vertical screen */
-  .hole {
-    width: clamp(90px, 25vw, 110px);
-    margin-bottom: 5px;
-  }
-
-  /* Ensure the grid fits the screen width */
-  .grid {
-    gap: 8px;
-    max-width: 98vw;
-    padding-bottom: 20px; /* Space for the footer */
-  }
-
-  /* Make the Start/Pause/Stop buttons smaller to save space */
   .img-btn img {
-    width: 100px;
+    width: 90px; /* Smaller buttons to save vertical room */
+  }
+
+  /* 4. Pull the Grid UP */
+  .grid {
+    margin-top: -15px; /* Aggressively pull the holes up */
+    gap: 5px;
+    max-width: 95vw;
+  }
+
+  /* 5. Shrink Holes for mobile height */
+  .hole {
+    width: clamp(90px, 22vw, 105px);
+    margin-bottom: 0;
+  }
+
+  /* 6. Fix Footer overlapping */
+  footer {
+    font-size: 10px;
+    margin-top: auto;
+    padding-bottom: 5px;
   }
 }
 
