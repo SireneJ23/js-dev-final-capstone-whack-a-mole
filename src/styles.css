@@ -977,37 +977,54 @@ body.game-active {
 /* =====================================================
    RESPONSIVE SYSTEM (OPTIMIZED FOR MOBILE)
 ===================================================== */
-
+/* =====================================================
+   IPHONE 16 PRO MAX & MOBILE OPTIMIZATION
+===================================================== */
 @media (max-width: 768px) {
-  /* 1. Ensure the wrapper allows for vertical stacking without squishing */
+  html,
+  body {
+    /* Allow scrolling ONLY on mobile if the game is too tall */
+    overflow-y: auto;
+    height: auto;
+  }
+
   .wrapper {
-    padding: 20px 10px;
-    justify-content: space-around; /* Spreads elements out vertically */
-    height: 100vh;
+    /* Reduce padding to save vertical space */
+    padding: 10px 5px;
+    justify-content: flex-start;
+    height: auto;
+    min-height: 100vh;
   }
 
-  /* 2. Make Holes Larger (Increased from 85px to 110px min) */
-  .hole {
-    width: clamp(110px, 28vw, 140px);
-  }
-
-  /* 3. Make Buttons Tap-Friendly */
-  .img-btn img,
-  #difficulty-trigger img {
-    width: 130px; /* Bigger tap targets for thumbs */
-    transform: scale(1);
-  }
-
-  /* 4. Fix Grid Layout */
-  .grid {
-    gap: 15px;
-    max-width: 95vw;
-  }
-
-  /* 5. Adjust Title */
+  /* Shrink the title image so it doesn't push everything down */
   #title-img {
-    width: 80vw;
-    margin-bottom: 10px;
+    width: 60vw;
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+
+  /* Pull the Score/Timer and Difficulty closer together */
+  .difficulty-row,
+  .controls-row {
+    margin-bottom: 5px;
+  }
+
+  /* Make Holes visible and appropriately sized for a vertical screen */
+  .hole {
+    width: clamp(90px, 25vw, 110px);
+    margin-bottom: 5px;
+  }
+
+  /* Ensure the grid fits the screen width */
+  .grid {
+    gap: 8px;
+    max-width: 98vw;
+    padding-bottom: 20px; /* Space for the footer */
+  }
+
+  /* Make the Start/Pause/Stop buttons smaller to save space */
+  .img-btn img {
+    width: 100px;
   }
 }
 
