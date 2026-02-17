@@ -83,8 +83,11 @@ nav.wood-nav {
   display: flex;
   align-items: center;
   justify-content: space-between; /* pushes left & right apart naturally */
-  padding: 0 40px; /* equal spacing inside the bar */
   box-sizing: border-box;
+
+  /* Safe-area support for iPhone notch */
+  padding: calc(10px + env(safe-area-inset-top)) 40px 10px 40px;
+
   background: url("../assets/navbar.png") center / cover no-repeat;
   position: relative;
   z-index: 1000;
@@ -809,13 +812,17 @@ h1 img,
    MODAL BUTTONS (BIGGER & CLEANER)
 ========================== */
 
+/* ==========================
+   MODAL ACTIONS – RESPONSIVE PRO
+========================== */
+
 .modal-actions {
   display: flex;
-  gap: 24px;
   justify-content: center;
   align-items: center;
-  flex-wrap: wrap;
-  margin-top: 35px;
+  gap: 28px;
+  flex-wrap: wrap; /* allows wrapping when needed */
+  margin-top: 30px;
 }
 
 .modal-img-btn {
@@ -828,11 +835,11 @@ h1 img,
   display: block;
 }
 
-/* 🔥 THIS is the size control */
+/* Desktop sizing (side-by-side) */
 .modal-img-btn img {
-  width: 60%; /* 🔥 Each button takes nearly half the modal */
-  max-width: 320px; /* Prevents desktop from getting insane */
-  min-width: 220px; /* Ensures mobile doesn't shrink them */
+  width: 45%;
+  max-width: 360px;
+  min-width: 220px;
   height: auto;
 
   transition:
@@ -1077,5 +1084,59 @@ body.game-active {
 
   .hole {
     width: clamp(80px, 19vw, 105px);
+  }
+}
+
+/* 🔥 Mobile upgrade */
+@media (max-width: 600px) {
+  .modal-actions {
+    flex-direction: column;
+  }
+
+  .modal-img-btn img {
+    width: 80%;
+    max-width: 420px;
+  }
+}
+/* ==========================
+   RESPONSIVE BREAKPOINTS
+========================== */
+
+/* 📱 Small phones */
+@media (max-width: 480px) {
+  .modal-actions {
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .modal-img-btn img {
+    width: 90%;
+    max-width: 420px;
+  }
+}
+
+/* 📱 Standard phones */
+@media (min-width: 481px) and (max-width: 600px) {
+  .modal-actions {
+    flex-direction: column;
+    gap: 22px;
+  }
+
+  .modal-img-btn img {
+    width: 85%;
+    max-width: 420px;
+  }
+}
+
+/* 📲 Tablets / iPad */
+@media (min-width: 601px) and (max-width: 1024px) {
+  .modal-actions {
+    flex-direction: row;
+    gap: 24px;
+  }
+
+  .modal-img-btn img {
+    width: 48%;
+    max-width: 380px;
   }
 }
