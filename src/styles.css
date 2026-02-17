@@ -830,7 +830,7 @@ h1 img,
 
 /* 🔥 THIS is the size control */
 .modal-img-btn img {
-  width: 48%; /* 🔥 Each button takes nearly half the modal */
+  width: 60%; /* 🔥 Each button takes nearly half the modal */
   max-width: 320px; /* Prevents desktop from getting insane */
   min-width: 220px; /* Ensures mobile doesn't shrink them */
   height: auto;
