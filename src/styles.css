@@ -32,27 +32,22 @@
    HTML / BODY STRUCTURE
 ========================== */
 
-html {
+html,
+body {
   height: 100%;
   width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* prevent sideways scroll only */
 }
 
 body {
-  margin: 0;
-  padding: 0;
-
-  width: 100%;
-  min-height: 100dvh; /* ✅ iOS-safe viewport height */
-
+  min-height: 100vh; /* stable across devices */
   display: flex;
   flex-direction: column;
 
-  overflow-x: hidden; /* prevent sideways scroll */
-  overflow-y: hidden; /* prevent vertical scroll */
-
   font-family: "Yaldevi", sans-serif;
 
-  /* Meadow background */
   background: url("../assets/park.png") center / cover no-repeat fixed;
 
   -webkit-font-smoothing: antialiased;
@@ -605,7 +600,7 @@ h1 img,
 
   background: url("../assets/mallet.png") no-repeat center / contain;
 
-  transform: translate(-50%, -50%) rotate(-20deg);
+  transform: translate(-40%, -60%) rotate(-20deg);
 }
 
 /* 3. Smack Animation */
@@ -833,15 +828,24 @@ h1 img,
   line-height: 0;
   display: block;
 }
+/* ==========================
+   MODAL BUTTONS (LARGER)
+========================== */
+
 .modal-img-btn img {
-  /* Increased from 170px to 220px to match your wooden style */
-  width: 220px;
-  filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.35));
+  width: clamp(260px, 22vw, 340px); /* 🔥 Bigger and responsive */
+  height: auto;
+  transition:
+    transform 0.2s ease,
+    filter 0.2s ease;
+  filter: drop-shadow(0 14px 22px rgba(0, 0, 0, 0.4));
 }
+
 .modal-img-btn img:hover {
-  transform: translateY(-5px) scale(1.02);
-  filter: drop-shadow(0 14px 22px rgba(0, 0, 0, 0.45));
+  transform: translateY(-6px) scale(1.04);
+  filter: drop-shadow(0 18px 28px rgba(0, 0, 0, 0.55));
 }
+
 .diamond-callout {
   margin-top: 20px;
   font-size: 2rem; /* Bigger Diamond Hit text */
@@ -985,13 +989,20 @@ body.game-active {
    CLEAN MOBILE FIX
 ===================================================== */
 @media (max-width: 768px) {
+  html,
   body {
-    display: block;
-    overflow: hidden;
+    height: 100dvh;
+    overflow-x: hidden;
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
   }
 
   .navbar {
     height: 60px;
+    flex-shrink: 0;
   }
 
   .navbar img {
@@ -999,8 +1010,7 @@ body.game-active {
   }
 
   .wrapper {
-    height: 100dvh;
-    overflow: hidden;
+    flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -1032,9 +1042,8 @@ body.game-active {
   }
 
   .grid {
-    margin-top: auto;
+    margin-top: 20px;
     margin-bottom: 10px;
-    margin: 20px auto 0;
     gap: 12px;
   }
 

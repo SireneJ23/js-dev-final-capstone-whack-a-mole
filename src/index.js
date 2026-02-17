@@ -43,6 +43,7 @@ audioSong.loop = true;
 const HIT_SRC = asset("hit.mp3");
 const VICTORY_SRC = asset("victory.mp3");
 const DEFEAT_SRC = asset("defeat.mp3");
+const APPLAUSE_SRC = asset("applause.mp3");
 
 const mixBut = document.getElementById("mixBut");
 let soundOn = true;
@@ -128,11 +129,13 @@ function resetMoleVisuals() {
 function showUp() {
   if (!gameRunning || gamePaused) return;
 
+  // Prevent mole from appearing while whack animation is active
   if (Date.now() < whackedUntil) {
     moleTimeoutId = setTimeout(showUp, whackedUntil - Date.now());
     return;
   }
 
+  // Track previous mole for grace window logic
   prevHoleIndex = currentHoleIndex;
   prevDownAt = currentDownAt;
 
@@ -143,16 +146,37 @@ function showUp() {
 
   holes[index].classList.add("show");
 
-  const roll = Math.random();
-  if (roll < 0.04) moles[index].classList.add("diamond");
-  else if (roll < 0.14) moles[index].classList.add("golden");
+  let delay;
+  let diamondChance;
+  let goldenChance;
 
-  const delay =
-    difficultySelect.value === "easy"
-      ? 1100
-      : difficultySelect.value === "normal"
-        ? 900
-        : 700;
+  // 🎯 Difficulty Settings
+  if (difficultySelect.value === "easy") {
+    delay = 1100;
+    diamondChance = 0.04;
+    goldenChance = 0.14;
+  } else if (difficultySelect.value === "normal") {
+    delay = 900;
+    diamondChance = 0.04;
+    goldenChance = 0.14;
+  } else if (difficultySelect.value === "hard") {
+    delay = 600; // 🔥 Faster spawn
+    diamondChance = 0.06; // Slightly more diamonds
+    goldenChance = 0.18; // Slightly more gold
+  } else {
+    // Fallback safety
+    delay = 900;
+    diamondChance = 0.04;
+    goldenChance = 0.14;
+  }
+
+  // 💎 Bonus mole logic
+  const roll = Math.random();
+  if (roll < diamondChance) {
+    moles[index].classList.add("diamond");
+  } else if (roll < goldenChance) {
+    moles[index].classList.add("golden");
+  }
 
   currentDownAt = Date.now() + delay;
   moleTimeoutId = setTimeout(showUp, delay);
@@ -307,19 +331,31 @@ function endGame() {
   difficultySelect.disabled = false;
   startButton.disabled = false;
 
-  const targetScore =
-    difficultySelect.value === "easy"
-      ? 350
-      : difficultySelect.value === "normal"
-        ? 450
-        : 550;
+  let targetScore;
+
+  if (difficultySelect.value === "easy") {
+    targetScore = 350;
+  } else if (difficultySelect.value === "normal") {
+    targetScore = 450;
+  } else {
+    targetScore = 550; // hard
+  }
 
   const win = points >= targetScore;
 
-  playSfx(win ? VICTORY_SRC : DEFEAT_SRC);
-
   if (win) {
+    // Play victory sound first
+    playSfx(VICTORY_SRC);
+
+    // Applause after short cinematic delay
+    setTimeout(() => {
+      playSfx(APPLAUSE_SRC);
+    }, 600);
+
+    // Confetti celebration
     startConfetti(3000);
+  } else {
+    playSfx(DEFEAT_SRC);
   }
 
   openResultModal({
