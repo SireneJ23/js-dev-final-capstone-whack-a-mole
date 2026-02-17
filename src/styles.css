@@ -984,6 +984,18 @@ body.game-active {
    PHONE (AGGRESSIVE OVERRIDE)
 ========================== */
 @media (max-width: 768px) {
+  html,
+  body {
+    position: fixed; /* Extreme measure to stop iOS scrolling */
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    touch-action: none; /* Prevents the 'pull-to-refresh' and scroll bounce */
+  }
+
+  .wrapper {
+    touch-action: manipulation; /* Allows taps but stops zooms/scrolls */
+  }
   /* 1. Reset the wrapper to handle the stack better */
   .wrapper {
     padding: 2px !important;
