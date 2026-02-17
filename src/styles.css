@@ -1025,8 +1025,8 @@ body.game-active {
   }
 
   .header {
-    margin-top: 0;
-    margin-bottom: 0;
+    margin-top: -10px;
+    margin-bottom: -20px;
   }
 
   #title-img {
@@ -1050,11 +1050,12 @@ body.game-active {
   }
 
   .difficulty-row {
-    margin-bottom: 6px;
+    margin-top: 0;
+    margin-bottom: 4px;
   }
 
   .controls-row {
-    margin-bottom: 6px;
+    margin-bottom: 4px;
   }
 
   .img-btn img {
@@ -1062,12 +1063,12 @@ body.game-active {
   }
 
   .grid {
-    margin-top: 20px;
-    margin-bottom: 10px;
-    gap: 12px;
+    margin-top: 6px;
+    margin-bottom: 4px;
+    gap: 8px;
   }
 
   .hole {
-    width: clamp(85px, 20vw, 115px);
+    width: clamp(80px, 19vw, 105px);
   }
 }
