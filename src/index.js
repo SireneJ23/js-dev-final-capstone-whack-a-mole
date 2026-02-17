@@ -184,6 +184,12 @@ function whack(index) {
   if (isDiamond) diamondHits++;
 
   updateScore(points + earned);
+  addWhackEffects(index);
+  moleEl.classList.add("whacked");
+  setTimeout(() => {
+    moleEl.classList.remove("whacked");
+  }, 250);
+
   playSfx(HIT_SRC);
 
   if (hammerEl) {
@@ -210,6 +216,30 @@ holes.forEach((hole, i) =>
   hole.addEventListener("pointerdown", () => whack(i)),
 );
 
+function addWhackEffects(index) {
+  const hole = holes[index];
+  const mole = moles[index];
+
+  // 🟤 Dirt burst
+  const dirt = document.createElement("div");
+  dirt.className = "dirt-burst";
+  hole.appendChild(dirt);
+  setTimeout(() => dirt.remove(), 400);
+
+  // ⭐ Floating score pop
+  const pop = document.createElement("div");
+  pop.className = "score-pop";
+  pop.textContent = "+";
+  hole.appendChild(pop);
+  setTimeout(() => pop.remove(), 600);
+
+  // 🫨 Screen shake (VERY subtle)
+  document.querySelector(".wrapper")?.classList.add("shake");
+  setTimeout(() => {
+    document.querySelector(".wrapper")?.classList.remove("shake");
+  }, 200);
+}
+
 /**************************************************
  * GAME CONTROLS
  **************************************************/
@@ -226,7 +256,7 @@ function startGame() {
 
   gameRunning = true;
   gamePaused = false;
-
+  document.body.classList.add("game-active");
   difficultySelect.disabled = true;
   startButton.disabled = true;
 
@@ -269,6 +299,7 @@ function endGame() {
 
   gameRunning = false;
   gamePaused = false;
+  document.body.classList.remove("game-active");
 
   clearInterval(timerId);
   clearTimeout(moleTimeoutId);
@@ -317,6 +348,7 @@ function resetGameState() {
 
   gameRunning = false;
   gamePaused = false;
+  document.body.classList.remove("game-active");
 
   difficultySelect.disabled = false;
   startButton.disabled = false;
