@@ -13,6 +13,11 @@
 /* ==========================
    CLEAN FOUNDATION RESET
 ========================== */
+* {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  box-sizing: border-box;
+}
 
 /* Global Reset */
 *,
@@ -975,109 +980,101 @@ body.game-active {
   }
 }
 /* =====================================================
-   RESPONSIVE SYSTEM (OPTIMIZED FOR MOBILE)
-===================================================== */
-/* =====================================================
    IPHONE 16 PRO MAX TIGHTENED LAYOUT
 ===================================================== */
-/* ==========================
-   PHONE (AGGRESSIVE OVERRIDE)
-========================== */
 @media (max-width: 768px) {
   html,
   body {
-    position: fixed; /* Extreme measure to stop iOS scrolling */
+    position: fixed;
     overflow: hidden;
     width: 100%;
     height: 100%;
-    touch-action: none; /* Prevents the 'pull-to-refresh' and scroll bounce */
+    touch-action: none;
   }
 
-  .wrapper {
-    touch-action: manipulation; /* Allows taps but stops zooms/scrolls */
-  }
-  /* 1. Reset the wrapper to handle the stack better */
   .wrapper {
     padding: 2px !important;
     justify-content: flex-start !important;
     height: 100vh !important;
-    overflow: hidden !important; /* Forces one-screen view */
+    overflow: hidden !important;
+    touch-action: manipulation;
   }
 
-  /* 2. Shrink Title to the absolute minimum */
+  /* Combined Title logic */
   #title-img {
     width: 40vw !important;
-    margin-top: 0 !important;
-    margin-bottom: 0 !important;
+    margin-top: -15px !important;
+    margin-bottom: -10px !important;
   }
 
-  /* 3. Tighten the Score and Selector plates */
   .difficulty-row {
     margin-bottom: 0 !important;
     min-height: 40px !important;
-    transform: scale(0.75); /* Shrinks the visual size of scoreboard/selector */
+    transform: scale(0.75);
   }
 
-  /* 4. Tighten the Control Buttons (Start/Pause/Stop) */
+  .scoreboard {
+    display: flex;
+    justify-content: center;
+    gap: 10px !important;
+    margin-bottom: -15px !important; /* Pulls controls closer to scoreboard */
+  }
+
   .controls-row {
     gap: 4px !important;
-    margin-top: -15px !important; /* Overlaps slightly with selector */
+    margin-top: -10px !important;
     margin-bottom: 0 !important;
   }
 
   .img-btn img {
-    width: 75px !important; /* Smallest usable button size */
+    width: 75px !important;
   }
 
-  /* 5. THE GRID FIX: Removing the 40px margin and 28px gaps */
   .grid {
-    margin: 0 auto !important; /* Kills the 40px top margin */
-    gap: 6px !important; /* Kills the 28px gap */
+    margin: 0 auto !important;
+    gap: 6px !important;
     padding-top: 0 !important;
-    transform: scale(0.9); /* Shrinks the entire hole set to fit height */
+    transform: scale(0.9);
     position: relative;
     z-index: 10;
   }
 
-  /* 6. Kill the Blur Gradients (They take up invisible height) */
   .grid::before,
   .grid::after {
-    content: none !important; /* Physically removes the 120px/140px tall shadows */
+    content: none !important;
     display: none !important;
   }
 
-  /* 7. Ensure Holes are visible */
+  /* Hammer & Interaction Fix */
+  .hammer {
+    pointer-events: none !important;
+    z-index: 9999;
+  }
+
   .hole {
     width: clamp(85px, 22vw, 100px) !important;
     margin-bottom: 0 !important;
   }
+
+  .hole::after {
+    pointer-events: none !important;
+  }
+
+  .mole {
+    pointer-events: auto !important;
+    z-index: 5;
+  }
 }
 
-/* ==========================
-   SMALL PHONES (Below 480px)
-========================== */
+/* SMALL PHONES (Keep at the very bottom) */
 @media (max-width: 480px) {
-  /* Prevent the screen from being unresponsive by ensuring
-     the wrapper doesn't have pointer-events disabled */
   .wrapper {
     pointer-events: auto;
   }
-
-  /* Large enough to actually hit with a finger */
   .hole {
     width: clamp(100px, 30vw, 120px);
   }
-
   .img-btn img {
     width: 110px;
-  }
-
-  /* Make sure the Modal is also readable on mobile */
-  .modal-card {
-    padding: 20px 15px;
-  }
-
-  .modal-title {
-    font-size: 2.2rem;
   }
 }
