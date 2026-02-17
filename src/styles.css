@@ -805,13 +805,19 @@ h1 img,
   font-size: 2.5rem; /* Big, readable numbers */
   margin-top: 8px;
 }
+/* ==========================
+   MODAL BUTTONS (BIGGER & CLEANER)
+========================== */
+
 .modal-actions {
   display: flex;
-  gap: 12px;
+  gap: 30px; /* 🔥 more breathing room */
   justify-content: center;
+  align-items: center;
   flex-wrap: wrap;
-  margin-top: 20px;
+  margin-top: 30px;
 }
+
 .modal-img-btn {
   background: transparent;
   border: none;
@@ -821,22 +827,20 @@ h1 img,
   line-height: 0;
   display: block;
 }
-/* ==========================
-   MODAL BUTTONS (LARGER)
-========================== */
 
+/* 🔥 THIS is the size control */
 .modal-img-btn img {
-  width: clamp(260px, 22vw, 340px); /* 🔥 Bigger and responsive */
+  width: clamp(300px, 28vw, 420px); /* increased from 260/340 */
   height: auto;
   transition:
     transform 0.2s ease,
     filter 0.2s ease;
-  filter: drop-shadow(0 14px 22px rgba(0, 0, 0, 0.4));
+  filter: drop-shadow(0 16px 26px rgba(0, 0, 0, 0.45));
 }
 
 .modal-img-btn img:hover {
-  transform: translateY(-6px) scale(1.04);
-  filter: drop-shadow(0 18px 28px rgba(0, 0, 0, 0.55));
+  transform: translateY(-6px) scale(1.05);
+  filter: drop-shadow(0 22px 34px rgba(0, 0, 0, 0.6));
 }
 
 .diamond-callout {
