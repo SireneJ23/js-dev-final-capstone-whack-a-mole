@@ -83,64 +83,58 @@ nav.wood-nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 40px;
+  padding: env(safe-area-inset-top) 20px 0 20px;
   box-sizing: border-box;
   background: url("../assets/navbar.png") center / cover no-repeat;
   position: relative;
-  top: 0;
-  left: 0;
   z-index: 1000;
-  /* Allows the giant images to spill out of the bar without being cut off */
   overflow: visible;
   flex-shrink: 0;
 }
-/* LEFT SIDE (Capstone) */
+
+/* LEFT SIDE */
 .logo {
   display: flex;
   align-items: center;
   height: 100%;
-  /* Restored to your original preferred spacing */
-  margin-left: 40px;
 }
+
 .logo img {
-  height: 400px;
+  height: clamp(120px, 18vw, 220px);
   width: auto;
-  transform: translateY(10px);
-  z-index: 1001;
+  transform: translateY(6px);
 }
+
 /* RIGHT SIDE ICON GROUP */
 .nav-menu {
   display: flex;
-  justify-content: flex-end;
   align-items: center;
+  gap: 12px; /* spacing between icons */
   list-style: none;
   margin: 0;
-  /* Keep this at your preferred distance from the right edge */
-  margin-right: 320px;
   padding: 0;
 }
 .nav-menu li {
   display: flex;
   align-items: center;
 }
+/* ICON BUTTONS */
 .nav-icon {
   background: none;
   border: none;
   padding: 0;
   cursor: pointer;
 }
-/* INDIVIDUAL BUTTON SPACING */
+
 .nav-icon img {
-  height: 160px;
+  height: clamp(70px, 12vw, 140px);
   width: auto;
-  transform: translateY(5px);
-  /* This pulls About and Sound to the right to touch Exit */
-  /* If they still aren't touching, increase this (e.g., -110px) */
-  margin-right: -100px;
+  transition: all 0.2s ease;
 }
+
 .nav-icon img:hover {
-  transform: translateY(-4px) scale(1.08);
-  filter: drop-shadow(0 10px 14px rgba(0, 0, 0, 0.3));
+  transform: scale(1.08);
+  filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.3));
 }
 /* This is the anchor: The Exit button will NOT move */
 .nav-menu li:last-child .nav-icon img {
@@ -154,7 +148,7 @@ nav.wood-nav {
    ========================== */
 .wrapper {
   flex: 1; /* fills remaining height */
-  min-height: 0; /* 🔥 prevents overflow */
+  min-height: calc(100dvh - var(--nav-h));
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -859,7 +853,7 @@ canvas {
 /* ========================== FOOTER ========================== */
 .footer {
   width: 100%;
-  padding: 15px 0;
+  padding: 14px 16px;
   text-align: center;
   background: linear-gradient(
     to top,
