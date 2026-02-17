@@ -174,7 +174,7 @@ function showUp() {
   const roll = Math.random();
   if (roll < diamondChance) {
     moles[index].classList.add("diamond");
-  } else if (roll < goldenChance) {
+  } else if (roll < diamondChance + goldenChance) {
     moles[index].classList.add("golden");
   }
 

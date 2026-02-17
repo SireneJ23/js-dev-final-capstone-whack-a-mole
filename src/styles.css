@@ -88,19 +88,18 @@ nav.wood-nav {
   background: url("../assets/navbar.png") center / cover no-repeat;
   position: relative;
   z-index: 1000;
-  overflow: visible;
 }
 
 /* LEFT SIDE */
 .logo {
   display: flex;
   align-items: center;
-  height: 100%;
 }
 
 .logo img {
-  height: 160px; /* adjust if needed */
+  height: 140px; /* adjust if needed */
   width: auto;
+  display: block;
 }
 
 /* RIGHT SIDE ICON GROUP */
@@ -115,13 +114,13 @@ nav.wood-nav {
 
 .nav-menu li {
   display: flex;
-  align-items: center;
 }
 
 .nav-icon {
   background: none;
   border: none;
   padding: 0;
+  margin: 0;
   cursor: pointer;
 }
 
@@ -129,6 +128,7 @@ nav.wood-nav {
   height: 80px; /* adjust size */
   width: auto;
   display: block;
+  margin-right: -3px;
 }
 
 .nav-icon img:hover {
@@ -984,7 +984,7 @@ body.game-active {
 @media (max-width: 768px) {
   html,
   body {
-    height: 100dvh;
+    height: 100%;
     overflow-x: hidden;
   }
 
@@ -992,12 +992,18 @@ body.game-active {
     display: flex;
     flex-direction: column;
   }
+
   nav.wood-nav {
-    padding: 0 15px;
+    height: 70px; /* smaller than 120px */
+    padding: 0 12px;
+  }
+
+  .logo img {
+    height: 60px;
   }
 
   .nav-icon img {
-    height: 60px;
+    height: 45px;
   }
 
   .navbar {
@@ -1010,11 +1016,17 @@ body.game-active {
   }
 
   .wrapper {
+    min-height: calc(100dvh - 70px);
     flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     padding: 10px 12px;
+  }
+
+  .header {
+    margin-top: 0;
+    margin-bottom: 0;
   }
 
   #title-img {
@@ -1026,7 +1038,7 @@ body.game-active {
     display: flex;
     justify-content: center;
     gap: 12px;
-    margin: 10px 0;
+    margin: 4px 0; /* tightened for mobile */
   }
 
   .score-plate {
@@ -1035,6 +1047,14 @@ body.game-active {
 
   .plate-text {
     font-size: 1rem;
+  }
+
+  .difficulty-row {
+    margin-bottom: 6px;
+  }
+
+  .controls-row {
+    margin-bottom: 6px;
   }
 
   .img-btn img {
@@ -1048,6 +1068,6 @@ body.game-active {
   }
 
   .hole {
-    width: clamp(95px, 22vw, 130px);
+    width: clamp(85px, 20vw, 115px);
   }
 }
