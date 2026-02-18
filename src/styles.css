@@ -38,20 +38,16 @@ body {
   width: 100%;
   margin: 0;
   padding: 0;
-  overflow-x: hidden; /* prevent sideways scroll only */
+  overflow: hidden; /* ⛔ Stops all scrolling */
+  position: fixed; /* ⚓ Extra insurance for mobile browsers */
 }
 
 body {
-  min-height: 100vh; /* stable across devices */
   display: flex;
   flex-direction: column;
-
   font-family: "Yaldevi", sans-serif;
-
   background: url("../assets/park.png") center / cover no-repeat fixed;
-
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 /* Subtle cinematic vignette */
@@ -148,16 +144,17 @@ nav.wood-nav {
 /* ==========================
    WRAPPER (STABLE & CENTERED)
    ========================== */
+/* Update your .wrapper to ensure it doesn't push the footer out */
 .wrapper {
-  flex: 1; /* fills remaining height */
-  min-height: calc(100dvh - var(--nav-h));
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  padding: 16px 24px;
+  justify-content: center; /* 🎯 Keeps game centered in the gap */
+  padding: 10px 24px;
   box-sizing: border-box;
-  overflow: hidden; /* 🔥 prevents inner scroll */
+  overflow: hidden;
+  min-height: 0; /* 🔑 Allows flex item to shrink if needed */
 }
 
 /* ==========================
@@ -1084,12 +1081,13 @@ body.game-active {
   }
 
   .wrapper {
-    min-height: calc(100dvh - 70px);
+    /* Use dvh for better mobile address bar handling */
+    height: calc(100dvh - 70px - 40px); /* Screen - Nav - Footer */
     flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
-    padding: 10px 12px;
+    justify-content: space-evenly;
+    padding: 5px 12px;
   }
 
   .header {
@@ -1131,13 +1129,22 @@ body.game-active {
   }
 
   .grid {
-    margin-top: 6px;
-    margin-bottom: 4px;
-    gap: 8px;
+    /* Shrink the gap to pull everything closer */
+    gap: 10px;
+    margin-top: 5px;
+    /* Scale the grid slightly if it's still too tight */
+    transform: scale(0.95);
   }
 
   .hole {
-    width: clamp(80px, 19vw, 105px);
+    /* Slightly smaller holes ensure they stay on one screen */
+    width: clamp(70px, 22vw, 95px);
+  }
+
+  .footer {
+    padding: 8px 16px;
+    font-size: 1.2rem;
+    flex-shrink: 0; /* Ensures footer never collapses */
   }
 }
 
