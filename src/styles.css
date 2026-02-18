@@ -1052,7 +1052,14 @@ body.game-active {
   .hole {
     width: clamp(80px, 19vw, 105px);
   }
+  /* Shrink the footer text/padding on mobile to save vertical space */
+  .footer {
+    padding: 8px 16px;
+    font-size: 1.2rem;
+    flex-shrink: 0; /* Ensures footer never collapses */
+  }
 }
+
 /* 🔥 Mobile upgrade */
 @media (max-width: 600px) {
   .modal-actions {
