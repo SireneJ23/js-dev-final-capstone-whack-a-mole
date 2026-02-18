@@ -267,7 +267,6 @@ function addWhackEffects(index) {
  **************************************************/
 function startGame() {
   grid.classList.add("playing");
-  grid.style.pointerEvents = "auto";
 
   if (gameRunning && !gamePaused) return;
 
@@ -437,6 +436,11 @@ closeModalBtn.onclick = () => {
 startButton.addEventListener("click", startGame);
 pauseButton.addEventListener("click", pauseGame);
 stopButton.addEventListener("click", resetGameState);
+
+// 🔒 Prevent modal tap-through / bubbling
+resultModal.addEventListener("click", (e) => {
+  e.stopPropagation();
+});
 
 /**************************************************
  * INITIAL SETUP

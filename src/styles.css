@@ -432,6 +432,7 @@ h1 img,
   gap: 28px;
   width: 100%;
   margin: 40px auto 0;
+  pointer-events: none;
 }
 .grid::before {
   content: "";
@@ -469,6 +470,7 @@ h1 img,
 .grid.playing * {
   cursor: none !important;
   filter: drop-shadow(0 0 30px rgba(255, 200, 0 0.3));
+  pointer-events: auto;
 }
 /* ==========================
     HOLE & MOLE (RESIZED)
@@ -705,9 +707,11 @@ h1 img,
   background: rgba(0, 0, 0, 0.35);
   backdrop-filter: blur(4px); /* subtle frost */
   z-index: 10000;
+  pointer-events: none;
 }
 .modal-overlay.show {
   display: flex;
+  pointer-events: auto;
 }
 .modal-overlay.win {
   background: rgba(0, 0, 0, 0.15); /* was 0.35+ */
