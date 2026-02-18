@@ -437,11 +437,6 @@ startButton.addEventListener("click", startGame);
 pauseButton.addEventListener("click", pauseGame);
 stopButton.addEventListener("click", resetGameState);
 
-// 🔒 Prevent modal tap-through / bubbling
-resultModal.addEventListener("click", (e) => {
-  e.stopPropagation();
-});
-
 /**************************************************
  * INITIAL SETUP
  **************************************************/
@@ -493,7 +488,10 @@ if (dTrigger && dList) {
   });
 }
 
-window.addEventListener("click", () => {
+window.addEventListener("click", (e) => {
+  // 🚫 If modal is open, ignore all window clicks
+  if (resultModal.classList.contains("show")) return;
+
   if (dList) dList.classList.remove("show");
 });
 
