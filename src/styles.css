@@ -80,27 +80,22 @@ nav.wood-nav {
   align-items: center;
   justify-content: space-between; /* pushes left & right apart naturally */
   box-sizing: border-box;
-
   /* Safe-area support for iPhone notch */
   padding: calc(10px + env(safe-area-inset-top)) 40px 10px 40px;
-
   background: url("../assets/navbar.png") center / cover no-repeat;
   position: relative;
   z-index: 1000;
 }
-
 /* LEFT SIDE */
 .logo {
   display: flex;
   align-items: center;
 }
-
 .logo img {
   height: 300px; /* adjust if needed */
   width: auto;
   display: block;
 }
-
 /* RIGHT SIDE ICON GROUP */
 .nav-menu {
   display: flex;
@@ -110,11 +105,9 @@ nav.wood-nav {
   margin: 0;
   padding: 0;
 }
-
 .nav-menu li {
   display: flex;
 }
-
 .nav-icon {
   background: none;
   border: none;
@@ -122,14 +115,12 @@ nav.wood-nav {
   margin: 0;
   cursor: pointer;
 }
-
 .nav-icon img {
   height: 150px; /* adjust size */
   width: auto;
   display: block;
   margin-right: -3px;
 }
-
 .nav-icon img:hover {
   transform: scale(1.08);
   filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.3));
@@ -156,11 +147,9 @@ nav.wood-nav {
   overflow: hidden;
   min-height: 0; /* 🔑 Allows flex item to shrink if needed */
 }
-
 /* ==========================
    WRAPPER GLOW (TOP ONLY)
 ========================== */
-
 .wrapper::before {
   content: "";
   position: absolute;
@@ -179,7 +168,6 @@ nav.wood-nav {
   );
   z-index: -1;
 }
-
 .wrapper::after {
   content: "";
   position: absolute;
@@ -196,7 +184,6 @@ nav.wood-nav {
   animation: rotateRays 20s linear infinite;
   z-index: -2;
 }
-
 @keyframes rotateRays {
   from {
     transform: rotate(0deg);
@@ -446,7 +433,6 @@ h1 img,
   width: 100%;
   margin: 40px auto 0;
 }
-
 .grid::before {
   content: "";
   position: absolute;
@@ -463,7 +449,6 @@ h1 img,
   filter: blur(30px);
   z-index: -1;
 }
-
 .grid::after {
   content: "";
   position: absolute;
@@ -472,17 +457,14 @@ h1 img,
   transform: translateX(-50%);
   width: 120%;
   height: 140px;
-
   background: radial-gradient(
     ellipse at center,
     rgba(0, 0, 0, 0.35),
     transparent 70%
   );
-
   filter: blur(30px);
   z-index: -1;
 }
-
 .grid.playing,
 .grid.playing * {
   cursor: none !important;
@@ -506,7 +488,6 @@ h1 img,
   box-shadow: none;
   transform: translateY(8px);
 }
-
 .hole::before {
   content: "";
   position: absolute;
@@ -516,7 +497,6 @@ h1 img,
   z-index: 1;
   filter: saturate(1.2) contrast(1.05);
 }
-
 .hole::after {
   content: "";
   position: absolute;
@@ -527,12 +507,10 @@ h1 img,
   /* This creates the 'behind the grass' effect */
   clip-path: inset(65% 0 0 0);
 }
-
 .hole:hover {
   transform: scale(1.05); /* Slightly smaller hover scale for stability */
   transition: transform 0.2s ease;
 }
-
 .mole {
   position: absolute;
   left: 50%;
@@ -547,21 +525,17 @@ h1 img,
   z-index: 5;
   /* 3. REMOVED the transition property entirely */
 }
-
 .hole.show .mole {
   /* 4. When 'show' is added, it becomes visible instantly */
   opacity: 1;
 }
-
 .mole {
   left: 50%;
   transform: translateX(-50%) scale(1);
 }
-
 .mole {
   filter: saturate(1.2) brightness(1.05);
 }
-
 .mole.golden {
   filter: sepia(1) saturate(7) hue-rotate(8deg) brightness(1.15) contrast(1.05);
   box-shadow:
@@ -584,23 +558,17 @@ h1 img,
 #hammer {
   position: fixed;
   display: none;
-
   width: clamp(180px, 12vw, 320px);
   aspect-ratio: 1 / 1;
-
   z-index: 99999 !important;
   pointer-events: none !important;
-
   background: url("../assets/mallet.png") no-repeat center / contain;
-
   transform: translate(-40%, -60%) rotate(-20deg);
 }
-
 /* 3. Smack Animation */
 #hammer.smack {
   animation: smack 150ms ease-in-out;
 }
-
 @keyframes smack {
   0% {
     transform: translate(-50%, -50%) rotate(-20deg) scale(1);
@@ -613,7 +581,6 @@ h1 img,
     transform: translate(-50%, -50%) rotate(-20deg) scale(1);
   }
 }
-
 @keyframes moleSquash {
   0% {
     transform: translateX(-50%) scale(1, 1);
@@ -628,11 +595,9 @@ h1 img,
     transform: translateX(-50%) scale(1, 1);
   }
 }
-
 .mole.whacked {
   animation: moleSquash 0.25s ease;
 }
-
 @keyframes dirtBurst {
   0% {
     opacity: 1;
@@ -643,7 +608,6 @@ h1 img,
     transform: scale(1.6);
   }
 }
-
 .dirt-burst {
   position: absolute;
   width: 80%;
@@ -655,7 +619,6 @@ h1 img,
   animation: dirtBurst 0.4s ease forwards;
   z-index: 5;
 }
-
 @keyframes scorePop {
   0% {
     opacity: 1;
@@ -666,7 +629,6 @@ h1 img,
     transform: translateY(-40px) scale(1.4);
   }
 }
-
 .score-pop {
   position: absolute;
   bottom: 60%;
@@ -680,7 +642,6 @@ h1 img,
   animation: scorePop 0.6s ease forwards;
   z-index: 20;
 }
-
 @keyframes screenShake {
   0% {
     transform: translate(0, 0);
@@ -698,11 +659,9 @@ h1 img,
     transform: translate(0, 0);
   }
 }
-
 .shake {
   animation: screenShake 0.2s ease;
 }
-
 /* ========================== BONUS FLOATING TEXT ========================== */
 .bonus-text {
   position: absolute;
@@ -808,11 +767,9 @@ h1 img,
 /* ==========================
    MODAL BUTTONS (BIGGER & CLEANER)
 ========================== */
-
 /* ==========================
    MODAL ACTIONS – RESPONSIVE PRO
 ========================== */
-
 .modal-actions {
   display: flex;
   flex-direction: column; /* Stack vertically */
@@ -822,7 +779,6 @@ h1 img,
   width: 100%;
   margin-top: 30px;
 }
-
 .modal-img-btn {
   background: transparent;
   border: none;
@@ -832,27 +788,22 @@ h1 img,
   line-height: 0;
   display: block;
 }
-
 /* Desktop sizing (side-by-side) */
 .modal-img-btn img {
   width: 320px; /* Fixed width for perfect centering */
   max-width: 80%; /* Responsive safety */
   height: auto;
-
   display: block; /* Removes inline image spacing issues */
   margin: 0 auto; /* Ensures perfect centering */
-
   transition:
     transform 0.2s ease,
     filter 0.2s ease;
   filter: drop-shadow(0 18px 28px rgba(0, 0, 0, 0.45));
 }
-
 .modal-img-btn img:hover {
   transform: translateY(-6px) scale(1.06);
   filter: drop-shadow(0 24px 36px rgba(0, 0, 0, 0.6));
 }
-
 .diamond-callout {
   margin-top: 20px;
   font-size: 2rem; /* Bigger Diamond Hit text */
@@ -861,7 +812,6 @@ h1 img,
 canvas {
   max-width: 100%;
 }
-
 /* Desktop: ensure footer remains at bottom without being fixed over the game */
 /* ========================== FOOTER ========================== */
 .footer {
@@ -879,12 +829,10 @@ canvas {
   margin-top: auto;
   font-size: 2rem;
 }
-
 /* ========================== GAME ACTIVE GLOW ========================== */
 body.game-active {
   animation: gameGlow 4s ease-in-out infinite alternate;
 }
-
 @keyframes gameGlow {
   from {
     filter: brightness(1);
@@ -893,11 +841,9 @@ body.game-active {
     filter: brightness(1.08);
   }
 }
-
 /* ==========================
    CINEMATIC SPLASH
 ========================== */
-
 .splash-screen {
   position: fixed;
   inset: 0;
@@ -910,7 +856,6 @@ body.game-active {
   opacity: 0;
   animation: splashFadeIn 0.8s ease forwards;
 }
-
 @keyframes splashFadeIn {
   to {
     opacity: 1;
@@ -929,7 +874,6 @@ body.game-active {
   animation: glowPulse 3s ease-in-out infinite alternate;
   z-index: 1;
 }
-
 /* Content wrapper */
 .splash-content {
   position: relative;
@@ -937,7 +881,6 @@ body.game-active {
   width: 100%;
   height: 100%;
 }
-
 /* FULLSCREEN IMAGE (not absolute anymore) */
 .splash-image {
   width: 100%;
@@ -947,7 +890,6 @@ body.game-active {
   background: black; /* fills side bars cleanly */
   animation: splashZoom 6s ease-in-out infinite alternate;
 }
-
 /* Zoom animation */
 @keyframes splashZoom {
   from {
@@ -957,7 +899,6 @@ body.game-active {
     transform: scale(1.01);
   }
 }
-
 /* Overlay glow pulse */
 @keyframes glowPulse {
   from {
@@ -967,7 +908,6 @@ body.game-active {
     opacity: 1;
   }
 }
-
 /* Start button */
 .splash-start-btn {
   position: absolute;
@@ -979,7 +919,6 @@ body.game-active {
   cursor: pointer;
   animation: buttonFloat 1.6s ease-in-out infinite alternate;
 }
-
 @keyframes buttonFloat {
   from {
     transform: translateX(-50%) translateY(0);
@@ -988,7 +927,6 @@ body.game-active {
     transform: translateX(-50%) translateY(-6px);
   }
 }
-
 .splash-start-btn::before {
   content: "";
   position: absolute;
@@ -1008,7 +946,6 @@ body.game-active {
   z-index: -1;
   pointer-events: none;
 }
-
 .splash-start-btn img {
   width: clamp(280px, 24vw, 420px);
   transition:
@@ -1016,7 +953,6 @@ body.game-active {
     filter 0.3s ease;
   animation: subtlePulse 2.5s ease-in-out infinite;
 }
-
 @keyframes subtlePulse {
   0%,
   100% {
@@ -1026,12 +962,10 @@ body.game-active {
     transform: scale(1.03);
   }
 }
-
 .splash-start-btn img:hover {
   transform: scale(1.08);
   filter: drop-shadow(0 15px 35px rgba(0, 0, 0, 0.6));
 }
-
 /* Fade out animation */
 @keyframes splashFadeOut {
   animation: splashFadeOut 0.8s ease forwards;
@@ -1042,7 +976,6 @@ body.game-active {
     opacity: 0;
   }
 }
-
 /* =====================================================
    CLEAN MOBILE FIX
 ===================================================== */
@@ -1052,114 +985,79 @@ body.game-active {
     height: 100%;
     overflow-x: hidden;
   }
-
   body {
     display: flex;
     flex-direction: column;
   }
-
   nav.wood-nav {
     height: 70px; /* smaller than 120px */
     padding: 0 12px;
   }
-
   .logo img {
     height: 60px;
   }
-
   .nav-icon img {
     height: 45px;
   }
-
   .navbar {
     height: 60px;
     flex-shrink: 0;
   }
-
   .navbar img {
     height: 45px;
   }
-
   .wrapper {
-    /* Use flex: 1 instead of height to let the footer "push" back */
+    min-height: calc(100dvh - 70px);
     flex: 1;
     display: flex;
     flex-direction: column;
-    /* Use space-evenly to distribute the title, scoreboard, and grid */
-    justify-content: space-evenly;
-    padding: 5px 10px;
-
-    /* This ensures the wrapper never grows larger than the available screen gap */
-    max-height: calc(100dvh - 70px - 40px); /* 70px nav + ~40px footer */
-    overflow: hidden;
+    justify-content: flex-start;
+    padding: 10px 12px;
   }
-
   .header {
     margin-top: -10px;
-    margin-bottom: -10px;
+    margin-bottom: -20px;
   }
-
   #title-img {
-   width: 50vw; /* Smaller title to save vertical space */
+    width: 60vw;
     margin: 10px auto;
   }
-
   #scoreBoard {
     display: flex;
     justify-content: center;
     gap: 12px;
     margin: 4px 0; /* tightened for mobile */
   }
-
   .score-plate {
     width: min(200px, 42vw);
   }
-
   .plate-text {
     font-size: 1rem;
   }
-
   .difficulty-row {
     margin-top: 0;
     margin-bottom: 4px;
   }
-
   .controls-row {
     margin-bottom: 4px;
   }
-
   .img-btn img {
     width: 85px;
   }
-
   .grid {
-    margin-top: 0;
-    gap: 12px;
-    /* This scales the whole game area down 10% if it's still too tall */
-    transform: scale(0.9);
-    transform-origin: top center;
+    margin-top: 6px;
+    margin-bottom: 4px;
+    gap: 8px;
   }
-
   .hole {
-    /* Slightly smaller holes ensure they stay on one screen */
-    width: clamp(70px, 22vw, 95px);
-  }
-
-  .footer {
-.footer {
-    padding: 8px 10px; /* Thinner padding */
- flex-shrink: 0; /* 🛑 Essential to keep it visible! */
-  font-size: 1.2rem; /* Matches your mobile request */
-    margin-top: auto;
+    width: clamp(80px, 19vw, 105px);
   }
 }
-
 /* 🔥 Mobile upgrade */
 @media (max-width: 600px) {
   .modal-actions {
     flex-direction: column;
   }
-
   .modal-img-btn img {
     width: 360px;
     max-width: 90%;
@@ -1168,40 +1066,34 @@ body.game-active {
 /* ==========================
    RESPONSIVE BREAKPOINTS
 ========================== */
-
 /* 📱 Small phones */
 @media (max-width: 480px) {
   .modal-actions {
     flex-direction: column;
     gap: 18px;
   }
-
   .modal-img-btn img {
     width: 90%;
     max-width: 420px;
   }
 }
-
 /* 📱 Standard phones */
 @media (min-width: 481px) and (max-width: 600px) {
   .modal-actions {
     flex-direction: column;
     gap: 22px;
   }
-
   .modal-img-btn img {
     width: 85%;
     max-width: 420px;
   }
 }
-
 /* 📲 Tablets / iPad */
 @media (min-width: 601px) and (max-width: 1024px) {
   .modal-actions {
     flex-direction: row;
     gap: 24px;
   }
-
   .modal-img-btn img {
     width: 48%;
     max-width: 380px;
