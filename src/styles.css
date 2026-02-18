@@ -38,8 +38,7 @@ body {
   width: 100%;
   margin: 0;
   padding: 0;
-  overflow: hidden; /* ⛔ Stops all scrolling */
-  position: fixed; /* ⚓ Extra insurance for mobile browsers */
+  overflow-x: hidden; /* Only block horizontal scroll */
 }
 
 body {
@@ -48,6 +47,7 @@ body {
   font-family: "Yaldevi", sans-serif;
   background: url("../assets/park.png") center / cover no-repeat fixed;
   -webkit-font-smoothing: antialiased;
+  overflow: hidden;
 }
 
 /* Subtle cinematic vignette */
@@ -137,16 +137,16 @@ nav.wood-nav {
    ========================== */
 /* Update your .wrapper to ensure it doesn't push the footer out */
 .wrapper {
-  flex: 1;
+  height: calc(100vh - var(--nav-h)); /* Fill screen minus navbar */
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center; /* 🎯 Keeps game centered in the gap */
+  justify-content: center; /* Keeps game vertically centered */
   padding: 10px 24px;
   box-sizing: border-box;
   overflow: hidden;
-  min-height: 0; /* 🔑 Allows flex item to shrink if needed */
 }
+
 /* ==========================
    WRAPPER GLOW (TOP ONLY)
 ========================== */
@@ -1008,6 +1008,7 @@ body.game-active {
   }
   .wrapper {
     padding: 10px 12px;
+    overflow: hidden;
   }
   .header {
     margin-top: -10px;
