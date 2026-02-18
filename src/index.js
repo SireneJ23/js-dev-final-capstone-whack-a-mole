@@ -91,6 +91,7 @@ let whackedUntil = 0;
 let diamondHits = 0;
 let modalLocked = false;
 const HIT_GRACE_MS = 350;
+let blockNextClick = false;
 
 /**************************************************
  * SCORE & TIMER
@@ -395,7 +396,7 @@ function resetGameState() {
  * MODAL
  **************************************************/
 function openResultModal({title, message, score, target}) {
-  modalLocked = true; // 🔒 lock immediately
+  blockNextClick = true;
 
   modalTitle.textContent = title;
   modalMessage.textContent = message;
@@ -409,10 +410,10 @@ function openResultModal({title, message, score, target}) {
 
   resultModal.classList.add("show");
 
-  // 🔓 Unlock after short delay
+  // Allow clicks again after ghost click window passes
   setTimeout(() => {
-    modalLocked = false;
-  }, 600); // 500–700ms feels natural
+    blockNextClick = false;
+  }, 400);
 }
 
 playAgainBtn.onclick = () => {
@@ -436,6 +437,17 @@ closeModalBtn.onclick = () => {
 startButton.addEventListener("click", startGame);
 pauseButton.addEventListener("click", pauseGame);
 stopButton.addEventListener("click", resetGameState);
+
+document.addEventListener(
+  "click",
+  (e) => {
+    if (blockNextClick) {
+      e.stopImmediatePropagation();
+      e.preventDefault();
+    }
+  },
+  true,
+); // 👈 use capture phase
 
 /**************************************************
  * INITIAL SETUP
@@ -505,11 +517,13 @@ if (hammerEl && grid) {
   hammerEl.style.position = "fixed";
   hammerEl.style.pointerEvents = "none";
   hammerEl.style.zIndex = "99999";
+  hammerEl.style.display = "none"; // start hidden
 
   /* ======================
      DESKTOP (Mouse)
   ====================== */
   grid.addEventListener("mouseenter", () => {
+    if (!gameRunning) return; // 🔒 only show when game active
     hammerEl.style.display = "block";
   });
 
@@ -518,6 +532,8 @@ if (hammerEl && grid) {
   });
 
   grid.addEventListener("mousemove", (e) => {
+    if (!gameRunning) return; // 🔒 block when game not running
+
     hammerEl.style.left = `${e.clientX}px`;
     hammerEl.style.top = `${e.clientY}px`;
   });
@@ -526,11 +542,15 @@ if (hammerEl && grid) {
      MOBILE (Touch)
   ====================== */
   grid.addEventListener("touchstart", (e) => {
+    if (!gameRunning) return; // 🔒 block when game not running
+
     hammerEl.style.display = "block";
     moveHammer(e);
   });
 
   grid.addEventListener("touchmove", (e) => {
+    if (!gameRunning) return; // 🔒 block when game not running
+
     moveHammer(e);
   });
 
