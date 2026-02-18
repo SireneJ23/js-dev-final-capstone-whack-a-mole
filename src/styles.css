@@ -984,6 +984,9 @@ body.game-active {
   body {
     height: 100%;
     overflow-x: hidden;
+    background: url("../assets/park.png") center / cover no-repeat;
+    background-attachment: fixed;
+    background: red !important;
   }
 
   nav.wood-nav {
