@@ -985,10 +985,7 @@ body.game-active {
     height: 100%;
     overflow-x: hidden;
   }
-  body {
-    display: flex;
-    flex-direction: column;
-  }
+
   nav.wood-nav {
     height: 70px; /* smaller than 120px */
     padding: 0 12px;
@@ -1007,11 +1004,6 @@ body.game-active {
     height: 45px;
   }
   .wrapper {
-    min-height: calc(100dvh - 70px);
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
     padding: 10px 12px;
   }
   .header {
