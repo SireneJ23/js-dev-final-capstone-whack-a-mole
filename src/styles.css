@@ -1012,7 +1012,7 @@ body.game-active {
     height: 45px;
   }
   .wrapper {
-    padding: 10px 12px;
+    padding-bottom: 60px; /* adjust 50–80px to taste */
     overflow: hidden;
   }
   .header {
@@ -1047,7 +1047,7 @@ body.game-active {
   }
   .grid {
     margin-top: 6px;
-    margin-bottom: 4px;
+    margin-bottom: 40px;
     gap: 8px;
   }
   .hole {

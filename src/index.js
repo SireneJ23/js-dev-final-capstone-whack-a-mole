@@ -89,7 +89,7 @@ let prevDownAt = 0;
 let moleAlreadyWhacked = false;
 let whackedUntil = 0;
 let diamondHits = 0;
-
+let modalLocked = false;
 const HIT_GRACE_MS = 350;
 
 /**************************************************
@@ -267,6 +267,7 @@ function addWhackEffects(index) {
  **************************************************/
 function startGame() {
   grid.classList.add("playing");
+  grid.style.pointerEvents = "auto";
 
   if (gameRunning && !gamePaused) return;
 
@@ -322,6 +323,7 @@ function endGame() {
   gameRunning = false;
   gamePaused = false;
   document.body.classList.remove("game-active");
+  grid.style.pointerEvents = "none";
 
   clearInterval(timerId);
   clearTimeout(moleTimeoutId);
@@ -386,12 +388,16 @@ function resetGameState() {
 
   difficultySelect.disabled = false;
   startButton.disabled = false;
+
+  grid.style.pointerEvents = "auto"; // ✅ add this
 }
 
 /**************************************************
  * MODAL
  **************************************************/
 function openResultModal({title, message, score, target}) {
+  modalLocked = true; // 🔒 lock immediately
+
   modalTitle.textContent = title;
   modalMessage.textContent = message;
   modalScore.textContent = score;
@@ -403,15 +409,24 @@ function openResultModal({title, message, score, target}) {
   }
 
   resultModal.classList.add("show");
+
+  // 🔓 Unlock after short delay
+  setTimeout(() => {
+    modalLocked = false;
+  }, 600); // 500–700ms feels natural
 }
 
 playAgainBtn.onclick = () => {
+  if (modalLocked) return; // 🚫 ignore accidental tap
+
   resultModal.classList.remove("show");
   resetGameState();
   startGame();
 };
 
 closeModalBtn.onclick = () => {
+  if (modalLocked) return; // 🚫 ignore accidental tap
+
   resultModal.classList.remove("show");
   resetGameState();
 };
