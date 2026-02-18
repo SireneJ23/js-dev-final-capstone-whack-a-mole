@@ -1080,7 +1080,6 @@ body.game-active {
     height: 45px;
   }
 
- @media (max-width: 768px) {
   .wrapper {
     /* Use flex: 1 instead of height to let the footer "push" back */
     flex: 1;
@@ -1094,7 +1093,6 @@ body.game-active {
     max-height: calc(100dvh - 70px - 40px); /* 70px nav + ~40px footer */
     overflow: hidden;
   }
-}
 
   .header {
     margin-top: -10px;
@@ -1135,7 +1133,7 @@ body.game-active {
   }
 
   .grid {
-margin-top: 0;
+    margin-top: 0;
     gap: 12px;
     /* This scales the whole game area down 10% if it's still too tall */
     transform: scale(0.9);
