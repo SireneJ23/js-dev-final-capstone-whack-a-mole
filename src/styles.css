@@ -100,7 +100,7 @@ nav.wood-nav {
 }
 
 .logo img {
-  height: 140px; /* adjust if needed */
+  height: 300px; /* adjust if needed */
   width: auto;
   display: block;
 }
@@ -128,7 +128,7 @@ nav.wood-nav {
 }
 
 .nav-icon img {
-  height: 80px; /* adjust size */
+  height: 150px; /* adjust size */
   width: auto;
   display: block;
   margin-right: -3px;
@@ -1017,6 +1017,17 @@ body.game-active {
   transition:
     transform 0.3s ease,
     filter 0.3s ease;
+  animation: subtlePulse 2.5s ease-in-out infinite;
+}
+
+@keyframes subtlePulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.03);
+  }
 }
 
 .splash-start-btn img:hover {
@@ -1034,6 +1045,7 @@ body.game-active {
     opacity: 0;
   }
 }
+
 /* =====================================================
    CLEAN MOBILE FIX
 ===================================================== */
