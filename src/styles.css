@@ -984,9 +984,14 @@ body.game-active {
   body {
     height: 100%;
     overflow-x: hidden;
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+    font-family: "Yaldevi", sans-serif;
     background: url("../assets/park.png") center / cover no-repeat;
-    background-attachment: fixed;
-    background: red !important;
+    overflow: hidden;
   }
 
   nav.wood-nav {
