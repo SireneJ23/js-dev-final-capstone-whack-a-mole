@@ -1091,18 +1091,12 @@ body.game-active {
     display: none; /* JS toggles this */
     flex-direction: column;
     align-items: center;
-    z-index: 9999;
+    z-index: 10000;
   }
 
   /* Added this to restore functionality */
   .custom-dropdown.show {
     display: flex !important;
-  }
-
-  /* 🎮 MOBILE BUTTON BALANCE & ALIGNMENT */
-  #difficulty-trigger .plate-bg {
-    width: 120px !important;
-    max-width: 42vw;
   }
 
   .controls-row {
@@ -1135,11 +1129,14 @@ body.game-active {
 
   /* 📝 FOOTER FIX */
   .footer {
-    padding: 8px 16px;
-    font-size: 1.2rem;
-    flex-shrink: 0;
-    text-align: center;
-    width: 100%;
+    height: 50px;
+    flex-shrink: 0; /* Prevents footer from being squashed to 0px */
+    background: rgba(0, 0, 0, 0.2); /* Temporary to see if it's there */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    padding-bottom: env(safe-area-inset-bottom);
   }
 }
 
