@@ -1083,15 +1083,19 @@ body.game-active {
   }
 
   .custom-dropdown {
-    width: clamp(140px, 34vw, 180px) !important;
+    position: absolute;
+    top: 100%; /* sit directly below trigger */
+    margin-top: 8px; /* small breathing space */
     left: 50%;
     transform: translateX(-50%);
-    position: absolute;
-    top: 85%; /* Adjusts how much it overlaps the main button */
-    display: none; /* JS toggles this */
+    width: clamp(110px, 30vw, 150px);
+    display: none;
     flex-direction: column;
     align-items: center;
-    z-index: 10000;
+    z-index: 9999;
+  }
+  .custom-dropdown .img-btn {
+    margin-bottom: 6px;
   }
 
   /* Added this to restore functionality */
@@ -1129,14 +1133,12 @@ body.game-active {
 
   /* 📝 FOOTER FIX */
   .footer {
-    height: 50px;
-    flex-shrink: 0; /* Prevents footer from being squashed to 0px */
-    background: rgba(0, 0, 0, 0.2); /* Temporary to see if it's there */
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    padding: 10px 16px;
     font-size: 1rem;
-    padding-bottom: env(safe-area-inset-bottom);
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent);
+    color: white;
+    text-align: center;
+    flex-shrink: 0;
   }
 }
 
