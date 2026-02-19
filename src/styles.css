@@ -1046,8 +1046,8 @@ body.game-active {
   /* 🎮 MOBILE BUTTON BALANCE FIX */
   /* Reduce difficulty selector size */
   #difficulty-trigger img {
-    width: 150px;
-    max-width: 55vw;
+    width: 130px;
+    max-width: 40vw;
   }
   /* Make Start / Pause / Stop clearly larger */
   .controls-row {
