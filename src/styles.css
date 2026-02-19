@@ -1043,38 +1043,29 @@ body.game-active {
     margin-top: 0;
     margin-bottom: 4px;
   }
-  /* 🎮 MOBILE BUTTON BALANCE FIX */
-  /* Reduce difficulty selector size */
-  #difficulty-trigger img {
-    width: 130px;
-    max-width: 40vw;
-  }
+
   /* ==============================
    MOBILE BUTTON SIZE FIX
 ================================ */
+  /* 🎮 MOBILE BUTTON BALANCE FIX */
 
-  /* Shrink the difficulty selector */
+  /* Smaller difficulty selector */
   #difficulty-trigger .plate-bg {
-    width: 140px !important;
-    max-width: 55vw;
+    width: 120px !important;
+    max-width: 42vw;
   }
   /* Make Start / Pause / Stop clearly larger */
   .controls-row {
-    margin-top: 20px;
+    margin-top: 18px;
     margin-bottom: 18px;
     gap: 18px;
   }
   /* Increase Start / Pause / Stop buttons */
   .controls-row .img-btn img {
-    width: 160px !important;
-    max-width: 38vw;
+    width: 150px !important;
+    max-width: 36vw;
   }
-  #start img {
-    width: 150px;
-  }
-  .img-btn img {
-    width: 85px;
-  }
+
   .grid {
     margin-top: 6px;
     margin-bottom: 40px;
