@@ -1020,60 +1020,82 @@ body.game-active {
     flex-direction: column;
     align-items: center; /* Ensures everything inside is centered */
     padding-bottom: 20px;
-    overflow: hidden;
-  }
-  .header {
-    margin-top: -10px;
-    margin-bottom: -20px;
-  }
-  #title-img {
-    width: 60vw;
-    margin: 10px auto;
-  }
-  #scoreBoard {
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-    margin: 4px 0; /* tightened for mobile */
-  }
-  .score-plate {
-    width: min(200px, 42vw);
-  }
-  .plate-text {
-    font-size: 1rem;
-  }
-  .difficulty-row {
-    margin-top: 0;
-    margin-bottom: 4px;
-  }
-  /* 1. Center the entire container */
-  .difficulty-row.select-wrapper {
-    width: 100% !important; /* Allow it to use full width for centering */
-    max-width: none;
-    margin: 0 auto 10px auto !important;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-/* 2. Match size to control buttons */
-  #difficulty-trigger {
-    width: clamp(100px, 28vw, 130px) !important; /* Matches your .controls-row .img-btn img width */
-  }
+    /* Change this line */
+    overflow: visible !important;
+    .header {
+      margin-top: -10px;
+      margin-bottom: -20px;
+    }
+    #title-img {
+      width: 60vw;
+      margin: 10px auto;
+    }
+    #scoreBoard {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin: 4px 0; /* tightened for mobile */
+    }
+    .score-plate {
+      width: min(200px, 42vw);
+    }
+    .plate-text {
+      font-size: 1rem;
+    }
+    /* ==========================
+   DIFFICULTY & DROPDOWN FIX
+   ========================== */
+    .difficulty-row {
+      margin-top: 0;
+      margin-bottom: 4px;
+      /* 1. Allows children (dropdown) to display outside this row's bounds */
+      overflow: visible !important;
+      /* 2. Higher z-index than the grid so moles don't cover the menu */
+      position: relative;
+      z-index: 1001;
+    }
+    /* 1. Center the entire container */
+    .difficulty-row.select-wrapper {
+      width: 100% !important; /* Allow it to use full width for centering */
+      max-width: none;
+      margin: 0 auto 10px auto !important;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    /* 2. Match size to control buttons */
+    #difficulty-trigger {
+      width: clamp(
+        100px,
+        28vw,
+        130px
+      ) !important; /* Matches your .controls-row .img-btn img width */
+    }
 
-  #difficulty-trigger img {
-    width: 100% !important;
-    max-width: none;
-    /* Remove any aggressive scaling that might offset the centering */
-    transform: scale(1.0);
-  }
+    #difficulty-trigger img {
+      width: 100% !important;
+      max-width: none;
+      /* Remove any aggressive scaling that might offset the centering */
+      transform: scale(1);
+    }
 
-  /* 3. Ensure the dropdown list matches the new button width */
-  .custom-dropdown {
-    width: clamp(100px, 28vw, 130px) !important;
-    left: 50%;
-    transform: translateX(-50%); /* Keeps dropdown centered under the button */
+    .custom-dropdown {
+      /* 3. Keep your centering logic */
+      width: clamp(100px, 28vw, 130px) !important;
+      left: 50%;
+      transform: translateX(-50%);
+
+      /* 4. Positioning Fixes */
+      position: absolute;
+      top: 80%; /* Pulls the menu up slightly to overlap the trigger's bottom edge */
+      display: none; /* Controlled by your JS .show class */
+      flex-direction: column;
+      align-items: center;
+
+      /* 5. Ensure it stays on top of everything in the wrapper */
+      z-index: 9999;
+    }
   }
-}
 
   /* 🎮 MOBILE BUTTON BALANCE FIX */
 
