@@ -1189,3 +1189,76 @@ body.game-active {
     max-width: 380px;
   }
 }
+/* 📱 Smaller Phones (Galaxy, iPhone mini, etc.) */
+@media (max-width: 430px) {
+  #title-img {
+    width: 70vw;
+  }
+
+  .score-plate {
+    width: 44vw;
+  }
+
+  #difficulty-trigger {
+    width: clamp(90px, 30vw, 120px) !important;
+  }
+
+  .controls-row .img-btn img {
+    width: clamp(90px, 28vw, 120px) !important;
+  }
+
+  .hole {
+    width: clamp(70px, 20vw, 95px);
+  }
+
+  .grid {
+    gap: 6px;
+  }
+
+  .footer {
+    font-size: 0.9rem;
+    padding: 8px 10px;
+  }
+}
+/* 📲 Tablets / iPads */
+@media (min-width: 769px) and (max-width: 1024px) {
+  html,
+  body {
+    height: 100dvh;
+    overflow: hidden;
+  }
+
+  .wrapper {
+    padding-bottom: 40px;
+  }
+
+  #title-img {
+    width: 40vw;
+  }
+
+  .score-plate {
+    width: min(260px, 28vw);
+  }
+
+  #difficulty-trigger {
+    width: clamp(140px, 18vw, 180px);
+  }
+
+  .controls-row .img-btn img {
+    width: clamp(140px, 18vw, 180px);
+  }
+
+  .grid {
+    gap: 14px;
+    margin-top: 20px;
+  }
+
+  .hole {
+    width: clamp(110px, 12vw, 140px);
+  }
+
+  .footer {
+    font-size: 1.1rem;
+    padding: 14px;
+  }
+}
