@@ -1016,7 +1016,10 @@ body.game-active {
     height: 45px;
   }
   .wrapper {
-    padding-bottom: 60px; /* adjust 50–80px to taste */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Ensures everything inside is centered */
+    padding-bottom: 20px;
     overflow: hidden;
   }
   .header {
@@ -1043,10 +1046,17 @@ body.game-active {
     margin-top: 0;
     margin-bottom: 4px;
   }
-  /* Smaller difficulty selector */
+  /* 🎯 CENTER & RESIZE SELECTOR */
+  .difficulty-row.select-wrapper {
+    margin: 10px auto !important; /* Forces horizontal centering */
+    width: 140px; /* Slightly larger than your 120px for better visibility */
+    display: flex;
+    justify-content: center;
+  }
   #difficulty-trigger img {
-    width: 120px !important;
-    max-width: 42vw;
+    width: 100% !important; /* Let the container control size */
+    max-width: none;
+    transform: scale(1.1); /* Slight bump in size without breaking layout */
   }
 
   /* 🎮 MOBILE BUTTON BALANCE FIX */
@@ -1056,16 +1066,23 @@ body.game-active {
     width: 120px !important;
     max-width: 42vw;
   }
-  /* Make Start / Pause / Stop clearly larger */
+  /* 🎮 THREE BUTTONS ONE LINE FIX */
   .controls-row {
-    margin-top: 18px;
-    margin-bottom: 18px;
-    gap: 18px;
+    display: flex;
+    flex-direction: row; /* Horizontal */
+    flex-wrap: nowrap; /* DO NOT WRAP */
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    gap: 8px; /* Reduced gap to fit all three */
   }
-  /* Increase Start / Pause / Stop buttons */
+
   .controls-row .img-btn img {
-    width: 150px !important;
-    max-width: 36vw;
+    /* Adjusted width to ensure 3 fit on the Pro Max screen (approx 430px wide) */
+    width: clamp(100px, 28vw, 130px) !important;
+    max-width: none;
   }
 
   .grid {
