@@ -981,7 +981,7 @@ body.game-active {
   }
 }
 /* =====================================================
-   CLEAN MOBILE FIX
+   CLEAN MOBILE FIX - COMPLETE BLOCK
 ===================================================== */
 @media (max-width: 768px) {
   html,
@@ -995,147 +995,151 @@ body.game-active {
     flex-direction: column;
     font-family: "Yaldevi", sans-serif;
     background: url("../assets/park.png") center / cover no-repeat;
-    overflow: hidden;
+    overflow: hidden; /* Stops the main screen bounce/scroll */
   }
 
   nav.wood-nav {
-    height: 70px; /* smaller than 120px */
+    height: 70px;
     padding: 0 12px;
   }
+
   .logo img {
     height: 60px;
   }
+
   .nav-icon img {
     height: 45px;
   }
+
   .navbar {
     height: 60px;
     flex-shrink: 0;
   }
+
   .navbar img {
     height: 45px;
   }
+
   .wrapper {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Ensures everything inside is centered */
+    align-items: center;
     padding-bottom: 20px;
-    /* Change this line */
-    overflow: visible !important;
-    .header {
-      margin-top: -10px;
-      margin-bottom: -20px;
-    }
-    #title-img {
-      width: 60vw;
-      margin: 10px auto;
-    }
-    #scoreBoard {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      margin: 4px 0; /* tightened for mobile */
-    }
-    .score-plate {
-      width: min(200px, 42vw);
-    }
-    .plate-text {
-      font-size: 1rem;
-    }
-    /* ==========================
-   DIFFICULTY & DROPDOWN FIX
-   ========================== */
-    .difficulty-row {
-      margin-top: 0;
-      margin-bottom: 4px;
-      /* 1. Allows children (dropdown) to display outside this row's bounds */
-      overflow: visible !important;
-      /* 2. Higher z-index than the grid so moles don't cover the menu */
-      position: relative;
-      z-index: 1001;
-    }
-    /* 1. Center the entire container */
-    .difficulty-row.select-wrapper {
-      width: 100% !important; /* Allow it to use full width for centering */
-      max-width: none;
-      margin: 0 auto 10px auto !important;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    /* 2. Match size to control buttons */
-    #difficulty-trigger {
-      width: clamp(
-        100px,
-        28vw,
-        130px
-      ) !important; /* Matches your .controls-row .img-btn img width */
-    }
-
-    #difficulty-trigger img {
-      width: 100% !important;
-      max-width: none;
-      /* Remove any aggressive scaling that might offset the centering */
-      transform: scale(1);
-    }
-
-    .custom-dropdown {
-      /* 3. Keep your centering logic */
-      width: clamp(100px, 28vw, 130px) !important;
-      left: 50%;
-      transform: translateX(-50%);
-
-      /* 4. Positioning Fixes */
-      position: absolute;
-      top: 80%; /* Pulls the menu up slightly to overlap the trigger's bottom edge */
-      display: none; /* Controlled by your JS .show class */
-      flex-direction: column;
-      align-items: center;
-
-      /* 5. Ensure it stays on top of everything in the wrapper */
-      z-index: 9999;
-    }
+    overflow: visible !important; /* Critical: Allows dropdown to pop out */
+    flex: 1;
   }
 
-  /* 🎮 MOBILE BUTTON BALANCE FIX */
+  /* Fixed Nesting: These are now outside the .wrapper brackets */
+  .header {
+    margin-top: -10px;
+    margin-bottom: -20px;
+  }
 
-  /* Smaller difficulty selector */
+  #title-img {
+    width: 60vw;
+    margin: 10px auto;
+  }
+
+  #scoreBoard {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin: 4px 0;
+  }
+
+  .score-plate {
+    width: min(200px, 42vw);
+  }
+
+  .plate-text {
+    font-size: 1rem;
+  }
+
+  /* ==========================
+     DIFFICULTY & DROPDOWN FIX
+  ========================== */
+  .difficulty-row.select-wrapper {
+    width: 100% !important;
+    margin: 0 auto 10px auto !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 2000; /* Keeps menu above game buttons */
+    overflow: visible !important;
+  }
+
+  #difficulty-trigger {
+    width: clamp(100px, 28vw, 130px) !important;
+    background: none;
+    border: none;
+    padding: 0;
+  }
+
+  #difficulty-trigger img {
+    width: 100% !important;
+    max-width: none;
+    transform: scale(1);
+  }
+
+  .custom-dropdown {
+    width: clamp(100px, 28vw, 130px) !important;
+    left: 50%;
+    transform: translateX(-50%);
+    position: absolute;
+    top: 85%; /* Adjusts how much it overlaps the main button */
+    display: none; /* JS toggles this */
+    flex-direction: column;
+    align-items: center;
+    z-index: 9999;
+  }
+
+  /* Added this to restore functionality */
+  .custom-dropdown.show {
+    display: flex !important;
+  }
+
+  /* 🎮 MOBILE BUTTON BALANCE & ALIGNMENT */
   #difficulty-trigger .plate-bg {
     width: 120px !important;
     max-width: 42vw;
   }
-  /* 🎮 THREE BUTTONS ONE LINE FIX */
+
   .controls-row {
     display: flex;
-    flex-direction: row; /* Horizontal */
-    flex-wrap: nowrap; /* DO NOT WRAP */
+    flex-direction: row;
+    flex-wrap: nowrap; /* Forces one line */
     justify-content: center;
     align-items: center;
     width: 100%;
     margin-top: 10px;
     margin-bottom: 10px;
-    gap: 8px; /* Reduced gap to fit all three */
+    gap: 8px;
   }
 
   .controls-row .img-btn img {
-    /* Adjusted width to ensure 3 fit on the Pro Max screen (approx 430px wide) */
     width: clamp(100px, 28vw, 130px) !important;
     max-width: none;
   }
 
+  /* ⛳ GRID & HOLES */
   .grid {
     margin-top: 6px;
     margin-bottom: 40px;
     gap: 8px;
   }
+
   .hole {
     width: clamp(80px, 19vw, 105px);
   }
-  /* Shrink the footer text/padding on mobile to save vertical space */
+
+  /* 📝 FOOTER FIX */
   .footer {
     padding: 8px 16px;
     font-size: 1.2rem;
-    flex-shrink: 0; /* Ensures footer never collapses */
+    flex-shrink: 0;
+    text-align: center;
+    width: 100%;
   }
 }
 
