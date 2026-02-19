@@ -1082,6 +1082,26 @@ body.game-active {
     transform: scale(1);
   }
 
+  /* ==========================
+     MOBILE DIFFICULTY SELECTOR FIX
+  ========================== */
+
+  .difficulty-select {
+    font-size: 24px; /* Bigger text */
+    font-weight: 700;
+
+    height: 62px; /* Taller tap target */
+    min-width: 180px; /* Wider */
+    padding: 0 24px;
+
+    border-radius: 14px;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
+  }
+
+  .difficulty-select option {
+    font-size: 18px; /* Makes dropdown easier to read */
+  }
+
   .custom-dropdown {
     position: absolute;
     top: 100%; /* Adds space below selector trigger */
