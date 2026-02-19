@@ -1046,18 +1046,34 @@ body.game-active {
     margin-top: 0;
     margin-bottom: 4px;
   }
-  /* 🎯 CENTER & RESIZE SELECTOR */
+  /* 1. Center the entire container */
   .difficulty-row.select-wrapper {
-    margin: 10px auto !important; /* Forces horizontal centering */
-    width: 140px; /* Slightly larger than your 120px for better visibility */
+    width: 100% !important; /* Allow it to use full width for centering */
+    max-width: none;
+    margin: 0 auto 10px auto !important;
     display: flex;
     justify-content: center;
+    align-items: center;
   }
+/* 2. Match size to control buttons */
+  #difficulty-trigger {
+    width: clamp(100px, 28vw, 130px) !important; /* Matches your .controls-row .img-btn img width */
+  }
+
   #difficulty-trigger img {
-    width: 100% !important; /* Let the container control size */
+    width: 100% !important;
     max-width: none;
-    transform: scale(1.1); /* Slight bump in size without breaking layout */
+    /* Remove any aggressive scaling that might offset the centering */
+    transform: scale(1.0);
   }
+
+  /* 3. Ensure the dropdown list matches the new button width */
+  .custom-dropdown {
+    width: clamp(100px, 28vw, 130px) !important;
+    left: 50%;
+    transform: translateX(-50%); /* Keeps dropdown centered under the button */
+  }
+}
 
   /* 🎮 MOBILE BUTTON BALANCE FIX */
 
