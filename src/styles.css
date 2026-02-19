@@ -986,8 +986,8 @@ body.game-active {
 @media (max-width: 768px) {
   html,
   body {
-    height: 100%;
-    overflow-x: hidden;
+    height: 100dvh;
+    overflow: hidden;
   }
 
   body {
@@ -1083,7 +1083,7 @@ body.game-active {
   }
 
   .custom-dropdown {
-    width: clamp(100px, 28vw, 130px) !important;
+    width: clamp(140px, 34vw, 180px) !important;
     left: 50%;
     transform: translateX(-50%);
     position: absolute;
@@ -1118,8 +1118,8 @@ body.game-active {
 
   /* ⛳ GRID & HOLES */
   .grid {
-    margin-top: 6px;
-    margin-bottom: 40px;
+    margin-top: 8px;
+    margin-bottom: 30px;
     gap: 8px;
   }
 
