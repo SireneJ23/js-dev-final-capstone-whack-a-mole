@@ -1084,18 +1084,23 @@ body.game-active {
 
   .custom-dropdown {
     position: absolute;
-    top: 100%; /* sit directly below trigger */
-    margin-top: 8px; /* small breathing space */
+    top: calc(100% + 14px); /* Adds space below selector trigger */
     left: 50%;
     transform: translateX(-50%);
     width: clamp(110px, 30vw, 150px);
     display: none;
     flex-direction: column;
     align-items: center;
+    gap: 10px; /* Clean vertical spacing between options */
     z-index: 9999;
   }
+
   .custom-dropdown .img-btn {
-    margin-bottom: 6px;
+    margin: 0; /* Remove stacking compression */
+  }
+
+  .custom-dropdown .img-btn img {
+    width: 100%; /* Ensures uniform plate sizing */
   }
 
   /* Added this to restore functionality */
