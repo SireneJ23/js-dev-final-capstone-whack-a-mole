@@ -1053,7 +1053,7 @@ body.game-active {
 
   /* Smaller difficulty selector */
   #difficulty-trigger .plate-bg {
-    width: 110px !important;
+    width: 120px !important;
     max-width: 42vw;
   }
   /* Make Start / Pause / Stop clearly larger */
