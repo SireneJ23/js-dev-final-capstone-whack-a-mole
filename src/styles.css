@@ -1049,16 +1049,25 @@ body.game-active {
     width: 130px;
     max-width: 40vw;
   }
+  /* ==============================
+   MOBILE BUTTON SIZE FIX
+================================ */
+
+  /* Shrink the difficulty selector */
+  #difficulty-trigger .plate-bg {
+    width: 140px !important;
+    max-width: 55vw;
+  }
   /* Make Start / Pause / Stop clearly larger */
   .controls-row {
-    margin-top: 18px;
+    margin-top: 20px;
     margin-bottom: 18px;
     gap: 18px;
   }
-  /* Increase Start / Pause / Stop size */
+  /* Increase Start / Pause / Stop buttons */
   .controls-row .img-btn img {
-    width: 150px;
-    max-width: 34vw;
+    width: 160px !important;
+    max-width: 38vw;
   }
   #start img {
     width: 150px;
