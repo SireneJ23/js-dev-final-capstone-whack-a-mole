@@ -1046,18 +1046,19 @@ body.game-active {
   /* 🎮 MOBILE BUTTON BALANCE FIX */
   /* Reduce difficulty selector size */
   #difficulty-trigger img {
-    width: 170px;
-    max-width: 65vw;
+    width: 150px;
+    max-width: 55vw;
   }
-  /* Add slightly better spacing */
+  /* Make Start / Pause / Stop clearly larger */
   .controls-row {
-    margin-top: 14px;
-    margin-bottom: 14px;
+    margin-top: 18px;
+    margin-bottom: 18px;
+    gap: 18px;
   }
   /* Increase Start / Pause / Stop size */
   .controls-row .img-btn img {
-    width: 135px;
-    max-width: 32vw;
+    width: 150px;
+    max-width: 34vw;
   }
   #start img {
     width: 140px;
